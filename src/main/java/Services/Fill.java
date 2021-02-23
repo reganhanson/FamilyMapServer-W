@@ -1,7 +1,10 @@
 package Services;
 
-public class Fill {
+import model.*;
 
+public class Fill {
+    public void fill() {
+    }
 }
 
     /* /fill/[username]/{generations}
