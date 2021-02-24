@@ -7,13 +7,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class that confers between the model Person and the database table of the same name
+ */
 public class PersonDAO {
     private final Connection conn;
 
+    /**
+     * Constructor for PersonDAO
+     * @param conn
+     */
     public PersonDAO(Connection conn) {
         this.conn = conn;
     }
 
+    /**
+     * add a person to the database table with sql statements
+     * @param person
+     */
     public void add(Person person) {
         String sql = "INSERT into Person(personID, userName, firstName, lastName, gender, " +
                 "fatherID, motherID, spouseID) VALUES(?,?,?,?,?,?,?,?)";
@@ -33,6 +44,11 @@ public class PersonDAO {
         }
     }
 
+    /**
+     * find the Person with the given personID in the Person database table
+     * @param personID
+     * @return person
+     */
     public Person find(String personID) {
         ResultSet rs = null;
         Person person = null;

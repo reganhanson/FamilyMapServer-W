@@ -3,7 +3,21 @@ package Services;
 import model.*;
 
 public class Fill {
-    public void fill() {
+    /**
+     * Populates the server's database with generated data for the specified user name.
+     * User with given username must be already registered with the server.
+     * in this case, generations is set to the default 4
+     * @param username
+     */
+    public void fill(String username) {
+    }
+
+    /**
+     * Same as above, except overloaded with whatever # of generations you choose
+     * @param username
+     * @param generations (optional) overloaded in this case
+     */
+    public void fill(String username, int generations) {
     }
 }
 

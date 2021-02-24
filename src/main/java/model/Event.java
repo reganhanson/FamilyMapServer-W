@@ -1,7 +1,8 @@
 package model;
 
-import java.util.Objects;
-
+/**
+ * Event class: model for the database table of the same name
+ */
 public class Event {
     private String eventID;
     private String associatedUsername;
@@ -13,6 +14,18 @@ public class Event {
     private String eventType;
     private int year;
 
+    /**
+     * Constructor for this class
+     * @param eventID
+     * @param username
+     * @param personID
+     * @param latitude
+     * @param longitude
+     * @param country
+     * @param city
+     * @param eventType
+     * @param year
+     */
     public Event(String eventID, String username, String personID, float latitude, float longitude, String country, String city, String eventType, int year) {
         this.eventID = eventID;
         this.associatedUsername = username;

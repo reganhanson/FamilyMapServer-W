@@ -1,9 +1,15 @@
 package Services;
 
-import model.Person;
+import model.*;
 
 public class GetPerson {
-    public Person getPerson() {
+    /**
+     *
+     * @param personID
+     * @param authToken
+     * @return Person
+     */
+    public Person getPerson(String personID, String authToken) {
         return null;
     }
 }

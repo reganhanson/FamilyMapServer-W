@@ -1,6 +1,18 @@
 package Services;
 
+import java.util.ArrayList;
+import model.User;
+
 public class GetTree {
+    /**
+     *
+     * @param personID
+     * @param authToken
+     * @return ArrayList<User></User>
+     */
+    public ArrayList<User> getTree(String personID, String authToken) {
+        return null;
+    }
 }
 
     /*/person

@@ -1,12 +1,20 @@
 package Services;
 
 import model.AuthToken;
+import model.User;
+
 
 public class UserLogin {
-    public AuthToken loginUser() {
+    AuthToken authToken;
+    /**
+     * @param loginRequest
+     * @return AuthToken
+     */
+    public AuthToken login(User loginRequest) {
         return null;
     }
 
+}
     /* /user/login
     URL Path: /user/login
     Description: Logs in the user and returns an auth token.
@@ -32,4 +40,3 @@ public class UserLogin {
     “success”:false		// Boolean identifier
     }
      */
-    }

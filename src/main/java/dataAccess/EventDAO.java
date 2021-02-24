@@ -7,13 +7,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class that confers between the model Event and the database table of the same name
+ */
 public class EventDAO {
     private final Connection conn;
 
+    /**
+     * Constructor for EventDAO
+     * @param conn
+     */
     public EventDAO(Connection conn) {
         this.conn = conn;
     }
 
+    /**
+     * insert an Event into the table using sql statements
+     * @param event
+     */
     public void insert(Event event) {
         String sql = "INSERT INTO Event(EventID, AssociatedUserName, PersonID, Latitude, Longitude," +
                 " Country, City, EventType, Year) VALUES(?,?,?,?,?,?,?,?,?)";
@@ -35,6 +46,11 @@ public class EventDAO {
         }
     }
 
+    /**
+     * Find an event with given ID in the Event database table
+     * @param EventID
+     * @return
+     */
     public Event find(String EventID) {
         Event event;
         ResultSet result = null;

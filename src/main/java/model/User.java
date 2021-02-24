@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * User class: model for the database table of the same name
+ */
 public class User {
     private String userName;
     private String password;
@@ -9,6 +12,16 @@ public class User {
     private String gender; // can only be an "f" or "m"
     private String personID;
 
+    /**
+     * Constructor for the User class
+     * @param userName
+     * @param password
+     * @param email
+     * @param firstName
+     * @param lastName
+     * @param gender
+     * @param personID
+     */
     public User(String userName, String password, String email, String firstName, String lastName, String gender, String personID) {
         this.userName = userName;
         this.password = password;
@@ -19,6 +32,11 @@ public class User {
         this.personID = personID;
     }
 
+    /**
+     * Equals method for this class
+     * @param obj
+     * @return boolean
+     */
     public boolean equals(Object obj) {
         if (obj.getClass() != this.getClass()) {
             return false;

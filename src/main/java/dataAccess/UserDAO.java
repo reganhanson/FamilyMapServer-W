@@ -7,13 +7,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class that confers between the model User and the database table of the same name
+ */
 public class UserDAO {
     private final Connection conn;
 
+    /**
+     * Constructor for UserDAO class
+     * @param conn
+     */
     public UserDAO(Connection conn) {
         this.conn = conn;
     }
 
+    /**
+     * insert User into the User database table
+     * @param user
+     */
     public void insert (User user) {
         String sql = "INSERT into User(UserName, Password, Email, FirstName, LastName, Gender, PersonID)" +
                 " Values(?,?,?,?,?,?,?)";
@@ -32,6 +43,11 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Find the user based on a given UserID
+     * @param UserID
+     * @return
+     */
     public User find(String UserID) {
         ResultSet rs = null;
         User user = null;
@@ -60,5 +76,4 @@ public class UserDAO {
         }
         return null;
     }
-
 }

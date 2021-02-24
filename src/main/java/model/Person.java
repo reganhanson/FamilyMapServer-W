@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Person class: model for the database table of the same name
+ */
 public class Person {
     private String personID;
     private String userName;
@@ -10,6 +13,17 @@ public class Person {
     private String motherID;
     private String spouseID;
 
+    /**
+     * Constructor for the person class
+     * @param personID
+     * @param userName
+     * @param firstName
+     * @param lastName
+     * @param gender
+     * @param fatherID
+     * @param motherID
+     * @param spouseID
+     */
     public Person(String personID, String userName, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID) {
         this.personID = personID;
         this.userName = userName;

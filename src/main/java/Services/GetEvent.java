@@ -1,6 +1,17 @@
 package Services;
 
+import model.Event;
+
 public class GetEvent {
+    /**
+     *
+     * @param eventID
+     * @param authToken
+     * @return Event
+     */
+    public Event getEvent(String eventID, String authToken){
+        return null;
+    }
 }
 
     /* /event/[eventID]

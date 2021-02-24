@@ -1,8 +1,15 @@
 package Services;
-import model.Event;
+import model.*;
+
+import java.util.ArrayList;
 
 public class GetAllEvents {
-    public Event[] getAllEvents() {
+    /**
+     *
+     * @param userToken
+     * @return ArrayList<Event></Event>
+     */
+    public ArrayList<Event> getAllEvents(AuthToken userToken) {
         return null;
     }
 }

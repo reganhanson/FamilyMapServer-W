@@ -5,9 +5,16 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Way to create and connect to the actual database
+ */
 public class Database {
     private Connection conn;
 
+    /**
+     * open the connection to the sqlite database
+     * @return Connection
+     */
     public Connection openConnection() {
         // driver(jdbc):language(sqlite):path()
         final String URL = "jdbc:sqlite:FamilyMapServerStudent-master.sqlite";
@@ -21,6 +28,10 @@ public class Database {
         return conn;
     }
 
+    /**
+     * simple way to return the connection variable to our database
+     * @return Connection
+     */
     public Connection getConnection() {
         if (conn != null) {
             return conn;
@@ -30,6 +41,10 @@ public class Database {
         }
     }
 
+    /**
+     * close the connection to the database and commit the changes (or not)
+     * @param commit
+     */
     public void closeConnection(boolean commit) {
         try {
             if (commit) {
@@ -44,7 +59,10 @@ public class Database {
             e.printStackTrace();
         }
     }
-// delete all tables ?
+
+    /**
+     * Delete all tables in the database
+     */
     public void deleteTables() {
         String sql = "DELETE FROM Events DELETE FROM User DELETE FROM Person DELETE FROM AuthToken";
         try (PreparedStatement stmt = conn.prepareStatement(sql)){

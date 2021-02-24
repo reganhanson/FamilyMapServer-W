@@ -1,9 +1,19 @@
 package Services;
 
-public class Load {
-    public void load() {
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
-    }
+import model.Person;
+import model.*;
+
+public class Load {
+    /**
+     * Clears all data from the database and then loads the posted user, person, and event data into the database
+     * @param users
+     * @param people
+     * @param events
+     */
+    public void load(ArrayList<User> users, ArrayList<Person> people, ArrayList<Event> events) {}
 }
 
     /* /load

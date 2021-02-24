@@ -1,6 +1,10 @@
 package Services;
 
 public class Clear {
+    /**
+     * Deletes ALL data from the database, including user accounts, auth tokens, and generated person and event data
+     */
+    public void deleteData(){}
 }
 
     /*/clear

@@ -1,9 +1,15 @@
 package Services;
 
 import model.AuthToken;
+import model.User;
 
 public class UserRegister {
-    public AuthToken registerUser() {
+    /**
+     *
+     * @param registerRequest
+     * @return AuthToken
+     */
+    public AuthToken registerUser(User registerRequest) {
         return null;
     }
 }
