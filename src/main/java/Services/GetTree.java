@@ -8,7 +8,7 @@ public class GetTree {
      *
      * @param personID
      * @param authToken
-     * @return ArrayList<User></User>
+     * @return
      */
     public ArrayList<User> getTree(String personID, String authToken) {
         return null;

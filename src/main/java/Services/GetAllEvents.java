@@ -7,7 +7,7 @@ public class GetAllEvents {
     /**
      *
      * @param userToken
-     * @return ArrayList<Event></Event>
+     * @return
      */
     public ArrayList<Event> getAllEvents(AuthToken userToken) {
         return null;
