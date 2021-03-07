@@ -9,15 +9,18 @@ public class Fill {
      * in this case, generations is set to the default 4
      * @param username
      */
-    public void fill(String username) {
+    public boolean fill(String username) {
+        return false;
     }
 
     /**
-     * Same as above, except overloaded with whatever # of generations you choose
+     *
      * @param username
-     * @param generations (optional) overloaded in this case
+     * @param generations
+     * @return boolean
      */
-    public void fill(String username, int generations) {
+    public boolean fill(String username, int generations) {
+        return false;
     }
 }
 

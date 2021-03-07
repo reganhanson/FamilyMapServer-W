@@ -1,6 +1,6 @@
 package dataAccess;
 
-import model.AuthToken;
+import model.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,5 +35,14 @@ public class AuthTokenDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     *
+     * @param user
+     * @return the sought after authtoken
+     */
+    public AuthToken find (User user) {
+        return null;
     }
 }

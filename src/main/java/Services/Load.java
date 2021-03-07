@@ -13,7 +13,9 @@ public class Load {
      * @param people
      * @param events
      */
-    public void load(ArrayList<User> users, ArrayList<Person> people, ArrayList<Event> events) {}
+    public boolean load(ArrayList<User> users, ArrayList<Person> people, ArrayList<Event> events) {
+        return false;
+    }
 }
 
     /* /load

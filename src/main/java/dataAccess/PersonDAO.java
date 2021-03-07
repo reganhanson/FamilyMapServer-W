@@ -76,4 +76,19 @@ public class PersonDAO {
         }
         return null;
     }
+
+    /**
+     * find a person by their username
+     * @param userName
+     * @return
+     */
+    public Person findByUsername(String userName) {
+        return null;
+    }
+
+    /**
+     * delete all person objects in the database
+     */
+    public void deleteAllPeople() {
+    }
 }

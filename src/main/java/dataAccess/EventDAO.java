@@ -51,7 +51,7 @@ public class EventDAO {
      * @param EventID
      * @return
      */
-    public Event find(String EventID) {
+    public Event findByID(String EventID) {
         Event event;
         ResultSet result = null;
         String sql = "SELECT * FROM Events WHERE EventID = ?";
@@ -79,4 +79,22 @@ public class EventDAO {
         }
         return null;
     }
+
+    /**
+     *
+     * @param UserName
+     * @return
+     */
+    public Event findByUsername(String UserName) {
+        return null;
+    }
+
+    /**
+     * Delete all events in the database
+     */
+    public void deleteAllEvents() {
+
+    }
+
+
 }
