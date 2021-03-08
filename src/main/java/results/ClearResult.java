@@ -14,8 +14,8 @@ public class ClearResult {
 
     /**
      * Constructor
-     * @param message
-     * @param success
+     * @param message error message
+     * @param success boolean success variable
      */
     public ClearResult(String message, boolean success) {
         this.message = message;

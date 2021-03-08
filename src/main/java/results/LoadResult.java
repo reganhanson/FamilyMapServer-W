@@ -13,8 +13,8 @@ public class LoadResult {
     /*========================= Constructors =============================*/
     /**
      * Constructor
-     * @param message
-     * @param success
+     * @param message error message
+     * @param success boolean success variable
      */
     public LoadResult(String message, boolean success) {
         this.message = message;

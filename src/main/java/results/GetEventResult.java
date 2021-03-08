@@ -28,16 +28,16 @@ public class GetEventResult {
 
     /**
      * Constructor for successful response
-     * @param associatedUsername
-     * @param eventID
-     * @param personID
-     * @param latitude
-     * @param longitude
-     * @param country
-     * @param city
-     * @param eventType
-     * @param year
-     * @param success
+     * @param associatedUsername username for the account
+     * @param eventID ID string for the event
+     * @param personID personId associated with event creation
+     * @param latitude latitude double
+     * @param longitude longitude location double
+     * @param country country of event
+     * @param city city of event
+     * @param eventType type of event
+     * @param year year of the event occurrence
+     * @param success response successful?
      */
     public GetEventResult(String associatedUsername, String eventID, String personID, double latitude, double longitude, String country, String city, String eventType, int year, boolean success) {
         this.associatedUsername = associatedUsername;
@@ -55,8 +55,8 @@ public class GetEventResult {
 
     /**
      * Constructor for unsuccessful response
-     * @param success
-     * @param message
+     * @param success request successful?
+     * @param message error message
      */
     public GetEventResult(boolean success, String message) {
         this.success = success;

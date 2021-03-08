@@ -27,11 +27,11 @@ public class GetPersonResult {
 
     /**
      * Constructor without related IDs
-     * @param associatedUsername
-     * @param personID
-     * @param firstName
-     * @param lastName
-     * @param gender
+     * @param associatedUsername user name
+     * @param personID person id
+     * @param firstName first name of person
+     * @param lastName last name of person
+     * @param gender person's gender
      */
     public GetPersonResult(String associatedUsername, String personID, String firstName, String lastName, String gender) {
         this.associatedUsername = associatedUsername;
@@ -48,14 +48,14 @@ public class GetPersonResult {
 
     /**
      * Constructor with related IDs
-     * @param associatedUsername
-     * @param personID
-     * @param firstName
-     * @param lastName
-     * @param gender
-     * @param fatherID
-     * @param motherID
-     * @param spouseID
+     * @param associatedUsername user name
+     * @param personID person id
+     * @param firstName first name of person
+     * @param lastName last name of person
+     * @param gender person's gender
+     * @param fatherID person's dad
+     * @param motherID person's mom
+     * @param spouseID person's spouse
      */
     public GetPersonResult(String associatedUsername, String personID, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID) {
         this.associatedUsername = associatedUsername;
@@ -72,7 +72,7 @@ public class GetPersonResult {
 
     /**
      * Error message constructor
-     * @param message
+     * @param message error message
      */
     public GetPersonResult(String message) {
         this.message = message;
