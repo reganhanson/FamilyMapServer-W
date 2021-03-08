@@ -10,14 +10,13 @@ public class ClearResult {
     private String message;
     private boolean success;
 
-    /*========================= Constructors =============================*/
+    /*========================= Constructor ==============================*/
     public ClearResult(String message, boolean success) {
         this.message = message;
         this.success = success;
     }
 
     /*====================== Getters and Setters =========================*/
-
     public String getMessage() {
         return message;
     }
