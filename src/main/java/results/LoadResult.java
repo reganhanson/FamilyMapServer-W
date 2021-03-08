@@ -11,13 +11,17 @@ public class LoadResult {
     private boolean success;
 
     /*========================= Constructors =============================*/
-
+    /**
+     * Constructor
+     * @param message
+     * @param success
+     */
     public LoadResult(String message, boolean success) {
         this.message = message;
         this.success = success;
     }
-    /*====================== Getters and Setters =========================*/
 
+    /*====================== Getters and Setters =========================*/
     public String getMessage() {
         return message;
     }

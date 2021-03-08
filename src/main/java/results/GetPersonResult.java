@@ -25,6 +25,14 @@ public class GetPersonResult {
 
     /*========================= Constructors =============================*/
 
+    /**
+     * Constructor without related IDs
+     * @param associatedUsername
+     * @param personID
+     * @param firstName
+     * @param lastName
+     * @param gender
+     */
     public GetPersonResult(String associatedUsername, String personID, String firstName, String lastName, String gender) {
         this.associatedUsername = associatedUsername;
         this.personID = personID;
@@ -38,6 +46,17 @@ public class GetPersonResult {
         this.message = null;
     }
 
+    /**
+     * Constructor with related IDs
+     * @param associatedUsername
+     * @param personID
+     * @param firstName
+     * @param lastName
+     * @param gender
+     * @param fatherID
+     * @param motherID
+     * @param spouseID
+     */
     public GetPersonResult(String associatedUsername, String personID, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID) {
         this.associatedUsername = associatedUsername;
         this.personID = personID;
@@ -51,6 +70,10 @@ public class GetPersonResult {
         this.message = null;
     }
 
+    /**
+     * Error message constructor
+     * @param message
+     */
     public GetPersonResult(String message) {
         this.message = message;
         this.success = false;

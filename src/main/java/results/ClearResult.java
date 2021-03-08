@@ -11,6 +11,12 @@ public class ClearResult {
     private boolean success;
 
     /*========================= Constructor ==============================*/
+
+    /**
+     * Constructor
+     * @param message
+     * @param success
+     */
     public ClearResult(String message, boolean success) {
         this.message = message;
         this.success = success;
