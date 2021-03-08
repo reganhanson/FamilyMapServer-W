@@ -85,7 +85,7 @@ public class EventDAO {
      * @param UserName
      * @return
      */
-    public Event findByUsername(String UserName) {
+    public Event findByUsername(String associatedUserName) {
         return null;
     }
 
