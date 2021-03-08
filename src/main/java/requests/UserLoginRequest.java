@@ -3,7 +3,7 @@ package requests;
 /**
  * userLoginRequest is a request for an authToken from an existing user
  * It requires:
- * username & password
+ * username and password
  */
 public class UserLoginRequest {
     private String userName;

@@ -51,7 +51,7 @@ public class PersonDAO {
      */
     public Person find(String personID) {
         ResultSet rs = null;
-        Person person = null;
+        Person person;
         String sql = "SELECT * from Person where PersonID = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, personID);
@@ -79,16 +79,46 @@ public class PersonDAO {
 
     /**
      * find a person by their username
-     * @param userName
-     * @return
+     * @param userName username
+     * @return person with said username
      */
     public Person findByUsername(String userName) {
+        ResultSet rs = null;
+        Person person;
+        String sql = "SELECT * from Person where UserName = ?";
+        try(PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, userName);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                person = new Person(rs.getString("PersonID"), rs.getString("UserName"),
+                        rs.getString("FirstName"), rs.getString("LastName"),
+                        rs.getString("Gender"), rs.getString("FatherID"),
+                        rs.getString("MotherID"), rs.getString("SpouseID"));
+                return person;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return null;
     }
 
     /**
-     * delete all person objects in the database
+     * Delete all person objects in the database
      */
     public void deleteAllPeople() {
+        String sql = "DELETE FROM person";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

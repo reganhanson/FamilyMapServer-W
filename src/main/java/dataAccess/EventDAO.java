@@ -29,7 +29,6 @@ public class EventDAO {
         String sql = "INSERT INTO Event(EventID, AssociatedUserName, PersonID, Latitude, Longitude," +
                 " Country, City, EventType, Year) VALUES(?,?,?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            // we need to set 9 values
             stmt.setString(1, event.getEventID());
             stmt.setString(2, event.getAssociatedUsername());
             stmt.setString(3, event.getPersonID());
@@ -48,8 +47,8 @@ public class EventDAO {
 
     /**
      * Find an event with given ID in the Event database table
-     * @param EventID
-     * @return
+     * @param EventID event identification number
+     * @return event
      */
     public Event findByID(String EventID) {
         Event event;
@@ -82,10 +81,36 @@ public class EventDAO {
 
     /**
      *
-     * @param UserName
-     * @return
+     * @param associatedUserName username associated with the event
+     * @return null for now
      */
     public Event findByUsername(String associatedUserName) {
+        Event event;
+        ResultSet result = null;
+        String sql = "SELECT * FROM Events WHERE AssociatedUserName = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, associatedUserName);
+            result = stmt.executeQuery();
+            if (result.next()) {
+                event = new Event (result.getString("EventID"), result.getString("AssociatedUserName"),
+                        result.getString("PersonID"), result.getFloat("Latitude"),
+                        result.getFloat("Longitude"), result.getString("Country"),
+                        result.getString("City"), result.getString("EventType"),
+                        result.getInt("Year"));
+                return event;
+            }
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (result != null) {
+                try {
+                    result.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return null;
     }
 
@@ -93,7 +118,13 @@ public class EventDAO {
      * Delete all events in the database
      */
     public void deleteAllEvents() {
-
+        String sql = "DELETE FROM event";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
