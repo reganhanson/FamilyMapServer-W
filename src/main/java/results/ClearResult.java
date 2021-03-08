@@ -1,21 +1,21 @@
 package results;
 
 /**
- * /load command
- * Contains
+ * /clear command
+ * Contains:
  * 1 message: error or success
  * 1 success boolean
  */
-public class LoadResult {
+public class ClearResult {
     private String message;
     private boolean success;
 
     /*========================= Constructors =============================*/
-
-    public LoadResult(String message, boolean success) {
+    public ClearResult(String message, boolean success) {
         this.message = message;
         this.success = success;
     }
+
     /*====================== Getters and Setters =========================*/
 
     public String getMessage() {
