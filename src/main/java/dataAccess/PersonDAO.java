@@ -15,7 +15,6 @@ public class PersonDAO {
 
     /**
      * Constructor for PersonDAO
-     * @param conn
      */
     public PersonDAO(Connection conn) {
         this.conn = conn;

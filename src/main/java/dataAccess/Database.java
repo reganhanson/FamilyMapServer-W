@@ -18,6 +18,7 @@ public class Database {
     public Connection openConnection() {
         // driver(jdbc):language(sqlite):path()
         final String URL = "jdbc:sqlite:FamilyMapServerStudent-master.sqlite";
+
         try {
             conn = DriverManager.getConnection(URL);
             conn.setAutoCommit(false);
@@ -33,10 +34,9 @@ public class Database {
      * @return Connection
      */
     public Connection getConnection() {
-        if (conn != null) {
-            return conn;
-        }
-        else {
+        if (this.conn != null) {
+            return this.conn;
+        } else {
             return openConnection();
         }
     }
@@ -64,55 +64,62 @@ public class Database {
      * Create all tables in the database
      */
     public void createTables() {
-        String sql = "CREATE TABLE user (\n" +
-                "    UserName text NOT NULL UNIQUE,\n" +
-                "    Password text NOT NULL,\n" +
-                "    Email text NOT NULL,\n" +
-                "    FirstName text NOT NULL,\n" +
-                "    LastName text NOT NULL,\n" +
-                "    Gender text NOT NULL,\n" +
-                "    PersonID String not null,\n" +
-                "    PRIMARY KEY (UserName),\n" +
-                "    FOREIGN KEY (PersonID) REFERENCES person(PersonID)\n" +
-                ");\n" +
-                "\n" +
-                "CREATE TABLE person (\n" +
-                "    PersonID text NOT NULL UNIQUE,\n" +
-                "    UserName text NOT NULL,\n" +
-                "    FirstName text NOT NULL,\n" +
-                "    LastName text NOT NULL,\n" +
-                "    Gender text NOT NULL,\n" +
-                "    FatherID text,\n" +
-                "    MotherID text,\n" +
-                "    SpouseID text,\n" +
-                "    PRIMARY KEY (PersonID),\n" +
-                "    FOREIGN KEY (UserName) REFERENCES user(UserName)\n" +
-                ");\n" +
-                "\n" +
-                "CREATE TABLE event (\n" +
-                "    EventID text NOT NULL UNIQUE,\n" +
-                "    AssociatedUserName text NOT NULL,\n" +
-                "    PersonID text NOT NULL,\n" +
-                "    Latitude float NOT NULL,\n" +
-                "    Longitude float NOT NULL, \n" +
-                "    Country text NOT NULL,\n" +
-                "    City text NOT NULL,\n" +
-                "    EventType text NOT NULL,\n" +
-                "    Year int NOT NULL,\n" +
-                "    PRIMARY KEY (EventID),\n" +
-                "    FOREIGN KEY (AssociatedUserName) REFERENCES user(UserName),\n" +
-                "    FOREIGN KEY (PersonID) REFERENCES person(PersonID)\n" +
-                ");\n" +
-                "\n" +
-                "CREATE TABLE authToken (\n" +
-                "    authToken text NOT NULL UNIQUE,\n" +
-                "    UserName text,\n" +
-                "    Password text,\n" +
-                "    FOREIGN KEY (UserName) REFERENCES user(UserName),\n" +
-                "    FOREIGN KEY (Password) REFERENCES user(Password)\n" +
-                ");";
-        // prepare statement and submit
-        try (PreparedStatement stmt = conn.prepareStatement(sql)){
+        try {
+            String sql1 = "CREATE TABLE IF NOT EXISTS user (\n" +
+                    "    UserName text NOT NULL UNIQUE,\n" +
+                    "    Password text NOT NULL,\n" +
+                    "    Email text NOT NULL,\n" +
+                    "    FirstName text NOT NULL,\n" +
+                    "    LastName text NOT NULL,\n" +
+                    "    Gender text NOT NULL,\n" +
+                    "    PersonID String not null,\n" +
+                    "    PRIMARY KEY (UserName),\n" +
+                    "    FOREIGN KEY (PersonID) REFERENCES person(PersonID)\n" +
+                    ");\n" +
+                    "\n";
+            String sql2 = "CREATE TABLE IF NOT EXISTS person (\n" +
+                            "    PersonID text NOT NULL UNIQUE,\n" +
+                            "    UserName text NOT NULL,\n" +
+                            "    FirstName text NOT NULL,\n" +
+                            "    LastName text NOT NULL,\n" +
+                            "    Gender text NOT NULL,\n" +
+                            "    FatherID text,\n" +
+                            "    MotherID text,\n" +
+                            "    SpouseID text,\n" +
+                            "    PRIMARY KEY (PersonID),\n" +
+                            "    FOREIGN KEY (UserName) REFERENCES user(UserName)\n" +
+                            ");\n" +
+                            "\n";
+            String sql3 = "CREATE TABLE IF NOT EXISTS event (\n" +
+                            "    EventID text NOT NULL UNIQUE,\n" +
+                            "    AssociatedUserName text NOT NULL,\n" +
+                            "    PersonID text NOT NULL,\n" +
+                            "    Latitude float NOT NULL,\n" +
+                            "    Longitude float NOT NULL, \n" +
+                            "    Country text NOT NULL,\n" +
+                            "    City text NOT NULL,\n" +
+                            "    EventType text NOT NULL,\n" +
+                            "    Year int NOT NULL,\n" +
+                            "    PRIMARY KEY (EventID),\n" +
+                            "    FOREIGN KEY (AssociatedUserName) REFERENCES user(UserName),\n" +
+                            "    FOREIGN KEY (PersonID) REFERENCES person(PersonID)\n" +
+                            ");\n" +
+                            "\n";
+            String sql4 = "CREATE TABLE  IF NOT EXISTS authToken (\n" +
+                            "    authToken text NOT NULL UNIQUE,\n" +
+                            "    UserName text,\n" +
+                            "    Password text,\n" +
+                            "    FOREIGN KEY (UserName) REFERENCES user(UserName),\n" +
+                            "    FOREIGN KEY (Password) REFERENCES user(Password)\n" +
+                            ");";
+            // prepare statement and submit
+            PreparedStatement stmt = conn.prepareStatement(sql1);
+            stmt.executeUpdate();
+            stmt = conn.prepareStatement(sql2);
+            stmt.executeUpdate();
+            stmt = conn.prepareStatement(sql3);
+            stmt.executeUpdate();
+            stmt = conn.prepareStatement(sql4);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

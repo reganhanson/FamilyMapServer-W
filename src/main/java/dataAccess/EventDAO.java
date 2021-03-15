@@ -53,7 +53,7 @@ public class EventDAO {
     public Event findByID(String EventID) {
         Event event;
         ResultSet result = null;
-        String sql = "SELECT * FROM Events WHERE EventID = ?";
+        String sql = "SELECT * FROM Event WHERE EventID = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, EventID);
             result = stmt.executeQuery();
@@ -87,7 +87,7 @@ public class EventDAO {
     public Event findByUsername(String associatedUserName) {
         Event event;
         ResultSet result = null;
-        String sql = "SELECT * FROM Events WHERE AssociatedUserName = ?";
+        String sql = "SELECT * FROM Event WHERE AssociatedUserName = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, associatedUserName);
             result = stmt.executeQuery();
@@ -118,7 +118,7 @@ public class EventDAO {
      * Delete all events in the database
      */
     public void deleteAllEvents() {
-        String sql = "DELETE FROM event";
+        String sql = "DELETE FROM Event";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.executeUpdate();
         }

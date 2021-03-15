@@ -1,5 +1,7 @@
 package model;
 
+import java.util.UUID;
+
 /**
  * Event class: model for the database table of the same name
  */
@@ -15,7 +17,22 @@ public class Event {
     private int year;
 
     /**
-     * Constructor for this class
+     * empty constructor for this class
+     */
+    public Event() {
+        this.eventID = UUID.randomUUID().toString();
+        this.associatedUsername = null;
+        this.personID = null;
+        this.latitude = 0;
+        this.longitude = 0;
+        this.country = null;
+        this.city = null;
+        this.eventType = null;
+        this.year = 0;
+    }
+
+    /**
+     * Full constructor for this class
      * @param eventID
      * @param username
      * @param personID
