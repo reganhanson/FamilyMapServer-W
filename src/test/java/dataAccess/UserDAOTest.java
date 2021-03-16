@@ -1,16 +1,26 @@
 package dataAccess;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserDAOTest {
 
 
     @Test
-    void testInsert() {
+    void testInsertSuccess() {
     }
 
     @Test
-    void testFind() {
+    void testInsertFail() {
+
     }
+
+    @Test
+    void testFindSuccess() {
+    }
+
+    @Test
+    void testFindFail() {
+
+    }
+
 }

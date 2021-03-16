@@ -36,12 +36,22 @@ class EventDAOTest {
         event.setCountry("USA");
         event.setYear(2021);
         eventAccess.insert(event);
-        assertEquals("davies", eventAccess.findByID("a1").getAssociatedUsername());
+        assertEquals("daviesr3", eventAccess.findByUsername("davies").getPersonID());
     }
 
     @Test
     void findByIDTest() {
-        // assertNotNull(eventAccess.findByID("a2"));
+        EventDAO eventAccess = new EventDAO(newConn);
+        Event event = new Event();
+        event.setPersonID("daviesr3");
+        event.setEventType("wedding");
+        event.setAssociatedUsername("davies");
+        event.setCity("Draper");
+        event.setCountry("USA");
+        event.setYear(2021);
+        eventAccess.insert(event);
+        String id = eventAccess.findByUsername("davies").getEventID();
+        assertNotNull(eventAccess.findByID(id));
     }
 
     @Test

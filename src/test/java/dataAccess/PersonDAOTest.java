@@ -6,18 +6,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class PersonDAOTest {
 
     @Test
-    void add() {
+    void testAddSuccess() {
     }
 
     @Test
-    void find() {
+    void testAddFail() {
+
     }
 
     @Test
-    void findByUsername() {
+    void testFindByUsernameSuccess() {
     }
 
     @Test
-    void deleteAllPeople() {
+    void testFindByUsernameFail() {
+    }
+
+    @Test
+    void testDq1eleteAllPeople() {
     }
 }

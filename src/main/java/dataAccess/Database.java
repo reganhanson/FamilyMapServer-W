@@ -36,7 +36,8 @@ public class Database {
     public Connection getConnection() {
         if (this.conn != null) {
             return this.conn;
-        } else {
+        }
+         else {
             return openConnection();
         }
     }

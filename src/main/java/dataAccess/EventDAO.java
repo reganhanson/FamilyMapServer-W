@@ -87,7 +87,7 @@ public class EventDAO {
     public Event findByUsername(String associatedUserName) {
         Event event;
         ResultSet result = null;
-        String sql = "SELECT * FROM Event WHERE AssociatedUserName = ?";
+        String sql = "SELECT * FROM event WHERE AssociatedUserName = ?;";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, associatedUserName);
             result = stmt.executeQuery();
