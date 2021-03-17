@@ -24,7 +24,7 @@ public class PersonDAO {
      * add a person to the database table with sql statements
      * @param person
      */
-    public void add(Person person) {
+    public boolean add(Person person) {
         String sql = "INSERT into Person(personID, userName, firstName, lastName, gender, " +
                 "fatherID, motherID, spouseID) VALUES(?,?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -38,8 +38,10 @@ public class PersonDAO {
             stmt.setString(8, person.getSpouseID());
 
             stmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -112,12 +114,14 @@ public class PersonDAO {
     /**
      * Delete all person objects in the database
      */
-    public void deleteAllPeople() {
+    public boolean deleteAllPeople() {
         String sql = "DELETE FROM person";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }

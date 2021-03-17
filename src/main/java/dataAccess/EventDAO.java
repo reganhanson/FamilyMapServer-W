@@ -1,6 +1,7 @@
 package dataAccess;
 
 import model.Event;
+import org.sqlite.SQLiteException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +26,7 @@ public class EventDAO {
      * insert an Event into the table using sql statements
      * @param event
      */
-    public void insert(Event event) {
+    public boolean insert(Event event) {
         String sql = "INSERT INTO Event(EventID, AssociatedUserName, PersonID, Latitude, Longitude," +
                 " Country, City, EventType, Year) VALUES(?,?,?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -40,8 +41,10 @@ public class EventDAO {
             stmt.setInt(9, event.getYear());
 
             stmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -117,13 +120,15 @@ public class EventDAO {
     /**
      * Delete all events in the database
      */
-    public void deleteAllEvents() {
+    public boolean deleteAllEvents() {
         String sql = "DELETE FROM Event";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.executeUpdate();
+            return true;
         }
         catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 

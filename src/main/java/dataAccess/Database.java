@@ -113,7 +113,7 @@ public class Database {
                             "    FOREIGN KEY (UserName) REFERENCES user(UserName),\n" +
                             "    FOREIGN KEY (Password) REFERENCES user(Password)\n" +
                             ");";
-            // prepare statement and submit
+            // prepare statements and submit
             PreparedStatement stmt = conn.prepareStatement(sql1);
             stmt.executeUpdate();
             stmt = conn.prepareStatement(sql2);
