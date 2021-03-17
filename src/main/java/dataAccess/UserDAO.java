@@ -25,7 +25,7 @@ public class UserDAO {
      * insert User into the User database table
      * @param user
      */
-    public void insert (User user) {
+    public boolean insert (User user) {
         String sql = "INSERT into User(UserName, Password, Email, FirstName, LastName, Gender, PersonID)" +
                 " Values(?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -38,8 +38,10 @@ public class UserDAO {
             stmt.setString(7, user.getPersonID());
 
             stmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -51,7 +53,7 @@ public class UserDAO {
     public User find(String UserID) {
         ResultSet rs = null;
         User user = null;
-        String sql = "SELECT * FROM User WHERE UserID = ?";
+        String sql = "SELECT * FROM user WHERE userName = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, UserID);
             rs = stmt.executeQuery();
@@ -75,5 +77,19 @@ public class UserDAO {
             }
         }
         return null;
+    }
+
+    /**
+     * Delete all user objects in the database
+     */
+    public boolean deleteAllUsers() {
+        String sql = "DELETE FROM user";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
