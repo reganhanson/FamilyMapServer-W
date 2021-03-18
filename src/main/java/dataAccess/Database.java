@@ -107,7 +107,7 @@ public class Database {
                             ");\n" +
                             "\n";
             String sql4 = "CREATE TABLE  IF NOT EXISTS authToken (\n" +
-                            "    authToken text NOT NULL UNIQUE,\n" +
+                            "    AuthToken text NOT NULL UNIQUE,\n" +
                             "    UserName text,\n" +
                             "    Password text,\n" +
                             "    FOREIGN KEY (UserName) REFERENCES user(UserName),\n" +
@@ -130,12 +130,24 @@ public class Database {
     /**
      * Delete all tables in the database
      */
-    public void deleteTables() {
-        String sql = "DELETE FROM Events DELETE FROM User DELETE FROM Person DELETE FROM AuthToken";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)){
+    public boolean deleteTables() {
+        String sqlEvents = "DELETE FROM Event";
+        String sqlUsers = "DELETE FROM User";
+        String sqlPersons = "DELETE FROM Person";
+        String sqlTokens = "DELETE FROM AuthToken";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sqlEvents);
             stmt.executeUpdate();
+            stmt = conn.prepareStatement(sqlUsers);
+            stmt.executeUpdate();
+            stmt = conn.prepareStatement(sqlPersons);
+            stmt.executeUpdate();
+            stmt = conn.prepareStatement(sqlTokens);
+            stmt.executeUpdate();
+            return true;
         } catch(SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }

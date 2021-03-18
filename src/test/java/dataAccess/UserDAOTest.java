@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import model.*;
 import java.sql.Connection;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,14 +33,14 @@ class UserDAOTest {
 
     @Test
     void testInsertSuccess() {
-        User testUser = new User("hay11", "password", "hay@gmail.com",
+        User testUser = new User(UUID.randomUUID().toString(), "password", "hay@gmail.com",
                 "Daisy", "Hitchcock", "f", "a4");
         assertTrue(daoUser.insert(testUser));
     }
 
     @Test
     void testInsertFail() {
-        User testUser = new User("hay12", "password", "hay@gmail.com",
+        User testUser = new User(UUID.randomUUID().toString(), "password", "hay@gmail.com",
                 "Daisy", "Hitchcock", "f", "a2");
         daoUser.insert(testUser);
         // repeat with the same user
@@ -48,15 +49,15 @@ class UserDAOTest {
 
     @Test
     void testFindSuccess() {
-        User testUser = new User("hay13", "password", "hay@gmail.com",
+        User testUser = new User("hay17", "password", "hay@gmail.com",
                 "Daisy", "Hitchcock", "f", "a4");
         daoUser.insert(testUser);
-        assertNotNull(daoUser.find("hay13"));
+        assertNotNull(daoUser.find("hay17"));
     }
 
     @Test
     void testFindFail() {
-        User testUser = new User("hay1", "password", "hay@gmail.com",
+        User testUser = new User(UUID.randomUUID().toString(), "password", "hay@gmail.com",
                 "Daisy", "Hitchcock", "f", "a1");
         daoUser.insert(testUser);
         assertNull(daoUser.find("hay2"));
