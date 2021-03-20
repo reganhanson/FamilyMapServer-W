@@ -1,11 +1,24 @@
 package services;
 
+import dataAccess.Database;
+import results.ClearResult;
+
 public class Clear {
     /**
      * Deletes ALL data from the database, including user accounts, auth tokens, and generated person and event data
      */
-    public boolean deleteData(){
-        return false;
+    public ClearResult deleteAllData() {
+        Database db = new Database();
+        //try {
+        if (db.deleteTables()) {
+            return new ClearResult("Successful clear", true);
+        } else {
+            return new ClearResult("Clear error", false);
+        }
+        // }
+        /*catch (SQLException e) {
+            return new ClearResult(e.toString(), false);
+        }*/
     }
 }
 
