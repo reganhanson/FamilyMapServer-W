@@ -3,7 +3,7 @@ package services;
 import dataAccess.Database;
 import results.ClearResult;
 
-public class Clear {
+public class ClearService {
     /**
      * Deletes ALL data from the database, including user accounts, auth tokens, and generated person and event data
      */
@@ -13,7 +13,7 @@ public class Clear {
         if (db.deleteTables()) {
             return new ClearResult("Successful clear", true);
         } else {
-            return new ClearResult("Clear error", false);
+            return new ClearResult("ClearService error", false);
         }
         // }
         /*catch (SQLException e) {
@@ -31,7 +31,7 @@ public class Clear {
     Errors: Internal server error
     Success Response Body:
     {
-        “message”: “Clear succeeded.”
+        “message”: “ClearService succeeded.”
     “success”:true		// Boolean identifier
     }
     Error Response Body:

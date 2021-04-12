@@ -7,7 +7,12 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 
 public class ClearHandler implements HttpHandler {
-
+    /*
+        JSON -> Request
+        Call service
+        Result -> JSON
+        Return HTTP response
+     */
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         try {

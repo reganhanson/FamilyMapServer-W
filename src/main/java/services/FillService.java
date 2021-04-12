@@ -1,6 +1,6 @@
 package services;
 
-public class Fill {
+public class FillService {
     /**
      * Populates the server's database with generated data for the specified user name.
      * User with given username must be already registered with the server.
