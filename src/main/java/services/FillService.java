@@ -1,5 +1,8 @@
 package services;
 
+import requests.FillRequest;
+import results.FillResult;
+
 public class FillService {
     /**
      * Populates the server's database with generated data for the specified user name.
@@ -13,12 +16,11 @@ public class FillService {
 
     /**
      *
-     * @param username
-     * @param generations
-     * @return boolean
+     * @param request
+     * @return FillResult
      */
-    public boolean fill(String username, int generations) {
-        return false;
+    public FillResult fill(FillRequest request) {
+        return null;
     }
 }
 

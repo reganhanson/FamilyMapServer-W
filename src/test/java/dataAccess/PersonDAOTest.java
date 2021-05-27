@@ -23,7 +23,7 @@ class PersonDAOTest {
 
     @AfterEach
     void tearDown() {
-        daoPerson.deleteAllPeople();
+        db.deleteTables();
         db.closeConnection(true);
         db = null;
     }

@@ -2,18 +2,17 @@ package services;
 
 import java.util.ArrayList;
 
-import model.Person;
 import model.*;
+import requests.LoadRequest;
+import results.LoadResult;
 
 public class Load {
     /**
      * Clears all data from the database and then loads the posted user, person, and event data into the database
-     * @param users
-     * @param people
-     * @param events
+     * @param request
      */
-    public boolean load(ArrayList<User> users, ArrayList<Person> people, ArrayList<Event> events) {
-        return false;
+    public LoadResult load(LoadRequest request) {
+        return null;
     }
 }
 
