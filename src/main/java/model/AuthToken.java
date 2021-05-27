@@ -6,17 +6,18 @@ package model;
 public class AuthToken {
     private String authTokenID;  // ?
     private String userName;
+    private String password;
 
     /**
      * Constructor for authToken.
      * Requires the below parameters
      * @param authTokenID
      * @param userName
-     * @param personID
      */
-    public AuthToken(String authTokenID, String userName, String personID) {
+    public AuthToken(String authTokenID, String userName, String passWord) {
         this.authTokenID = authTokenID;
         this.userName = userName;
+        this.password = passWord;
     }
 
 

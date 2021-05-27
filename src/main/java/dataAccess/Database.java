@@ -11,6 +11,9 @@ import java.sql.SQLException;
 public class Database {
     private Connection conn;
 
+    public Database() {
+        this.conn = openConnection();
+    }
     /**
      * open the connection to the sqlite database
      * @return Connection

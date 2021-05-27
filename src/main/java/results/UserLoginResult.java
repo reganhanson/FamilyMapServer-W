@@ -8,6 +8,7 @@ public class UserLoginResult {
     private String errorMessage;
 
     /*========================= Constructors =============================*/
+    // Success response
     public UserLoginResult(String authToken, String userName, String personID) {
         this.authToken = authToken;
         this.userName = userName;
@@ -15,6 +16,7 @@ public class UserLoginResult {
         this.success = true;
     }
 
+    // Failure response
     public UserLoginResult(String errorMessage) {
         this.errorMessage = errorMessage;
         this.success = false;

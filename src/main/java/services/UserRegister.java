@@ -2,6 +2,7 @@ package services;
 
 import model.AuthToken;
 import model.User;
+import results.UserRegisterResult;
 
 public class UserRegister {
     /**
@@ -9,7 +10,7 @@ public class UserRegister {
      * @param registerRequest
      * @return AuthToken
      */
-    public AuthToken registerUser(User registerRequest) {
+    public UserRegisterResult registerUser(User registerRequest) {
         return null;
     }
 }

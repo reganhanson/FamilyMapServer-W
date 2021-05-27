@@ -1,6 +1,7 @@
 package services;
 
 import model.*;
+import results.GetPersonResult;
 
 public class GetPerson {
     /**
@@ -9,7 +10,7 @@ public class GetPerson {
      * @param authToken
      * @return Person
      */
-    public Person getPerson(String personID, String authToken) {
+    public GetPersonResult getPerson(String personID, String authToken) {
         return null;
     }
 }

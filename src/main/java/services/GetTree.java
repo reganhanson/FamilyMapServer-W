@@ -2,6 +2,7 @@ package services;
 
 import java.util.ArrayList;
 import model.User;
+import results.GetTreeResult;
 
 public class GetTree {
     /**
@@ -10,7 +11,7 @@ public class GetTree {
      * @param authToken
      * @return
      */
-    public ArrayList<User> getTree(String personID, String authToken) {
+    public GetTreeResult getTree(String personID, String authToken) {
         return null;
     }
 }

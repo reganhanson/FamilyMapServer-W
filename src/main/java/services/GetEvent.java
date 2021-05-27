@@ -1,6 +1,7 @@
 package services;
 
 import model.Event;
+import results.GetEventResult;
 
 public class GetEvent {
     /**
@@ -9,7 +10,7 @@ public class GetEvent {
      * @param authToken
      * @return Event
      */
-    public Event getEvent(String eventID, String authToken){
+    public GetEventResult getEvent(String eventID, String authToken){
         return null;
     }
 }

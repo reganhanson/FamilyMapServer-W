@@ -1,5 +1,6 @@
 package services;
 import model.*;
+import results.GetAllEventsResult;
 
 import java.util.ArrayList;
 
@@ -9,7 +10,7 @@ public class GetAllEvents {
      * @param userToken
      * @return
      */
-    public ArrayList<Event> getAllEvents(AuthToken userToken) {
+    public GetAllEventsResult getAllEvents(AuthToken userToken) {
         return null;
     }
 }
