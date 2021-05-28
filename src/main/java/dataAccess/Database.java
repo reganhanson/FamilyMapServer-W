@@ -133,7 +133,7 @@ public class Database {
     /**
      * Delete all tables in the database
      */
-    public boolean deleteTables() {
+    public boolean clearAllTables() {
         String sqlEvents = "DELETE FROM Event";
         String sqlUsers = "DELETE FROM User";
         String sqlPersons = "DELETE FROM Person";

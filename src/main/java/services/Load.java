@@ -1,7 +1,11 @@
 package services;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 
+import dataAccess.Database;
+import dataAccess.EventDAO;
+import dataAccess.PersonDAO;
+import dataAccess.UserDAO;
 import model.*;
 import requests.LoadRequest;
 import results.LoadResult;
@@ -12,7 +16,28 @@ public class Load {
      * @param request
      */
     public LoadResult load(LoadRequest request) {
-        return null;
+        Database database = new Database();
+        UserDAO userAccess = new UserDAO(database.getConnection());
+        PersonDAO personAccess = new PersonDAO(database.getConnection());
+        EventDAO eventAccess = new EventDAO(database.getConnection());
+
+        database.clearAllTables();
+        for (User user : request.getUsers()) {
+            if (!userAccess.insert(user)) {
+                return new LoadResult("Failure to insert", false);
+            }
+        }
+        for (Person person : request.getPeople()) {
+            if (!personAccess.add(person)) {
+                return new LoadResult("Failure to insert", false);
+            }
+        }
+        for (Event event : request.getEvents()) {
+            if (!eventAccess.insert(event)) {
+                return new LoadResult("Failure to insert", false);
+            }
+        }
+        return new LoadResult("Successfully added X users, Y persons, and Z events to the database.", true);
     }
 }
 

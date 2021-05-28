@@ -1,7 +1,6 @@
 package dataAccess;
 
 import model.Event;
-import org.sqlite.SQLiteException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -53,7 +52,7 @@ public class EventDAO {
      * @param EventID event identification number
      * @return event
      */
-    public Event findByID(String EventID) {
+    public Event findByID(String EventID) /*throws DataAccessException*/ {
         Event event;
         ResultSet result = null;
         String sql = "SELECT * FROM Event WHERE EventID = ?";
@@ -70,12 +69,14 @@ public class EventDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            // throw new DataAccessException("SQL Exception: problem with executing the query");
         } finally {
             if (result != null) {
                 try {
                     result.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
+                    // throw new DataAccessException("SQL Exception throw in closing the result set");
                 }
             }
         }
@@ -87,7 +88,7 @@ public class EventDAO {
      * @param associatedUserName username associated with the event
      * @return null for now
      */
-    public Event findByUsername(String associatedUserName) {
+    public Event findByUsername(String associatedUserName) /*throws DataAccessException*/ {
         Event event;
         ResultSet result = null;
         String sql = "SELECT * FROM event WHERE AssociatedUserName = ?;";
@@ -105,6 +106,7 @@ public class EventDAO {
         }
         catch(SQLException e) {
             e.printStackTrace();
+            // throw new DataAccessException("Problem executing query");
         } finally {
             if (result != null) {
                 try {
@@ -120,7 +122,7 @@ public class EventDAO {
     /**
      * Delete all events in the database
      */
-    public boolean deleteAllEvents() {
+    public boolean deleteAllEvents() /*throws DataAccessException*/ {
         String sql = "DELETE FROM Event";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.executeUpdate();
@@ -128,6 +130,7 @@ public class EventDAO {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            // throw new DataAccessException("could not execute the update from that prepared statement");
             return false;
         }
     }

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.UUID;
+
 /**
  * User class: model for the database table of the same name
  */
@@ -20,6 +22,25 @@ public class User {
      * @param firstName
      * @param lastName
      * @param gender
+     */
+    public User(String userName, String password, String email, String firstName, String lastName, String gender) {
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.personID = UUID.randomUUID().toString(); /*Generate this*/
+    }
+
+    /**
+     * Constructor for the User class
+     * @param userName
+     * @param password
+     * @param email
+     * @param firstName
+     * @param lastName
+     * @param gender
      * @param personID
      */
     public User(String userName, String password, String email, String firstName, String lastName, String gender, String personID) {
@@ -31,6 +52,8 @@ public class User {
         this.gender = gender;
         this.personID = personID;
     }
+
+
 
     /**
      * Equals method for this class
