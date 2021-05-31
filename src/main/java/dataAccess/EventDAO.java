@@ -2,10 +2,8 @@ package dataAccess;
 
 import model.Event;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Class that confers between the model Event and the database table of the same name
@@ -84,25 +82,26 @@ public class EventDAO {
     }
 
     /**
-     *
      * @param associatedUserName username associated with the event
      * @return null for now
      */
-    public Event findByUsername(String associatedUserName) /*throws DataAccessException*/ {
+    public ArrayList<Event> findByUsername(String associatedUserName) /*throws DataAccessException*/ {
         Event event;
+        ArrayList<Event> events = new ArrayList<>();
         ResultSet result = null;
         String sql = "SELECT * FROM event WHERE AssociatedUserName = ?;";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, associatedUserName);
             result = stmt.executeQuery();
-            if (result.next()) {
+            while (result.next()) {
                 event = new Event (result.getString("EventID"), result.getString("AssociatedUserName"),
                         result.getString("PersonID"), result.getFloat("Latitude"),
                         result.getFloat("Longitude"), result.getString("Country"),
                         result.getString("City"), result.getString("EventType"),
                         result.getInt("Year"));
-                return event;
+                events.add(event);
             }
+            return events;
         }
         catch(SQLException e) {
             e.printStackTrace();
@@ -118,6 +117,10 @@ public class EventDAO {
         }
         return null;
     }
+
+    /**
+     * Delete a specific event by ID
+     */
 
     /**
      * Delete all events in the database

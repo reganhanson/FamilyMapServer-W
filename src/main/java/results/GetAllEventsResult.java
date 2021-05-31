@@ -12,26 +12,19 @@ import java.util.ArrayList;
 public class GetAllEventsResult {
     private ArrayList<Event> data;
     private String message;
+    private boolean success;
 
     /*========================= Constructors =============================*/
-    public GetAllEventsResult() {
-        this.data = null;
-        this.message = null;
-    }
-
     public GetAllEventsResult(ArrayList<Event> data) {
         this.data = data;
         this.message = null;
+        this.success = true;
     }
 
     public GetAllEventsResult(String message) {
         this.data = null;
         this.message = message;
-    }
-
-    public GetAllEventsResult(ArrayList<Event> data, String message) {
-        this.data = data;
-        this.message = message;
+        this.success = false;
     }
 
     /*====================== Getters and Setters =========================*/
@@ -49,5 +42,13 @@ public class GetAllEventsResult {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 }

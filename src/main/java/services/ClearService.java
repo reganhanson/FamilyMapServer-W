@@ -8,17 +8,15 @@ public class ClearService {
      * Deletes ALL data from the database, including user accounts, auth tokens, and generated person and event data
      */
     public ClearResult deleteAllData() {
-        Database db = new Database();
-        //try {
-        if (db.deleteTables()) {
+        Database db = new Database();       // connects to the database with new connection
+
+        if (db.clearAllTables()) {
+            db.closeConnection(true);
             return new ClearResult("Successful clear", true);
         } else {
+            db.closeConnection(false);
             return new ClearResult("ClearService error", false);
         }
-        // }
-        /*catch (SQLException e) {
-            return new ClearResult(e.toString(), false);
-        }*/
     }
 }
 

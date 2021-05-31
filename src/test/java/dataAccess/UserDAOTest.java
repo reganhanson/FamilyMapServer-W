@@ -26,7 +26,7 @@ class UserDAOTest {
     @AfterEach
     void tearDown() {
         daoUser.deleteAllUsers();
-        db.deleteTables();
+        db.clearAllTables();
         db.closeConnection(true);
         db = null;
     }

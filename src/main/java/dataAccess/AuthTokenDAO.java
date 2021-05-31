@@ -1,6 +1,6 @@
 package dataAccess;
 
-import model.*;
+import model.AuthToken;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,7 +41,6 @@ public class AuthTokenDAO {
     }
 
     /**
-     *
      * @param username
      * @return the sought after authtoken
      */
@@ -71,6 +70,8 @@ public class AuthTokenDAO {
         }
         return null;
     }
+
+
 
     /**
      * Delete all AuthToken objects in the database

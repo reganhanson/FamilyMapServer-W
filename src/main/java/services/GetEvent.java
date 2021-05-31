@@ -1,7 +1,14 @@
 package services;
 
+import dataAccess.AuthTokenDAO;
+import dataAccess.Database;
+import dataAccess.EventDAO;
+import dataAccess.PersonDAO;
 import model.Event;
+import model.Person;
 import results.GetEventResult;
+
+import java.util.Objects;
 
 public class GetEvent {
     /**
@@ -11,7 +18,20 @@ public class GetEvent {
      * @return Event
      */
     public GetEventResult getEvent(String eventID, String authToken){
-        return null;
+        Database database = new Database();
+        EventDAO eventAccess = new EventDAO(database.getConnection());
+        AuthTokenDAO tokenAccess = new AuthTokenDAO(database.getConnection());
+
+        Event foundEvent = eventAccess.findByID(eventID);
+        if (foundEvent != null) {
+            if (Objects.equals(authToken, tokenAccess.find(foundEvent.getAssociatedUsername()).getAuthTokenID())) {
+                return new GetEventResult(foundEvent.getAssociatedUsername(), foundEvent.getEventID(),
+                        foundEvent.getPersonID(), foundEvent.getLatitude(), foundEvent.getLongitude(),
+                        foundEvent.getCountry(), foundEvent.getCity(), foundEvent.getEventType(),
+                        foundEvent.getYear());
+            }
+        }
+        return new GetEventResult("Failed");
     }
 }
 

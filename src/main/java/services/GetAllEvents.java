@@ -1,4 +1,7 @@
 package services;
+import dataAccess.AuthTokenDAO;
+import dataAccess.Database;
+import dataAccess.EventDAO;
 import model.*;
 import results.GetAllEventsResult;
 
@@ -11,7 +14,18 @@ public class GetAllEvents {
      * @return
      */
     public GetAllEventsResult getAllEvents(AuthToken userToken) {
-        return null;
+        Database database = new Database();
+        EventDAO eventAccess = new EventDAO(database.getConnection());
+        ArrayList<Event> eventList = new ArrayList<>();
+
+        GetTree tree = new GetTree();
+        eventList = eventAccess.findByUsername(userToken.getUserName());
+        if (eventList == null) {
+            return new GetAllEventsResult("No events found or a SQL exception");
+        }
+        else {
+            return new GetAllEventsResult(eventList);
+        }
     }
 }
 

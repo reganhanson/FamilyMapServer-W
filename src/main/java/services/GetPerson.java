@@ -1,7 +1,12 @@
 package services;
 
+import dataAccess.AuthTokenDAO;
+import dataAccess.Database;
+import dataAccess.PersonDAO;
 import model.*;
 import results.GetPersonResult;
+
+import java.util.Objects;
 
 public class GetPerson {
     /**
@@ -11,7 +16,18 @@ public class GetPerson {
      * @return Person
      */
     public GetPersonResult getPerson(String personID, String authToken) {
-        return null;
+        Database db = new Database();
+        PersonDAO personAccess = new PersonDAO(db.getConnection());
+        AuthTokenDAO tokenAccess = new AuthTokenDAO(db.getConnection());
+
+        Person foundPerson = personAccess.find(personID);
+        if (Objects.equals(authToken, tokenAccess.find(foundPerson.getUserName()).getAuthTokenID())) {
+            return new GetPersonResult(foundPerson.getUserName(), foundPerson.getPersonID(), foundPerson.getFirstName(),
+                    foundPerson.getLastName(), foundPerson.getGender());
+        }
+
+
+        return new GetPersonResult("get person failure");
     }
 }
 

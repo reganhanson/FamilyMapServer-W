@@ -18,6 +18,7 @@ class EventDAOTest {
     void setUp() {
         db = new Database();
         newConn = db.openConnection();
+        // db.clearAllTables()
         db.createTables();
         daoEvent = new EventDAO(newConn);
     }
@@ -57,8 +58,7 @@ class EventDAOTest {
         event.setCountry("USA");
         event.setYear(2021);
         daoEvent.insert(event);
-        String id = daoEvent.findByUsername("davies").getEventID();
-        assertNotNull(daoEvent.findByID(id));
+        assertNotNull(daoEvent.findByID(event.getEventID()));
     }
 
     @Test

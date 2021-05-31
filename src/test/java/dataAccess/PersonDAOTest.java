@@ -16,27 +16,31 @@ class PersonDAOTest {
     @BeforeEach
     void setUp() {
         db = new Database();
-        testConn = db.openConnection();
         db.createTables();
-        daoPerson = new PersonDAO(testConn);
+        daoPerson = new PersonDAO(db.getConnection());
     }
 
     @AfterEach
     void tearDown() {
-        db.deleteTables();
-        db.closeConnection(true);
+        db.clearAllTables();
+        db.closeConnection(false);
         db = null;
     }
 
     @Test
     void testAddSuccess() {
-        Person person = new Person("3", "daveyr3", "Regan", "Hanson", "m", null, null, null);
-        assertTrue(daoPerson.add(person));
+        Person person = new Person("daveyr3", "Regan", "Hanson", "m", null, null, null);
+        daoPerson.add(person);
+        Person compareTest = daoPerson.find(person.getPersonID());
+        assertNotNull(compareTest);
+
+        assertEquals(person, daoPerson.find(person.getPersonID()));
+        // assertTrue(daoPerson.add(person));
     }
 
     @Test
     void testAddFail() {
-        Person person = new Person("64724", "daveyr3", "Regan", "Hanson", "m", null, null, null);
+        Person person = new Person("647asdfasdga24", "daveyr3", "Regan", "Hanson", "m", null, null, null);
         daoPerson.add(person);
         // add two of the same person
         // should return false & give us the exception printed in personDAO

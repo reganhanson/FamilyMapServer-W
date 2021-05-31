@@ -20,7 +20,7 @@ public class Database {
      */
     public Connection openConnection() {
         // driver(jdbc):language(sqlite):path()
-        final String URL = "jdbc:sqlite:FamilyMapServerStudent-master.sqlite";
+        final String URL = "jdbc:sqlite:FamilyMapServerStudent.sqlite";
 
         try {
             conn = DriverManager.getConnection(URL);

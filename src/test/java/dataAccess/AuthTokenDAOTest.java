@@ -12,29 +12,34 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AuthTokenDAOTest {
     Database db;
-    Connection testConn;
     AuthTokenDAO testDAO;
+    AuthToken testToken;
 
     @BeforeEach
     void setUp() {
         db = new Database();
-        testConn = db.openConnection();
         db.createTables();
-        testDAO = new AuthTokenDAO(testConn);
+        testToken = new AuthToken(UUID.randomUUID().toString(),
+                "daviesr3","rdh");
+        testDAO = new AuthTokenDAO(db.getConnection());
     }
 
     @AfterEach
     void tearDown() {
-        db.deleteTables();
+        db.clearAllTables();
         db.closeConnection(true);
         db = null;
     }
 
     @Test
     void testAddSuccess() {
-        AuthToken testToken = new AuthToken(UUID.randomUUID().toString(),
-                "daviesr3","rdh");
-        assertTrue(testDAO.add(testToken));
+
+        testDAO.add(testToken);
+        AuthToken compareTest = testDAO.find(testToken.getUserName());
+        assertNotNull(compareTest);
+        //'
+        // assertEquals(testToken, compareTest);
+        // assertTrue(testDAO.add(testToken));
     }
 
     @Test
