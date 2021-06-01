@@ -25,7 +25,7 @@ public class PersonDAO {
      * add a person to the database table with sql statements
      * @param person
      */
-    public boolean add(Person person) {
+    public void add(Person person) throws DataAccessException {
         String sql = "INSERT into Person(personID, userName, firstName, lastName, gender, " +
                 "fatherID, motherID, spouseID) VALUES(?,?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -39,10 +39,9 @@ public class PersonDAO {
             stmt.setString(8, person.getSpouseID());
 
             stmt.executeUpdate();
-            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            throw new DataAccessException();
         }
     }
 

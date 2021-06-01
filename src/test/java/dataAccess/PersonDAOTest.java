@@ -12,26 +12,27 @@ class PersonDAOTest {
     Database db;
     Connection testConn;
     PersonDAO daoPerson;
+    Person testPerson;
 
     @BeforeEach
     void setUp() {
         db = new Database();
         db.createTables();
+        User testUser = new User("password", "email@gmail.com","Daisy", "Hitchcock", "f");
+        testPerson = new Person(testUser.getUserName(), "Regan", "Hanson", "m");
         daoPerson = new PersonDAO(db.getConnection());
     }
 
     @AfterEach
     void tearDown() {
-        db.clearAllTables();
         db.closeConnection(false);
         db = null;
     }
 
     @Test
-    void testAddSuccess() {
-        Person person = new Person("daveyr3", "Regan", "Hanson", "m", null, null, null);
-        assertTrue(daoPerson.add(person));
-        Person compareTest = daoPerson.find(person.getPersonID());
+    void testAddSuccess() throws DataAccessException {
+        daoPerson.add(testPerson);
+        Person compareTest = daoPerson.find(testPerson.getPersonID());
         assertNotNull(compareTest);
 
         // assertEquals(person, daoPerson.find(person.getPersonID()));
@@ -39,28 +40,28 @@ class PersonDAOTest {
     }
 
     @Test
-    void testAddFail() {
-        Person person = new Person("647asdfasdga24", "daveyr3", "Regan", "Hanson", "m", null, null, null);
-        daoPerson.add(person);
+    void testAddFail() throws DataAccessException {
+        daoPerson.add(testPerson);
         // add two of the same person
         // should return false & give us the exception printed in personDAO
-        assertFalse(daoPerson.add(person));
+        assertThrows(DataAccessException.class, () -> daoPerson.add(testPerson));
     }
 
     @Test
-    void testFindByUsernameSuccess() {
-        Person person = new Person("64724", "daveyr3", "Regan", "Hanson", "m", null, null, null);
-        daoPerson.add(person);
-        assertNotNull(daoPerson.findByUsername("daveyr3"));
+    void testFindByUsernameSuccess() throws DataAccessException {
+        daoPerson.add(testPerson);
+        assertNotNull(daoPerson.findByUsername(testPerson.getUserName()));
     }
 
     @Test
     void testFindByUsernameFail() {
-        assertEquals(0, daoPerson.findByUsername("daveyr3").size());
+        assertEquals(0, daoPerson.findByUsername("random_user_id").size());
     }
 
     @Test
-    void testDeleteAllPeople() {
-        assertTrue(daoPerson.deleteAllPeople());
+    void testDeleteAllPeople() throws DataAccessException {
+        daoPerson.add(testPerson);
+        daoPerson.deleteAllPeople();
+        assertNull(daoPerson.find(testPerson.getPersonID()));
     }
 }

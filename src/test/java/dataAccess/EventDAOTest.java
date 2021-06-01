@@ -5,22 +5,22 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class EventDAOTest {
     Database db;
-    Connection newConn;
     EventDAO daoEvent;
 
     @BeforeEach
     void setUp() {
         db = new Database();
-        newConn = db.openConnection();
-        // db.clearAllTables()
+        // newConn = db.openConnection();
+        db.clearAllTables();
         db.createTables();
-        daoEvent = new EventDAO(newConn);
+        daoEvent = new EventDAO(db.getConnection());
     }
 
     @AfterEach
@@ -30,7 +30,7 @@ class EventDAOTest {
     }
 
     @Test
-    void insertTestSuccess() {
+    void insertTestSuccess() throws DataAccessException {
         Event testEvent = new Event();
         testEvent.setPersonID("daviesr3");
         testEvent.setEventType("wedding");
@@ -38,18 +38,19 @@ class EventDAOTest {
         testEvent.setCity("Draper");
         testEvent.setCountry("USA");
         testEvent.setYear(2021);
-        assertTrue(daoEvent.insert(testEvent));
+        daoEvent.insert(testEvent);
+        assertNotNull(daoEvent.findByID(testEvent.getEventID()));
     }
 
     @Test
-    void insertTestFail() {
+    void insertTestFail() throws DataAccessException {
         // empty event with null fields can't be inserted
         Event testEvent = new Event();
-        assertFalse(daoEvent.insert(testEvent));
+        assertThrows(DataAccessException.class, () -> daoEvent.insert(testEvent));
     }
 
     @Test
-    void findByIDTestSuccess() {
+    void findByIDTestSuccess() throws DataAccessException {
         Event event = new Event();
         event.setPersonID("daviesr3");
         event.setEventType("wedding");

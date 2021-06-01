@@ -22,6 +22,25 @@ public class User {
      * @param firstName
      * @param lastName
      * @param gender
+     * @param personID
+     */
+    public User(String userName, String password, String email, String firstName, String lastName, String gender, String personID) {
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.personID = personID;
+    }
+    /**
+     * Constructor for the User class
+     * @param userName
+     * @param password
+     * @param email
+     * @param firstName
+     * @param lastName
+     * @param gender
      */
     public User(String userName, String password, String email, String firstName, String lastName, String gender) {
         this.userName = userName;
@@ -35,24 +54,21 @@ public class User {
 
     /**
      * Constructor for the User class
-     * @param userName
      * @param password
      * @param email
      * @param firstName
      * @param lastName
      * @param gender
-     * @param personID
      */
-    public User(String userName, String password, String email, String firstName, String lastName, String gender, String personID) {
-        this.userName = userName;
+    public User(String password, String email, String firstName, String lastName, String gender) {
+        this.userName = UUID.randomUUID().toString();
         this.password = password;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
-        this.personID = personID;
+        this.personID = UUID.randomUUID().toString(); /*Generate this*/
     }
-
 
 
     /**

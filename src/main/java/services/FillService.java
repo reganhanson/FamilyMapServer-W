@@ -2,10 +2,7 @@ package services;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import dataAccess.Database;
-import dataAccess.EventDAO;
-import dataAccess.PersonDAO;
-import dataAccess.UserDAO;
+import dataAccess.*;
 import model.Person;
 import model.User;
 import results.FillResult;
@@ -19,6 +16,7 @@ import java.util.Random;
 public class FillService {
     ArrayList<String> mNames, fNames, sNames;
     ArrayList<Place> locations;
+
     /**
      * @param username
      * @param generations
@@ -31,7 +29,7 @@ public class FillService {
         PersonDAO personAccess = new PersonDAO(db.getConnection());
 
 
-        if (generations < 0) {
+        if (generations < 1) {
             return new FillResult("Invalid number of generations input", false);
         }
         User primeUser = userAccess.find(username);
@@ -44,8 +42,9 @@ public class FillService {
         db.closeConnection(true);
 
         // fill x generations of person and event data
-        addListOfNames();
         addListOfPlaces();
+        addListOfNames();
+
         Random randomNumber = new Random();
 
 
@@ -53,6 +52,7 @@ public class FillService {
 
         createTree(originalPerson, generations);
 
+        db.closeConnection(true);
         return new FillResult("Successfully added X persons and Y events to the database.", true);
     }
 
@@ -60,26 +60,33 @@ public class FillService {
         Database db = new Database();
         Random randomNumber = new Random();
 
-        Person father = new Person(person.getUserName(), mNames.get(randomNumber.nextInt(mNames.size())), sNames.get(randomNumber.nextInt(sNames.size())), "m");
-        Person mother = new Person(person.getUserName(), fNames.get(randomNumber.nextInt(fNames.size())), father.getLastName(), "f");
+        try {
 
-        PersonDAO personAccess = new PersonDAO(db.getConnection());
+            Person father = new Person(person.getUserName(), mNames.get(randomNumber.nextInt(mNames.size())), sNames.get(randomNumber.nextInt(sNames.size())), "m");
+            Person mother = new Person(person.getUserName(), fNames.get(randomNumber.nextInt(fNames.size())), father.getLastName(), "f");
 
-        person.setMotherID(mother.getPersonID());
-        person.setFatherID(father.getPersonID());
-        father.setSpouseID(mother.getPersonID());
-        mother.setSpouseID(father.getPersonID());
+            PersonDAO personAccess = new PersonDAO(db.getConnection());
 
-        /*Put in event data*/
+            person.setMotherID(mother.getPersonID());
+            person.setFatherID(father.getPersonID());
+            father.setSpouseID(mother.getPersonID());
+            mother.setSpouseID(father.getPersonID());
 
-        personAccess.add(person);
+            /*Put in event data*/
 
-        generations = generations - 1;
-        if (generations == 0) {
-            return;
+            personAccess.add(person);
+
+            generations = generations - 1;
+            if (generations == 0) {
+                db.closeConnection(true);
+                return;
+            }
+            createTree(father, generations);
+            createTree(mother, generations);
+
+        } catch (DataAccessException e) {
+            e.printStackTrace();
         }
-        createTree(father, generations);
-        createTree(mother, generations);
 
     }
 

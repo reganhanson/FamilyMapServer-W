@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import model.*;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,6 +15,7 @@ class UserDAOTest {
     Database db;
     Connection testConn;
     UserDAO daoUser;
+    User testUser;
 
     @BeforeEach
     void setUp() {
@@ -21,11 +23,13 @@ class UserDAOTest {
         testConn = db.openConnection();
         db.createTables();
         daoUser = new UserDAO(testConn);
+        testUser = new User("password", "email@gmail.com",
+                "Daisy", "Hitchcock", "f");
     }
 
     @AfterEach
     void tearDown() {
-        daoUser.deleteAllUsers();
+        // daoUser.deleteAllUsers();
         db.clearAllTables();
         db.closeConnection(true);
         db = null;
@@ -33,40 +37,34 @@ class UserDAOTest {
 
 
     @Test
-    void testInsertSuccess() {
-        User testUser = new User(UUID.randomUUID().toString(), "password", "hay@gmail.com",
-                "Daisy", "Hitchcock", "f", "a4");
-        assertTrue(daoUser.insert(testUser));
+    void testInsertSuccess() throws DataAccessException{
+        daoUser.insert(testUser);
+        assertNotNull(daoUser.find(testUser.getUserName()));
     }
 
     @Test
-    void testInsertFail() {
-        User testUser = new User(UUID.randomUUID().toString(), "password", "hay@gmail.com",
-                "Daisy", "Hitchcock", "f", "a2");
+    void testInsertFail() throws DataAccessException {
         daoUser.insert(testUser);
+
         // repeat with the same user
-        assertFalse(daoUser.insert(testUser));
+        assertThrows(DataAccessException.class, () -> daoUser.insert(testUser));
     }
 
     @Test
-    void testFindSuccess() {
-        User testUser = new User("hay17", "password", "hay@gmail.com",
-                "Daisy", "Hitchcock", "f", "a4");
+    void testFindSuccess() throws DataAccessException{
         daoUser.insert(testUser);
-        assertNotNull(daoUser.find("hay17"));
+        assertNotNull(daoUser.find(testUser.getUserName()));
     }
 
     @Test
-    void testFindFail() {
-        User testUser = new User(UUID.randomUUID().toString(), "password", "hay@gmail.com",
-                "Daisy", "Hitchcock", "f", "a1");
+    void testFindFail() throws DataAccessException{
         daoUser.insert(testUser);
-        assertNull(daoUser.find("hay2"));
+        assertNull(daoUser.find("random_user_id"));
     }
 
     @Test
     void testDeleteAllUsers() {
-        assertTrue(daoUser.deleteAllUsers());
+       daoUser.find(testUser.getUserName());
     }
 
 }

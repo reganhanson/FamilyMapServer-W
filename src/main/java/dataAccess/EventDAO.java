@@ -23,7 +23,7 @@ public class EventDAO {
      * insert an Event into the table using sql statements
      * @param event
      */
-    public boolean insert(Event event) {
+    public void insert(Event event) throws DataAccessException {
         String sql = "INSERT INTO Event(EventID, AssociatedUserName, PersonID, Latitude, Longitude," +
                 " Country, City, EventType, Year) VALUES(?,?,?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -38,10 +38,9 @@ public class EventDAO {
             stmt.setInt(9, event.getYear());
 
             stmt.executeUpdate();
-            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            throw new DataAccessException();
         }
     }
 
@@ -126,7 +125,7 @@ public class EventDAO {
      * Delete all events belonging to a specific username
      */
     public boolean deleteEventsByUserID(String username) {
-        String sql = "DELETE FROM Event WHERE UserName = ?";
+        String sql = "DELETE FROM Event WHERE AssociatedUserName = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
             stmt.executeUpdate();

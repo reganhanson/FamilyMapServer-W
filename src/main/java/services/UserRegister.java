@@ -1,6 +1,7 @@
 package services;
 
 import dataAccess.AuthTokenDAO;
+import dataAccess.DataAccessException;
 import dataAccess.Database;
 import dataAccess.UserDAO;
 import model.AuthToken;
@@ -20,14 +21,15 @@ public class UserRegister {
         UserDAO accessUser = new UserDAO(database.getConnection());
         User newUser = new User(request.getUserName(), request.getPassword(), request.getEmail(), request.getFirstName(), request.getLastName(), request.getGender());
 
-        if (accessUser.insert(newUser)) {
-            AuthToken sessionToken = new AuthToken(UUID.randomUUID().toString(), request.getUserName(), request.getPassword());
+        try {
+            accessUser.insert(newUser);
+            AuthToken sessionToken = new AuthToken(request.getUserName());
             AuthTokenDAO accessToken = new AuthTokenDAO(database.getConnection());
             accessToken.add(sessionToken);
             return new UserRegisterResult(sessionToken.getAuthTokenID(), request.getUserName(), newUser.getPersonID());
-        }
-        else {
-            return new UserRegisterResult("DAO insert failed");
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

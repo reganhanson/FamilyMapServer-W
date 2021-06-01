@@ -53,8 +53,7 @@ public class AuthTokenDAO {
             stmt.setString(1, username);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                foundToken = new AuthToken(rs.getString("authToken"), rs.getString("username"),
-                        rs.getString("password"));
+                foundToken = new AuthToken(rs.getString("authToken"), rs.getString("username"));
                 return foundToken;
             }
         } catch (SQLException e) {
@@ -81,8 +80,7 @@ public class AuthTokenDAO {
             stmt.setString(1, token);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                foundToken = new AuthToken(rs.getString("authToken"), rs.getString("username"),
-                        rs.getString("password"));
+                foundToken = new AuthToken(rs.getString("authToken"), rs.getString("username"));
                 return foundToken;
             }
         } catch (SQLException e) {

@@ -25,7 +25,7 @@ public class UserDAO {
      * insert User into the User database table
      * @param user
      */
-    public boolean insert (User user) {
+    public void insert (User user) throws DataAccessException {
         String sql = "INSERT into User(UserName, Password, Email, FirstName, LastName, Gender, PersonID)" +
                 " Values(?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -38,10 +38,9 @@ public class UserDAO {
             stmt.setString(7, user.getPersonID());
 
             stmt.executeUpdate();
-            return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new DataAccessException("SQL Exception");
+            // e.printStackTrace();
         }
     }
 
@@ -82,14 +81,12 @@ public class UserDAO {
     /**
      * Delete all user objects in the database
      */
-    public boolean deleteAllUsers() {
+    public void deleteAllUsers() throws DataAccessException{
         String sql = "DELETE FROM user";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.executeUpdate();
-            return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new DataAccessException();
         }
     }
 }

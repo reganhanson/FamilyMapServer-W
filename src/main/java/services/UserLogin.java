@@ -21,7 +21,7 @@ public class UserLogin {
 
         User foundUser = accessUser.find(loginRequest.getUserName());
         if (foundUser.getPassword().equals(loginRequest.getPassword())) {
-            AuthToken sessionToken = new AuthToken(UUID.randomUUID().toString(), foundUser.getUserName(), foundUser.getPassword());
+            AuthToken sessionToken = new AuthToken(foundUser.getUserName());
             AuthTokenDAO token = new AuthTokenDAO(database.getConnection());
             token.add(sessionToken);
             return new UserLoginResult(sessionToken.getAuthTokenID(), foundUser.getUserName(), foundUser.getPersonID());

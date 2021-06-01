@@ -1,12 +1,23 @@
 package model;
 
+import java.util.UUID;
+
 /**
  * AuthToken class: model for the database table of the same name
  */
 public class AuthToken {
     private String authTokenID;  // ?
     private String userName;
-    private String password;
+
+    /**
+     * Constructor for authToken.
+     * Requires the below parameters
+     * @param userName
+     */
+    public AuthToken(String userName) {
+        this.authTokenID = UUID.randomUUID().toString();
+        this.userName = userName;
+    }
 
     /**
      * Constructor for authToken.
@@ -14,12 +25,10 @@ public class AuthToken {
      * @param authTokenID
      * @param userName
      */
-    public AuthToken(String authTokenID, String userName, String passWord) {
+    public AuthToken(String authTokenID, String userName) {
         this.authTokenID = authTokenID;
         this.userName = userName;
-        this.password = passWord;
     }
-
 
     public String getAuthTokenID() {
         return authTokenID;

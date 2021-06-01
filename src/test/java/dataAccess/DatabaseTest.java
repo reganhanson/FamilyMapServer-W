@@ -4,6 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseTest {
@@ -14,12 +16,13 @@ class DatabaseTest {
     void setUp() {
         db = new Database();
         db.openConnection();
-        db.createTables();
     }
 
     @AfterEach
     void tearDown() {
-        db.closeConnection(true);
+        if (db.getConnection() != null) {
+            db.closeConnection(false);
+        }
         db = null;
     }
 
@@ -35,14 +38,19 @@ class DatabaseTest {
 
     @Test
     void testCloseConnection() {
+        Connection compareConn = db.getConnection();
+        db.closeConnection(false);
+        assertNotEquals(compareConn, db.getConnection());
     }
 
     @Test
     void testCreateTables() {
+        db.createTables();
+        assertTrue(db.isTablesCreated());
     }
 
     @Test
-    void testDeleteTables() {
-
+    void testClearAllTables() {
+        assertTrue(db.clearAllTables());
     }
 }

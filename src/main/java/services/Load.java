@@ -2,10 +2,7 @@ package services;
 
 import java.util.Iterator;
 
-import dataAccess.Database;
-import dataAccess.EventDAO;
-import dataAccess.PersonDAO;
-import dataAccess.UserDAO;
+import dataAccess.*;
 import model.*;
 import requests.LoadRequest;
 import results.LoadResult;
@@ -22,22 +19,22 @@ public class Load {
         EventDAO eventAccess = new EventDAO(database.getConnection());
 
         database.clearAllTables();
-        for (User user : request.getUsers()) {
-            if (!userAccess.insert(user)) {
-                return new LoadResult("Failure to insert", false);
+        try {
+            for (User user : request.getUsers()) {
+                userAccess.insert(user);
             }
-        }
-        for (Person person : request.getPeople()) {
-            if (!personAccess.add(person)) {
-                return new LoadResult("Failure to insert", false);
+            for (Person person : request.getPeople()) {
+                personAccess.add(person);
             }
-        }
-        for (Event event : request.getEvents()) {
-            if (!eventAccess.insert(event)) {
-                return new LoadResult("Failure to insert", false);
+            for (Event event : request.getEvents()) {
+                eventAccess.insert(event);
             }
-        }
+
         return new LoadResult("Successfully added X users, Y persons, and Z events to the database.", true);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return new LoadResult("Failure to insert", false);
+        }
     }
 }
 
