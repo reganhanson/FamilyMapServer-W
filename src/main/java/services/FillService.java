@@ -7,13 +7,18 @@ import dataAccess.EventDAO;
 import dataAccess.PersonDAO;
 import dataAccess.UserDAO;
 import model.Person;
+import model.User;
 import results.FillResult;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class FillService {
     ArrayList<String> mNames, fNames, sNames;
+    ArrayList<Place> locations;
     /**
      * @param username
      * @param generations
@@ -26,30 +31,59 @@ public class FillService {
         PersonDAO personAccess = new PersonDAO(db.getConnection());
 
 
-
         if (generations < 0) {
             return new FillResult("Invalid number of generations input", false);
         }
-        if (userAccess.find(username) == null) {
+        User primeUser = userAccess.find(username);
+        if (primeUser == null) {
             return new FillResult("User not found in the database", false);
         }
         // delete everything associated with the user
         eventAccess.deleteEventsByUserID(username);
         personAccess.deleteTreeByUserID(username);
+        db.closeConnection(true);
 
         // fill x generations of person and event data
         addListOfNames();
         addListOfPlaces();
+        Random randomNumber = new Random();
 
-        for (int i = 0; i < generations; i++) {
-            Person father = new Person(username, mNames.get(i), sNames.get(i), "m");
 
-        }
+        Person originalPerson = new Person(primeUser.getPersonID(), primeUser.getUserName(), primeUser.getFirstName(), primeUser.getLastName(), primeUser.getGender());
+
+        createTree(originalPerson, generations);
 
         return new FillResult("Successfully added X persons and Y events to the database.", true);
     }
 
-    public void addListOfNames() {
+    private void createTree(Person person, int generations) {
+        Database db = new Database();
+        Random randomNumber = new Random();
+
+        Person father = new Person(person.getUserName(), mNames.get(randomNumber.nextInt(mNames.size())), sNames.get(randomNumber.nextInt(sNames.size())), "m");
+        Person mother = new Person(person.getUserName(), fNames.get(randomNumber.nextInt(fNames.size())), father.getLastName(), "f");
+
+        PersonDAO personAccess = new PersonDAO(db.getConnection());
+
+        person.setMotherID(mother.getPersonID());
+        person.setFatherID(father.getPersonID());
+        father.setSpouseID(mother.getPersonID());
+        mother.setSpouseID(father.getPersonID());
+
+        /*Put in event data*/
+
+        personAccess.add(person);
+
+        generations = generations - 1;
+        if (generations == 0) {
+            return;
+        }
+        createTree(father, generations);
+        createTree(mother, generations);
+
+    }
+
+    private void addListOfNames() {
         File maleNamesFile = new File("json/mnames.json");
         File femaleNamesFile = new File("json/mnames.json");
         File surNamesFile = new File("json/mnames.json");
@@ -77,9 +111,57 @@ public class FillService {
 
     }
 
-    public void addListOfPlaces() {
+    private void addListOfPlaces() {
 
+        try {
+            File locationsFile = new File("json/locations.json");
+            FileReader in = new FileReader(locationsFile);
+            Gson gson = new Gson();
+            locations.add(gson.fromJson(in, Place.class));
 
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private class Place {
+        private String country;
+        private String city;
+        private float latitude;
+        private float longitude;
+
+        public String getCountry() {
+            return country;
+        }
+
+        public void setCountry(String country) {
+            this.country = country;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public float getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(float latitude) {
+            this.latitude = latitude;
+        }
+
+        public float getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(float longitude) {
+            this.longitude = longitude;
+        }
     }
 }
 

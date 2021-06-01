@@ -53,7 +53,18 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
-        this.fatherID = UUID.randomUUID().toString();
+        this.fatherID = null;
+        this.motherID = null;
+        this.spouseID = null;
+    }
+
+    public Person(String personID, String userName, String firstName, String lastName, String gender) {
+        this.personID = personID;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.fatherID = null;
         this.motherID = null;
         this.spouseID = null;
     }

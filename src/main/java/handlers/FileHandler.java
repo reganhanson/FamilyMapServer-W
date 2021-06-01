@@ -11,17 +11,15 @@ public class FileHandler implements HttpHandler{
     public void handle(HttpExchange httpExchange) throws IOException {
         try {
             String urlPath = httpExchange.getRequestURI().toString();
-            if (urlPath == "/" || urlPath == null) {
+            if (urlPath.equals("/") || urlPath == null) {
                 urlPath = "/index.html";
             }
             String filePath = "web" + urlPath;
             File file = new File(filePath);
             if (file.exists()) {
-                // Send 200 "ok" response
                 httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
             }
             else {
-                // Send 404 "not found" error
                 httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
             }
             // read the file and write it to the HTTPExchange output stream

@@ -1,15 +1,15 @@
-[Mon May 31 23:15:57 MDT 2021] - INFO passoff.ServerTest: 	Setting up Persistence Test...
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Proxy: 	Clear called
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Client: 	Post without Request Body called
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Client: 	Attempting to open connection to server
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Client: 	Connection opened to server
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Client: 	Setting passoffrequest method to POST
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Client: 	Request method set to POST
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Client: 	Setting Do Output to true
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Client: 	Do Output set to true
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Client: 	Connecting to server
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Client: 	Connected to server
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Client: 	Getting response code from server
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Client: 	Response code 200 returned
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Client: 	Getting input stream from server
-[Mon May 31 23:15:57 MDT 2021] - INFO client.Client: 	Reading input stream into a string
+[Tue Jun 01 09:32:18 MDT 2021] - INFO passoff.ServerTest: 	Setting up Register Valid New User Test...
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Proxy: 	Clear called
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Client: 	Post without Request Body called
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Client: 	Attempting to open connection to server
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Client: 	Connection opened to server
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Client: 	Setting passoffrequest method to POST
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Client: 	Request method set to POST
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Client: 	Setting Do Output to true
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Client: 	Do Output set to true
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Client: 	Connecting to server
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Client: 	Connected to server
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Client: 	Getting response code from server
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Client: 	Response code 200 returned
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Client: 	Getting input stream from server
+[Tue Jun 01 09:32:21 MDT 2021] - INFO client.Client: 	Reading input stream into a string

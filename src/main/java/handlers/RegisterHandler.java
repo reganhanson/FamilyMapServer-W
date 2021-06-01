@@ -8,10 +8,7 @@ import requests.UserRegisterRequest;
 import results.UserRegisterResult;
 import services.*;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 
 public class RegisterHandler implements HttpHandler {
@@ -21,11 +18,11 @@ public class RegisterHandler implements HttpHandler {
 
         try {
             if (httpExchange.getRequestMethod().toLowerCase().equals("post")) {
-                Headers requestHeaders = httpExchange.getRequestHeaders();
+                // Headers requestHeaders = httpExchange.getRequestHeaders();
                 InputStream requestBody = httpExchange.getRequestBody();
                 Gson gson = new Gson();
 
-                UserRegisterRequest request = gson.fromJson(requestBody.toString(), UserRegisterRequest.class);
+                UserRegisterRequest request = gson.fromJson(readString(requestBody), UserRegisterRequest.class);
                 requestBody.close();
 
                 UserRegister registerService = new UserRegister();
@@ -46,9 +43,21 @@ public class RegisterHandler implements HttpHandler {
                 httpExchange.close();
             }
         } catch (IOException e) {
+            success = false;
             e.printStackTrace();
         }
 
+    }
+
+    private String readString(InputStream is) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        InputStreamReader sr = new InputStreamReader(is);
+        char[] buf = new char[1024];
+        int len;
+        while ((len = sr.read(buf)) > 0) {
+            sb.append(buf, 0, len);
+        }
+        return sb.toString();
     }
 
     private void writeString(String str, OutputStream os) throws IOException {
