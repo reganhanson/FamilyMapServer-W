@@ -1,6 +1,11 @@
 package services;
 
 import java.util.ArrayList;
+
+import dataAccess.AuthTokenDAO;
+import dataAccess.Database;
+import dataAccess.PersonDAO;
+import model.AuthToken;
 import model.User;
 import results.GetTreeResult;
 
@@ -12,7 +17,18 @@ public class GetTree {
      * @return
      */
     public GetTreeResult getTree(String personID, String authToken) {
-        return null;
+        Database db = new Database();
+        AuthTokenDAO tokenAccess = new AuthTokenDAO(db.getConnection());
+        PersonDAO personAccess = new PersonDAO(db.getConnection());
+
+        AuthToken token = tokenAccess.find(authToken);
+        if (token == null) {
+            db.closeConnection(false);
+            return new GetTreeResult("Couldn't find the requested user with the given token");
+        }
+        GetTreeResult result = new GetTreeResult(personAccess.findByUsername(token.getUserName()));
+        db.closeConnection(false);
+        return result;
     }
 }
 

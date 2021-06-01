@@ -47,6 +47,17 @@ public class Person {
         this.spouseID = spouseID;
     }
 
+    public Person(String userName, String firstName, String lastName, String gender) {
+        this.personID = UUID.randomUUID().toString();
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.fatherID = UUID.randomUUID().toString();
+        this.motherID = null;
+        this.spouseID = null;
+    }
+
     @Override
     public boolean equals(Object o) {
         return false;

@@ -44,13 +44,41 @@ public class AuthTokenDAO {
      * @param username
      * @return the sought after authtoken
      */
-    public AuthToken find (String username) {
+    public AuthToken findByID (String username) {
         ResultSet rs = null;
         AuthToken foundToken;
         String sql = "SELECT * FROM authToken WHERE UserName = ?";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                foundToken = new AuthToken(rs.getString("authToken"), rs.getString("username"),
+                        rs.getString("password"));
+                return foundToken;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+
+    public AuthToken find (String token) {
+        ResultSet rs = null;
+        AuthToken foundToken;
+        String sql = "SELECT * FROM authToken WHERE AuthToken = ?";
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, token);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 foundToken = new AuthToken(rs.getString("authToken"), rs.getString("username"),

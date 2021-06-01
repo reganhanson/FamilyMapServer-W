@@ -21,7 +21,7 @@ public class GetAllEvents {
         GetTree tree = new GetTree();
         eventList = eventAccess.findByUsername(userToken.getUserName());
         if (eventList == null) {
-            return new GetAllEventsResult("No events found or a SQL exception");
+            return new GetAllEventsResult("No events found or an SQL exception");
         }
         else {
             return new GetAllEventsResult(eventList);

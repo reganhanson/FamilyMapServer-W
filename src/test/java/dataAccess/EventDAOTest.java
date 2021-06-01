@@ -87,4 +87,24 @@ class EventDAOTest {
         assertTrue(daoEvent.deleteAllEvents());
 
     }
+
+    @Test
+    void insert() {
+    }
+
+    @Test
+    void findByID() {
+    }
+
+    @Test
+    void findByUsername() {
+    }
+
+    @Test
+    void deleteEventsByUserID() {
+    }
+
+    @Test
+    void deleteAllEvents() {
+    }
 }

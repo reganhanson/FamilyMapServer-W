@@ -123,6 +123,21 @@ public class EventDAO {
      */
 
     /**
+     * Delete all events belonging to a specific username
+     */
+    public boolean deleteEventsByUserID(String username) {
+        String sql = "DELETE FROM Event WHERE UserName = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
      * Delete all events in the database
      */
     public boolean deleteAllEvents() /*throws DataAccessException*/ {

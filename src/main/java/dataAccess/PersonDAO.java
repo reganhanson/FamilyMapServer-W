@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Class that confers between the model Person and the database table of the same name
@@ -83,20 +84,22 @@ public class PersonDAO {
      * @param userName username
      * @return person with said username
      */
-    public Person findByUsername(String userName) {
+    public ArrayList<Person> findByUsername(String userName) {
+        ArrayList<Person> relatives = new ArrayList<>();
         ResultSet rs = null;
         Person person;
         String sql = "SELECT * from Person where UserName = ?";
         try(PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, userName);
             rs = stmt.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 person = new Person(rs.getString("PersonID"), rs.getString("UserName"),
                         rs.getString("FirstName"), rs.getString("LastName"),
                         rs.getString("Gender"), rs.getString("FatherID"),
                         rs.getString("MotherID"), rs.getString("SpouseID"));
-                return person;
+                relatives.add(person);
             }
+            return relatives;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -109,6 +112,20 @@ public class PersonDAO {
             }
         }
         return null;
+    }
+    /**
+     * Delete all person objects affiliated with ID
+     */
+    public boolean deleteTreeByUserID(String username) {
+        String sql = "DELETE FROM person WHERE UserName = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**

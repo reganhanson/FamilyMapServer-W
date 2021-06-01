@@ -1,25 +1,85 @@
 package services;
 
-import requests.FillRequest;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+import dataAccess.Database;
+import dataAccess.EventDAO;
+import dataAccess.PersonDAO;
+import dataAccess.UserDAO;
+import model.Person;
 import results.FillResult;
 
-public class FillService {
-    /**
-     * Populates the server's database with generated data for the specified user name.
-     * User with given username must be already registered with the server.
-     * in this case, generations is set to the default 4
-     * @param username
-     */
-    public boolean fill(String username) {
-        return false;
-    }
+import java.io.*;
+import java.util.ArrayList;
 
+public class FillService {
+    ArrayList<String> mNames, fNames, sNames;
     /**
-     * @param request
+     * @param username
+     * @param generations
      * @return FillResult
      */
-    public FillResult fill(FillRequest request) {
-        return null;
+    public FillResult fill(String username, int generations) {
+        Database db = new Database();
+        UserDAO userAccess = new UserDAO(db.getConnection());
+        EventDAO eventAccess = new EventDAO(db.getConnection());
+        PersonDAO personAccess = new PersonDAO(db.getConnection());
+
+
+
+        if (generations < 0) {
+            return new FillResult("Invalid number of generations input", false);
+        }
+        if (userAccess.find(username) == null) {
+            return new FillResult("User not found in the database", false);
+        }
+        // delete everything associated with the user
+        eventAccess.deleteEventsByUserID(username);
+        personAccess.deleteTreeByUserID(username);
+
+        // fill x generations of person and event data
+        addListOfNames();
+        addListOfPlaces();
+
+        for (int i = 0; i < generations; i++) {
+            Person father = new Person(username, mNames.get(i), sNames.get(i), "m");
+
+        }
+
+        return new FillResult("Successfully added X persons and Y events to the database.", true);
+    }
+
+    public void addListOfNames() {
+        File maleNamesFile = new File("json/mnames.json");
+        File femaleNamesFile = new File("json/mnames.json");
+        File surNamesFile = new File("json/mnames.json");
+
+        try {
+            FileReader in = new FileReader(maleNamesFile);
+            JsonReader reader = new JsonReader(in);
+            Gson gson = new Gson();
+            mNames = gson.fromJson(reader, String.class);
+
+            in = new FileReader(femaleNamesFile);
+            reader = new JsonReader(in);
+            gson = new Gson();
+            fNames = gson.fromJson(reader, String.class);
+
+            in = new FileReader(surNamesFile);
+            reader = new JsonReader(in);
+            gson = new Gson();
+            sNames = gson.fromJson(reader, String.class);
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void addListOfPlaces() {
+
+
     }
 }
 
