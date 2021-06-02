@@ -1,27 +1,72 @@
 package services;
 
-import dataAccess.Database;
+import dataAccess.*;
+import model.Event;
+import model.Person;
+import model.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClearServiceTest {
+    Database db;
+    User testUser;
 
     @BeforeEach
-    void setUp() {
-        Database database = new Database();
+    void setUp() throws DataAccessException {
+        db = new Database();
+        db.openConnection();
+        db.createTables();
+        db.clearAllTables();
 
+        UserDAO userAccess = new UserDAO(db.getConnection());
+        testUser = new User("password", "email@email.com", "Bob", "Builder", "f");
+        userAccess.insert(testUser);
+        db.closeConnection(true);
+
+        FillService fillService = new FillService();
+        fillService.fill(testUser.getUserName(), 4);
     }
 
     @AfterEach
     void tearDown() {
+        db.getConnection();
+        db.clearAllTables();
+        db.closeConnection(true);
     }
 
     @Test
     void deleteAllData() {
+        db.getConnection();
+        PersonDAO personAccess = new PersonDAO(db.getConnection());
+        EventDAO eventAccess = new EventDAO(db.getConnection());
+        UserDAO userAccess = new UserDAO(db.getConnection());
+
+        assertEquals(testUser, userAccess.find(testUser.getUserName()));
+        assertNotNull(personAccess.findByUsername(testUser.getUserName()));
+        assertNotNull(eventAccess.findByUsername(testUser.getUserName()));
+        db.closeConnection(false);
+
+        ClearService clearService = new ClearService();
+        clearService.deleteAllData();
+
+        // Connection conn = db.getConnection();
+        personAccess = new PersonDAO(db.getConnection());
+        eventAccess = new EventDAO(db.getConnection());
+        userAccess = new UserDAO(db.getConnection());
+
+        ArrayList<Person> testTree = new ArrayList<>();
+        ArrayList<Event> testEvent = new ArrayList<>();
+
+        assertEquals(testEvent, eventAccess.findByUsername(testUser.getUserName()));
+        assertNotEquals(testUser, userAccess.find(testUser.getUserName()));
+        assertEquals(testTree, personAccess.findByUsername(testUser.getUserName()));
+        db.closeConnection(false);
     }
 }

@@ -1,9 +1,6 @@
 package services;
 
-import dataAccess.AuthTokenDAO;
-import dataAccess.Database;
-import dataAccess.EventDAO;
-import dataAccess.PersonDAO;
+import dataAccess.*;
 import model.Event;
 import model.Person;
 import results.GetEventResult;
@@ -24,11 +21,15 @@ public class GetEvent {
 
         Event foundEvent = eventAccess.findByID(eventID);
         if (foundEvent != null) {
-            if (Objects.equals(authToken, tokenAccess.find(foundEvent.getAssociatedUsername()).getAuthTokenID())) {
-                return new GetEventResult(foundEvent.getAssociatedUsername(), foundEvent.getEventID(),
-                        foundEvent.getPersonID(), foundEvent.getLatitude(), foundEvent.getLongitude(),
-                        foundEvent.getCountry(), foundEvent.getCity(), foundEvent.getEventType(),
-                        foundEvent.getYear());
+            try {
+                if (Objects.equals(authToken, tokenAccess.find(foundEvent.getAssociatedUsername()).getAuthTokenID())) {
+                    return new GetEventResult(foundEvent.getAssociatedUsername(), foundEvent.getEventID(),
+                            foundEvent.getPersonID(), foundEvent.getLatitude(), foundEvent.getLongitude(),
+                            foundEvent.getCountry(), foundEvent.getCity(), foundEvent.getEventType(),
+                            foundEvent.getYear());
+                }
+            } catch (DataAccessException e) {
+                e.printStackTrace();
             }
         }
         return new GetEventResult("Failed");

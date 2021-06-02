@@ -71,35 +71,12 @@ public class User {
     }
 
 
-    /**
-     * Equals method for this class
-     * @param obj
-     * @return boolean
-     */
-    public boolean equals(Object obj) {
-        if (obj.getClass() != this.getClass()) {
-            return false;
-        }
-        User otherUser = (User) obj;
-        if (!otherUser.getUserName().equals(this.userName)) {
-            return false;
-        }
-        if (!otherUser.getPassword().equals(this.password)) {
-            return false;
-        }
-        if (!otherUser.getEmail().equals(this.email)) {
-            return false;
-        }
-        if (!otherUser.getFirstName().equals(this.email)) {
-            return false;
-        }
-        if (!otherUser.getLastName().equals(this.lastName)) {
-            return false;
-        }
-        if (!otherUser.getGender().equals(this.gender)) {
-            return false;
-        }
-        return otherUser.getPersonID().equals(this.personID);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userName.equals(user.userName) && password.equals(user.password) && email.equals(user.email) && firstName.equals(user.firstName) && lastName.equals(user.lastName) && gender.equals(user.gender) && personID.equals(user.personID);
     }
 
     public String getUserName() {

@@ -14,8 +14,6 @@ public class Database {
 
     public Database() {
         tablesCreated = false;
-        this.conn = openConnection();
-        createTables();
     }
     /**
      * open the connection to the sqlite database
@@ -64,6 +62,11 @@ public class Database {
             return;
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                conn.close();
+            } catch (SQLException f) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -102,23 +105,22 @@ public class Database {
                             "    AssociatedUserName text NOT NULL,\n" +
                             "    PersonID text NOT NULL,\n" +
                             "    Latitude float NOT NULL,\n" +
-                            "    Longitude float NOT NULL, \n" +
-                            "    Country text NOT NULL,\n" +
-                            "    City text NOT NULL,\n" +
-                            "    EventType text NOT NULL,\n" +
-                            "    Year int NOT NULL,\n" +
-                            "    PRIMARY KEY (EventID),\n" +
-                            "    FOREIGN KEY (AssociatedUserName) REFERENCES user(UserName),\n" +
-                            "    FOREIGN KEY (PersonID) REFERENCES person(PersonID)\n" +
-                            ");\n" +
-                            "\n";
-            String sql4 = "CREATE TABLE  IF NOT EXISTS authToken (\n" +
-                            "    AuthToken text NOT NULL UNIQUE,\n" +
-                            "    UserName text,\n" +
-                            "    Password text,\n" +
-                            "    FOREIGN KEY (UserName) REFERENCES user(UserName),\n" +
-                            "    FOREIGN KEY (Password) REFERENCES user(Password)\n" +
-                            ");";
+                    "    Longitude float NOT NULL, \n" +
+                    "    Country text NOT NULL,\n" +
+                    "    City text NOT NULL,\n" +
+                    "    EventType text NOT NULL,\n" +
+                    "    Year int NOT NULL,\n" +
+                    "    PRIMARY KEY (EventID),\n" +
+                    "    FOREIGN KEY (AssociatedUserName) REFERENCES user(UserName),\n" +
+                    "    FOREIGN KEY (PersonID) REFERENCES person(PersonID)\n" +
+                    ");\n" +
+                    "\n";
+            String sql4 = "CREATE TABLE IF NOT EXISTS authToken (\n" +
+                    "    AuthTokenID text NOT NULL UNIQUE,\n" +
+                    "    UserName text,\n" +
+                    "    FOREIGN KEY (UserName) REFERENCES user(UserName)\n" +
+                    ");\n" +
+                    "\n";
             // prepare statements and submit
             PreparedStatement stmt = conn.prepareStatement(sql1);
             stmt.executeUpdate();

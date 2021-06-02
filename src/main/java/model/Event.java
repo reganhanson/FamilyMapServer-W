@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -131,4 +132,5 @@ public class Event {
     public void setYear(int year) {
         this.year = year;
     }
+
 }

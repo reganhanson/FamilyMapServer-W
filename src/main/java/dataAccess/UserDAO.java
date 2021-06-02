@@ -26,7 +26,7 @@ public class UserDAO {
      * @param user
      */
     public void insert (User user) throws DataAccessException {
-        String sql = "INSERT into User(UserName, Password, Email, FirstName, LastName, Gender, PersonID)" +
+        String sql = "INSERT into user(UserName, Password, Email, FirstName, LastName, Gender, PersonID)" +
                 " Values(?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, user.getUserName());
@@ -39,8 +39,8 @@ public class UserDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new DataAccessException("SQL Exception");
-            // e.printStackTrace();
         }
     }
 

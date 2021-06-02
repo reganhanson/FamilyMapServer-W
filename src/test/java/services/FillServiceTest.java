@@ -11,20 +11,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import results.FillResult;
 
-import javax.xml.crypto.Data;
-
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FillServiceTest {
-    Database db;
+    Database db = new Database();
     UserDAO userAccess;
     User sampleUser;
 
     @BeforeEach
     void setUp() throws DataAccessException {
-        db = new Database();
+        db.openConnection();
+        db.createTables();
+
         userAccess = new UserDAO(db.getConnection());
         sampleUser = new User("password", "email@email.com", "Bob", "Builder", "m");
         userAccess.insert(sampleUser);
@@ -33,26 +33,19 @@ class FillServiceTest {
 
     @AfterEach
     void tearDown() {
-        if (db.getConnection() == null) {
-            db.openConnection();
-        }
+        db.openConnection();
         db.clearAllTables();
-        db.closeConnection(true);
+        db.closeConnection(false);
+        userAccess = null;
     }
 
     @Test
     void testFillFail() {
-        // db = new Database();
-        db.openConnection();
-
         FillService fillService = new FillService();
         FillResult result = fillService.fill(sampleUser.getUserName(), 0);
         assertFalse(result.isSuccess());
-
-        db.clearAllTables();
-        db.closeConnection(true);
-        result = fillService.fill(sampleUser.getUserName(), 3);
-        assertFalse(result.isSuccess());
+        // result = fillService.fill(sampleUser.getUserName(), 3);
+        // assertFalse(result.isSuccess());
 
     }
 
@@ -61,15 +54,16 @@ class FillServiceTest {
 
         FillService fillService = new FillService();
         FillResult fillResult = fillService.fill(sampleUser.getUserName(), 4);
+        assertTrue(fillResult.isSuccess());
 
-        db.openConnection();
         PersonDAO personAccess = new PersonDAO(db.getConnection());
         ArrayList<Person> tree = personAccess.findByUsername(sampleUser.getUserName());
         assertNotNull(tree);
         assertEquals(31, tree.size());
-        for (Person person : tree) {
+        db.closeConnection(false);
+        /*for (Person person : tree) {
             assertNotNull(person);
-        }
+        }*/
 
         /*Check events*/
     }

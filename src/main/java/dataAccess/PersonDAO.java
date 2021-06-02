@@ -50,10 +50,10 @@ public class PersonDAO {
      * @param personID
      * @return person
      */
-    public Person find(String personID) {
+    public Person find(String personID) throws DataAccessException {
         ResultSet rs = null;
         Person person;
-        String sql = "SELECT * from Person where PersonID = ?";
+        String sql = "SELECT * FROM Person WHERE PersonID = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, personID);
             rs = stmt.executeQuery();
@@ -72,6 +72,7 @@ public class PersonDAO {
                     rs.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
+                    throw new DataAccessException();
                 }
             }
         }

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -44,6 +45,14 @@ public class AuthToken {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AuthToken authToken = (AuthToken) o;
+        return Objects.equals(authTokenID, authToken.authTokenID) && Objects.equals(userName, authToken.userName);
     }
 
 }

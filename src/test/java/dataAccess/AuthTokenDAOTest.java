@@ -19,6 +19,7 @@ class AuthTokenDAOTest {
     @BeforeEach
     void setUp() {
         db = new Database();
+        db.openConnection();
         db.createTables();
         testUser = new User("password", "email@email.com", "Bob", "Builder", "m");
         testToken = new AuthToken(testUser.getUserName());
@@ -33,13 +34,11 @@ class AuthTokenDAOTest {
     }
 
     @Test
-    void testAddSuccess() {
+    void testAddSuccess() throws DataAccessException {
         testDAO.add(testToken);
         AuthToken compareTest = testDAO.find(testToken.getAuthTokenID());
         assertNotNull(compareTest);
-        //'
-        // assertEquals(testToken, compareTest);
-        // assertTrue(testDAO.add(testToken));
+        assertEquals(testToken, compareTest);
     }
 
     @Test
@@ -49,7 +48,7 @@ class AuthTokenDAOTest {
     }
 
     @Test
-    void testFindSuccess() {
+    void testFindSuccess() throws DataAccessException {
         AuthToken testToken = new AuthToken(testUser.getUserName());
         testDAO.add(testToken);
         assertNotNull(testDAO.find(testToken.getAuthTokenID()));
@@ -60,7 +59,7 @@ class AuthTokenDAOTest {
     }
 
     @Test
-    void testDeleteAllAuthTokens() {
+    void testDeleteAllAuthTokens() throws DataAccessException {
         AuthToken testToken = new AuthToken(testUser.getUserName());
         testDAO.add(testToken);
         assertNotNull(testDAO.find(testToken.getAuthTokenID()));

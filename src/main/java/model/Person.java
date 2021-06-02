@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -36,6 +37,7 @@ public class Person {
         this.motherID = motherID;
         this.spouseID = spouseID;
     }
+
     public Person(String userName, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID) {
         this.personID = UUID.randomUUID().toString();
         this.userName = userName;

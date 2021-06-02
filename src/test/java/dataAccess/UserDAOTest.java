@@ -39,7 +39,9 @@ class UserDAOTest {
     @Test
     void testInsertSuccess() throws DataAccessException{
         daoUser.insert(testUser);
-        assertNotNull(daoUser.find(testUser.getUserName()));
+        User compareTest = daoUser.find(testUser.getUserName());
+        assertNotNull(compareTest);
+        assertEquals(testUser, compareTest);
     }
 
     @Test

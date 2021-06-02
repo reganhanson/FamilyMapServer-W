@@ -9,6 +9,7 @@ public class ClearService {
      */
     public ClearResult deleteAllData() {
         Database db = new Database();       // connects to the database with new connection
+        db.openConnection();
 
         if (db.clearAllTables()) {
             db.closeConnection(true);

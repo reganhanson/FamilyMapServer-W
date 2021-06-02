@@ -10,12 +10,14 @@ import results.FillResult;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class FillService {
     ArrayList<String> mNames, fNames, sNames;
-    ArrayList<Place> locations;
+    Locations locations;
+    Database db;
 
     /**
      * @param username
@@ -23,23 +25,26 @@ public class FillService {
      * @return FillResult
      */
     public FillResult fill(String username, int generations) {
-        Database db = new Database();
+        db = new Database();
+        db.openConnection();
         UserDAO userAccess = new UserDAO(db.getConnection());
         EventDAO eventAccess = new EventDAO(db.getConnection());
         PersonDAO personAccess = new PersonDAO(db.getConnection());
 
 
         if (generations < 1) {
+            db.closeConnection(false);
             return new FillResult("Invalid number of generations input", false);
         }
         User primeUser = userAccess.find(username);
         if (primeUser == null) {
+            db.closeConnection(false);
             return new FillResult("User not found in the database", false);
         }
         // delete everything associated with the user
         eventAccess.deleteEventsByUserID(username);
         personAccess.deleteTreeByUserID(username);
-        db.closeConnection(true);
+        // db.closeConnection(true);
 
         // fill x generations of person and event data
         addListOfPlaces();
@@ -57,7 +62,6 @@ public class FillService {
     }
 
     private void createTree(Person person, int generations) {
-        Database db = new Database();
         Random randomNumber = new Random();
 
         try {
@@ -73,14 +77,15 @@ public class FillService {
             mother.setSpouseID(father.getPersonID());
 
             /*Put in event data*/
+            /*Birth wedding death*/
 
             personAccess.add(person);
 
-            generations = generations - 1;
+
             if (generations == 0) {
-                db.closeConnection(true);
                 return;
             }
+            generations -= 1;
             createTree(father, generations);
             createTree(mother, generations);
 
@@ -99,17 +104,20 @@ public class FillService {
             FileReader in = new FileReader(maleNamesFile);
             JsonReader reader = new JsonReader(in);
             Gson gson = new Gson();
-            mNames = gson.fromJson(reader, String.class);
+            Name maleNames = gson.fromJson(reader, Name.class);
+            mNames = maleNames.getNames();
 
             in = new FileReader(femaleNamesFile);
             reader = new JsonReader(in);
             gson = new Gson();
-            fNames = gson.fromJson(reader, String.class);
+            Name femaleNames = gson.fromJson(reader, Name.class);
+            fNames = femaleNames.getNames();
 
             in = new FileReader(surNamesFile);
             reader = new JsonReader(in);
             gson = new Gson();
-            sNames = gson.fromJson(reader, String.class);
+            Name surNames = gson.fromJson(reader, Name.class);
+            sNames = surNames.getNames();
 
 
         } catch (FileNotFoundException e) {
@@ -124,12 +132,40 @@ public class FillService {
             File locationsFile = new File("json/locations.json");
             FileReader in = new FileReader(locationsFile);
             Gson gson = new Gson();
-            locations.add(gson.fromJson(in, Place.class));
+            locations = gson.fromJson(in, Locations.class);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private class Name {
+        public Name(ArrayList<String> data) {
+            this.data = data;
+        }
+
+        private ArrayList<String> data;
+
+        public ArrayList<String> getNames() {
+            return data;
+        }
+
+        public void setNames(ArrayList<String> data) {
+            this.data = data;
+        }
+    }
+
+    private class Locations {
+        public ArrayList<Place> getData() {
+            return data;
+        }
+
+        public void setData(ArrayList<Place> data) {
+            this.data = data;
+        }
+
+        ArrayList<Place> data;
     }
 
     private class Place {

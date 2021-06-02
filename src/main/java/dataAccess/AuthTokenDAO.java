@@ -26,7 +26,7 @@ public class AuthTokenDAO {
      * @param token
      */
     public boolean add (AuthToken token) {
-        String sql = "INSERT into AuthToken(AuthToken, UserName)" +
+        String sql = "INSERT into AuthToken(AuthTokenID, UserName)" +
                 " VALUES(?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, token.getAuthTokenID());
@@ -44,7 +44,7 @@ public class AuthTokenDAO {
      * @param username
      * @return the sought after authtoken
      */
-    public AuthToken findByID (String username) {
+    public AuthToken findByID (String username) throws DataAccessException {
         ResultSet rs = null;
         AuthToken foundToken;
         String sql = "SELECT * FROM authToken WHERE UserName = ?";
@@ -53,11 +53,12 @@ public class AuthTokenDAO {
             stmt.setString(1, username);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                foundToken = new AuthToken(rs.getString("authToken"), rs.getString("username"));
+                foundToken = new AuthToken(rs.getString("authTokenID"), rs.getString("username"));
                 return foundToken;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DataAccessException();
         } finally {
             if (rs != null) {
                 try {
@@ -71,20 +72,21 @@ public class AuthTokenDAO {
     }
 
 
-    public AuthToken find (String token) {
+    public AuthToken find (String token) throws DataAccessException {
         ResultSet rs = null;
-        AuthToken foundToken;
-        String sql = "SELECT * FROM authToken WHERE AuthToken = ?";
+        // AuthToken foundToken = null;
+        String sql = "SELECT * FROM authToken WHERE AuthTokenID = ?";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, token);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                foundToken = new AuthToken(rs.getString("authToken"), rs.getString("username"));
+                AuthToken foundToken = new AuthToken(rs.getString("AuthTokenID"), rs.getString("UserName"));
                 return foundToken;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DataAccessException();
         } finally {
             if (rs != null) {
                 try {

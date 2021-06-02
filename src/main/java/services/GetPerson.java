@@ -1,6 +1,7 @@
 package services;
 
 import dataAccess.AuthTokenDAO;
+import dataAccess.DataAccessException;
 import dataAccess.Database;
 import dataAccess.PersonDAO;
 import model.*;
@@ -17,16 +18,28 @@ public class GetPerson {
      */
     public GetPersonResult getPerson(String personID, String authToken) {
         Database db = new Database();
+        db.getConnection();
         PersonDAO personAccess = new PersonDAO(db.getConnection());
         AuthTokenDAO tokenAccess = new AuthTokenDAO(db.getConnection());
 
-        Person foundPerson = personAccess.find(personID);
-        if (Objects.equals(authToken, tokenAccess.find(foundPerson.getUserName()).getAuthTokenID())) {
-            return new GetPersonResult(foundPerson.getUserName(), foundPerson.getPersonID(), foundPerson.getFirstName(),
-                    foundPerson.getLastName(), foundPerson.getGender());
+        try {
+
+            Person foundPerson = personAccess.find(personID);
+            AuthToken foundToken = tokenAccess.findByID(foundPerson.getUserName()); // this line
+            if (authToken.equals(foundToken.getAuthTokenID())) {
+                db.closeConnection(false);
+                return new GetPersonResult(foundPerson.getUserName(), foundPerson.getPersonID(), foundPerson.getFirstName(),
+                        foundPerson.getLastName(), foundPerson.getGender());
+            }
+
+        } catch (DataAccessException | NullPointerException e) {
+            db.closeConnection(false);
+            e.printStackTrace();
+
         }
 
-
+        db.getConnection();
+        db.closeConnection(false);
         return new GetPersonResult("get person failure");
     }
 }
