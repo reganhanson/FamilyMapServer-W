@@ -3,11 +3,8 @@ package services;
 import dataAccess.*;
 import model.AuthToken;
 import model.User;
-import model.AuthToken;
 import requests.UserLoginRequest;
 import results.UserLoginResult;
-
-import java.util.UUID;
 
 
 public class UserLogin {
@@ -19,7 +16,7 @@ public class UserLogin {
         Database database = new Database();
         UserDAO accessUser = new UserDAO(database.getConnection());
 
-        User foundUser = accessUser.find(loginRequest.getUserName());
+        User foundUser = accessUser.find(loginRequest.getUsername());
         if (foundUser.getPassword().equals(loginRequest.getPassword())) {
             AuthToken sessionToken = new AuthToken(foundUser.getUserName());
             AuthTokenDAO token = new AuthTokenDAO(database.getConnection());

@@ -17,7 +17,7 @@ public class RegisterHandler implements HttpHandler {
         boolean success = false;
 
         try {
-            if (httpExchange.getRequestMethod().toLowerCase().equals("post")) {
+            if (httpExchange.getRequestMethod().equals("POST")) {
                 // Headers requestHeaders = httpExchange.getRequestHeaders();
                 InputStream requestBody = httpExchange.getRequestBody();
                 Gson gson = new Gson();

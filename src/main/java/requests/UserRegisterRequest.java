@@ -9,15 +9,24 @@ package requests;
  * gender
  */
 public class UserRegisterRequest {
-    private String userName;
+    private String username;
     private String password;
     private String email;
     private String firstName;
     private String lastName;
     private String gender;
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @param email
+     * @param firstName
+     * @param lastName
+     * @param gender
+     */
     public UserRegisterRequest(String username, String password, String email, String firstName, String lastName, String gender) {
-        this.userName = username;
+        this.username = username;
         this.password = password;
         this.email = email;
         this.firstName = firstName;
@@ -25,12 +34,12 @@ public class UserRegisterRequest {
         this.gender = gender;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

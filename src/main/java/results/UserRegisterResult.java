@@ -9,44 +9,44 @@ package results;
  * a success boolean
  */
 public class UserRegisterResult {
-    private String authToken;
-    private String userName;
+    private String authtoken;
+    private String username;
     private String personID;
     private boolean success;
     private String message;
 
     /*========================= Constructors =============================*/
     public UserRegisterResult(String authToken, String userName, String personID) {
-        this.authToken = authToken;
-        this.userName = userName;
+        this.authtoken = authToken;
+        this.username = userName;
         this.personID = personID;
         this.success = true;
         this.message = null;
     }
 
     public UserRegisterResult(String error) {
-        this.authToken = null;
-        this.userName = null;
+        this.authtoken = null;
+        this.username = null;
         this.personID = null;
         this.success = false;
         this.message = error;
     }
 
     /*====================== Getters and Setters =========================*/
-    public String getAuthToken() {
-        return authToken;
+    public String getAuthtoken() {
+        return authtoken;
     }
 
-    public void setAuthToken(String authToken) {
-        this.authToken = authToken;
+    public void setAuthtoken(String authToken) {
+        this.authtoken = authtoken;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public String getPersonID() {
