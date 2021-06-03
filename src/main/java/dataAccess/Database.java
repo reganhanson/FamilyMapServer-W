@@ -10,10 +10,8 @@ import java.sql.SQLException;
  */
 public class Database {
     private Connection conn;
-    private boolean tablesCreated;
 
     public Database() {
-        tablesCreated = false;
     }
     /**
      * open the connection to the sqlite database
@@ -130,7 +128,6 @@ public class Database {
             stmt.executeUpdate();
             stmt = conn.prepareStatement(sql4);
             stmt.executeUpdate();
-            tablesCreated = true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -158,9 +155,5 @@ public class Database {
             e.printStackTrace();
             return false;
         }
-    }
-
-    public boolean isTablesCreated() {
-        return tablesCreated;
     }
 }

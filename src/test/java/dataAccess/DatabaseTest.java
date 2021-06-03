@@ -46,7 +46,6 @@ class DatabaseTest {
     @Test
     void testCreateTables() {
         db.createTables();
-        assertTrue(db.isTablesCreated());
     }
 
     @Test

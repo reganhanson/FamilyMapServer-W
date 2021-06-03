@@ -5,7 +5,7 @@ public class UserLoginResult {
     private String username;
     private String personID;
     private boolean success;
-    private String errorMessage;
+    private String message;
 
     /*========================= Constructors =============================*/
     // Success response
@@ -13,12 +13,13 @@ public class UserLoginResult {
         this.authtoken = authToken;
         this.username = userName;
         this.personID = personID;
+        this.message = null;
         this.success = true;
     }
 
     // Failure response
     public UserLoginResult(String errorMessage) {
-        this.errorMessage = errorMessage;
+        this.message = errorMessage;
         this.success = false;
     }
 
@@ -56,11 +57,11 @@ public class UserLoginResult {
         this.success = success;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

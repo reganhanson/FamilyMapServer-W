@@ -20,9 +20,9 @@ public class FileHandler implements HttpHandler{
                 httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
             }
             else {
+                filePath = "web/HTML/404.html";
+                file = new File(filePath);
                 httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
-                httpExchange.getResponseBody().close();
-                return;
             }
             // read the file and write it to the HTTPExchange output stream
             OutputStream responseBody = httpExchange.getResponseBody();

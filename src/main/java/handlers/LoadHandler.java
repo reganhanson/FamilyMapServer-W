@@ -18,10 +18,11 @@ public class LoadHandler implements HttpHandler {
             if (httpExchange.getRequestMethod().equals("POST")) {
                 // Headers requestHeaders = httpExchange.getRequestHeaders();
                 InputStream requestBody = httpExchange.getRequestBody();
+                String requestData = readString(requestBody);
 
                 Gson gson = new Gson();
 
-                LoadRequest request = gson.fromJson(readString(requestBody), LoadRequest.class);
+                LoadRequest request = gson.fromJson(requestData, LoadRequest.class);
                 Load service = new Load();
                 LoadResult result = service.load(request);
 
@@ -31,16 +32,20 @@ public class LoadHandler implements HttpHandler {
                 else {
                     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                 }
+
                 OutputStream responseBody = httpExchange.getResponseBody();
 
-                gson = new Gson();
                 writeString(gson.toJson(result), responseBody);
 
                 responseBody.close();
 
             }
+            else {
+                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_METHOD, 0);
+            }
         } catch (IOException e) {
-
+            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
+            e.printStackTrace();
         }
 
     }

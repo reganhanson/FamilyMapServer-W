@@ -30,7 +30,7 @@ public class PersonDAO {
                 "fatherID, motherID, spouseID) VALUES(?,?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, person.getPersonID());
-            stmt.setString(2, person.getUserName());
+            stmt.setString(2, person.getAssociatedUsername());
             stmt.setString(3, person.getFirstName());
             stmt.setString(4, person.getLastName());
             stmt.setString(5, person.getGender());

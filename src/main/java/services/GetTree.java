@@ -1,14 +1,14 @@
 package services;
 
-import java.util.ArrayList;
-
 import dataAccess.AuthTokenDAO;
 import dataAccess.DataAccessException;
 import dataAccess.Database;
 import dataAccess.PersonDAO;
 import model.AuthToken;
-import model.User;
+import model.Person;
 import results.GetTreeResult;
+
+import java.util.ArrayList;
 
 public class GetTree {
     /**
@@ -20,21 +20,39 @@ public class GetTree {
     public GetTreeResult getTree(String personID, String authToken) {
         Database db = new Database();
         AuthTokenDAO tokenAccess = new AuthTokenDAO(db.getConnection());
+        System.out.println("Database OPENED in TREE");
+
         PersonDAO personAccess = new PersonDAO(db.getConnection());
 
-        AuthToken token = null;
         try {
-            token = tokenAccess.find(authToken);
+            AuthToken token = tokenAccess.find(authToken);
+            Person person = personAccess.find(personID);
+
+            if (person != null && token != null) {
+                if (person.getAssociatedUsername().equals(token.getUserName())) {
+                    ArrayList<Person> returnArray = personAccess.findByUsername(token.getUserName());
+                    db.closeConnection(false);
+                    System.out.println("Database CLOSED in TREE");
+                    return new GetTreeResult(returnArray);
+                }
+                else {
+                    db.closeConnection(false);
+                    System.out.println("Database CLOSED in TREE");
+                    return new GetTreeResult("Error: invalid authToken");
+                }
+            }
+            else {
+                db.closeConnection(false);
+                System.out.println("Database CLOSED in TREE");
+                return new GetTreeResult("Couldn't find the requested user with the given token");
+            }
+
         } catch (DataAccessException e) {
             e.printStackTrace();
-        }
-        if (token == null) {
             db.closeConnection(false);
-            return new GetTreeResult("Couldn't find the requested user with the given token");
+            System.out.println("Database CLOSED in TREE");
+            return new GetTreeResult("Error: internal server error");
         }
-        GetTreeResult result = new GetTreeResult(personAccess.findByUsername(token.getUserName()));
-        db.closeConnection(false);
-        return result;
     }
 }
 

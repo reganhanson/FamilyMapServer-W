@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -8,7 +7,7 @@ import java.util.UUID;
  */
 public class Person {
     private String personID;
-    private String userName;
+    private String associatedUsername;
     private String firstName;
     private String lastName;
     private String gender;
@@ -29,7 +28,7 @@ public class Person {
      */
     public Person(String personID, String userName, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID) {
         this.personID = personID;
-        this.userName = userName;
+        this.associatedUsername = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -40,7 +39,7 @@ public class Person {
 
     public Person(String userName, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID) {
         this.personID = UUID.randomUUID().toString();
-        this.userName = userName;
+        this.associatedUsername = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -51,7 +50,7 @@ public class Person {
 
     public Person(String userName, String firstName, String lastName, String gender) {
         this.personID = UUID.randomUUID().toString();
-        this.userName = userName;
+        this.associatedUsername = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -62,7 +61,7 @@ public class Person {
 
     public Person(String personID, String userName, String firstName, String lastName, String gender) {
         this.personID = personID;
-        this.userName = userName;
+        this.associatedUsername = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -84,12 +83,12 @@ public class Person {
         this.personID = personID;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getAssociatedUsername() {
+        return associatedUsername;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setAssociatedUsername(String associatedUsername) {
+        this.associatedUsername = associatedUsername;
     }
 
     public String getFirstName() {

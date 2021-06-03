@@ -15,18 +15,27 @@ public class UserLogin {
     public UserLoginResult login(UserLoginRequest loginRequest) {
         Database database = new Database();
         UserDAO accessUser = new UserDAO(database.getConnection());
+        System.out.println("Database OPENED in LOGIN");
+
 
         User foundUser = accessUser.find(loginRequest.getUsername());
+        if (foundUser == null) {
+            database.closeConnection(false);
+            System.out.println("Database CLOSED in LOGIN");
+            return new UserLoginResult("Error: No user with that username exists");
+        }
         if (foundUser.getPassword().equals(loginRequest.getPassword())) {
             AuthToken sessionToken = new AuthToken(foundUser.getUserName());
             AuthTokenDAO token = new AuthTokenDAO(database.getConnection());
             token.add(sessionToken);
             database.closeConnection(true);
+            System.out.println("Database CLOSED in LOGIN");
             return new UserLoginResult(sessionToken.getAuthTokenID(), foundUser.getUserName(), foundUser.getPersonID());
         }
         else {
             database.closeConnection(false);
-            return new UserLoginResult("Wrong password: try again");
+            System.out.println("Database CLOSED in LOGIN");
+            return new UserLoginResult("Error: Wrong password: try again");
         }
     }
 

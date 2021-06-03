@@ -50,7 +50,7 @@ class PersonDAOTest {
     @Test
     void testFindByUsernameSuccess() throws DataAccessException {
         daoPerson.add(testPerson);
-        assertNotNull(daoPerson.findByUsername(testPerson.getUserName()));
+        assertNotNull(daoPerson.findByUsername(testPerson.getAssociatedUsername()));
     }
 
     @Test

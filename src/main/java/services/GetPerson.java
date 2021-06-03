@@ -7,8 +7,6 @@ import dataAccess.PersonDAO;
 import model.*;
 import results.GetPersonResult;
 
-import java.util.Objects;
-
 public class GetPerson {
     /**
      *
@@ -25,22 +23,37 @@ public class GetPerson {
         try {
 
             Person foundPerson = personAccess.find(personID);
-            AuthToken foundToken = tokenAccess.findByID(foundPerson.getUserName()); // this line
-            if (authToken.equals(foundToken.getAuthTokenID())) {
-                db.closeConnection(false);
-                return new GetPersonResult(foundPerson.getUserName(), foundPerson.getPersonID(), foundPerson.getFirstName(),
-                        foundPerson.getLastName(), foundPerson.getGender());
+            if (foundPerson!= null) {
+                AuthToken foundToken = tokenAccess.find(authToken); // this line
+                if (foundToken!= null) {
+                    if (foundPerson.getAssociatedUsername().equals(foundToken.getUserName())) {
+                        db.closeConnection(false);
+                        return new GetPersonResult(foundPerson.getAssociatedUsername(), foundPerson.getPersonID(), foundPerson.getFirstName(),
+                                foundPerson.getLastName(), foundPerson.getGender());
+                    }
+                }
+                else {
+                    db.closeConnection(false);
+                    System.out.println("Database CLOSED in PERSON");
+                    return new GetPersonResult("Error: No such authToken exists");
+                }
             }
+            else {
+                db.closeConnection(false);
+                System.out.println("Database CLOSED in PERSON");
+                return new GetPersonResult("Error: No such person exists");
+            }
+            db.closeConnection(false);
+            System.out.println("Database CLOSED in PERSON");
 
         } catch (DataAccessException | NullPointerException e) {
             db.closeConnection(false);
+            System.out.println("Database CLOSED in PERSON");
             e.printStackTrace();
-
         }
 
-        db.getConnection();
-        db.closeConnection(false);
-        return new GetPersonResult("get person failure");
+        // db.getConnection();
+        return new GetPersonResult("Error");
     }
 }
 

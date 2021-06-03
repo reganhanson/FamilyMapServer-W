@@ -7,8 +7,8 @@ import java.util.UUID;
  * Event class: model for the database table of the same name
  */
 public class Event {
-    private String eventID;
     private String associatedUsername;
+    private String eventID;
     private String personID;
     private float latitude;
     private float longitude;
@@ -21,8 +21,8 @@ public class Event {
      * empty constructor for this class
      */
     public Event() {
-        this.eventID = UUID.randomUUID().toString();
         this.associatedUsername = null;
+        this.eventID = UUID.randomUUID().toString();
         this.personID = null;
         this.latitude = 0;
         this.longitude = 0;
@@ -34,8 +34,8 @@ public class Event {
 
 
     public Event(String username, String personID, float lat, float longi, String country, String city, String eventType, int yr) {
-        this.eventID = UUID.randomUUID().toString();
         this.associatedUsername = username;
+        this.eventID = UUID.randomUUID().toString();
         this.personID = personID;
         this.latitude = lat;
         this.longitude = longi;

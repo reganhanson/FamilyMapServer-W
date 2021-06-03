@@ -7,7 +7,7 @@ import java.util.UUID;
  * AuthToken class: model for the database table of the same name
  */
 public class AuthToken {
-    private String authTokenID;  // ?
+    private String authTokenID;
     private String userName;
 
     /**

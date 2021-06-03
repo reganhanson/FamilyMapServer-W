@@ -50,7 +50,7 @@ class UserLoginTest {
         UserLogin loginService = new UserLogin();
         UserLoginResult loginResult = loginService.login(request);
         assertTrue(loginResult.isSuccess());
-        assertNull(loginResult.getErrorMessage());
+        assertNull(loginResult.getMessage());
         assertEquals(testUser.getUserName(), loginResult.getUsername());
         // assertEquals(testUser.getPersonID(), loginResult.getPersonID());
     }

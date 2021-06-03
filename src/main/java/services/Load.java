@@ -1,11 +1,15 @@
 package services;
 
-import java.util.Iterator;
-
 import dataAccess.*;
-import model.*;
+import model.Event;
+import model.Person;
+import model.User;
 import requests.LoadRequest;
+import results.ClearResult;
 import results.LoadResult;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Load {
     /**
@@ -13,30 +17,110 @@ public class Load {
      * @param request
      */
     public LoadResult load(LoadRequest request) {
-        Database database = new Database();
-        UserDAO userAccess = new UserDAO(database.getConnection());
-        PersonDAO personAccess = new PersonDAO(database.getConnection());
-        EventDAO eventAccess = new EventDAO(database.getConnection());
-
-        database.clearAllTables();
+        Database database = new Database();;
         try {
+            ClearService clearService = new ClearService();
+            ClearResult result = clearService.deleteAllData();
+            if (!result.isSuccess()) {
+                return new LoadResult("Clear error", false);
+            }
+            database.openConnection();
+            System.out.println("Database OPENED in LOAD");
+            UserDAO userAccess = new UserDAO(database.getConnection());
+            PersonDAO personAccess = new PersonDAO(database.getConnection());
+            EventDAO eventAccess = new EventDAO(database.getConnection());
+            // ArrayList<User> userList = request.getUsers();
+            // ArrayList<Person> personList = request.getPeople();
+            // ArrayList<Event> eventList = request.getEvents();
+            int numUser = 0;
+            int numPerson = 0;
+            int numEvent = 0;
+
             for (User user : request.getUsers()) {
+                checkForInvalidUser(user);
                 userAccess.insert(user);
+                numUser++;
             }
             for (Person person : request.getPeople()) {
+                checkForInvalidPerson(person);
                 personAccess.add(person);
+                numPerson++;
             }
             for (Event event : request.getEvents()) {
+                checkForInvalidEvent(event);
                 eventAccess.insert(event);
+                numEvent++;
             }
-
-        return new LoadResult("Successfully added X users, Y persons, and Z events to the database.", true);
+            database.closeConnection(true);
+            System.out.println("Database CLOSED in LOAD");
+            return new LoadResult("Successfully added " + numUser + " users, " + numPerson +" persons, and " + numEvent + " events to the database.", true);
         } catch (DataAccessException e) {
             database.closeConnection(false);
-            // e.printStackTrace();
-            return new LoadResult("Failure to insert", false);
+            System.out.println("Database CLOSED in LOAD");
+            e.printStackTrace();
+            return new LoadResult("Error: failure to insert", false);
         }
     }
+
+    public void checkForInvalidUser(User user) throws DataAccessException {
+        if (user.getUserName() == null || user.getUserName().equals("")) {
+            throw new DataAccessException();
+        } else if (user.getPersonID() == null || user.getPersonID().equals("")) {
+            throw new DataAccessException();
+
+        } else if (user.getPassword() == null || user.getPassword().equals("")) {
+            throw new DataAccessException();
+
+        } else if (user.getEmail() == null || user.getEmail().equals("")) {
+            throw new DataAccessException();
+
+        } else if (!(user.getGender().equals("f") || user.getGender().equals("m"))) {
+            throw new DataAccessException();
+
+        } else if (user.getFirstName() == null || user.getFirstName().equals("")) {
+            throw new DataAccessException();
+
+        } else if (user.getLastName() == null || user.getLastName().equals("")) {
+            throw new DataAccessException();
+        }
+    }
+
+    public void checkForInvalidPerson(Person person) throws DataAccessException {
+        if (person.getAssociatedUsername() == null || person.getAssociatedUsername().equals("")) {
+            throw new DataAccessException();
+        } else if (person.getPersonID() == null || person.getPersonID().equals("")) {
+            throw new DataAccessException();
+
+        } else if (!(person.getGender().equals("f") || person.getGender().equals("m"))) {
+            throw new DataAccessException();
+
+        } else if (person.getFirstName() == null || person.getFirstName().equals("")) {
+            throw new DataAccessException();
+
+        } else if (person.getLastName() == null || person.getLastName().equals("")) {
+            throw new DataAccessException();
+        }
+    }
+
+    public void checkForInvalidEvent(Event event) throws DataAccessException {
+        if (event.getAssociatedUsername() == null || event.getAssociatedUsername().equals("")) {
+            throw new DataAccessException();
+        } else if (event.getPersonID() == null || event.getPersonID().equals("")) {
+            throw new DataAccessException();
+        } else if (!(event.getEventID().equals("f") || event.getEventID().equals("m"))) {
+            throw new DataAccessException();
+        } else if (event.getEventType() == null || event.getEventType().equals("")) {
+            throw new DataAccessException();
+        } else if (event.getCity() == null || event.getCity().equals("")) {
+            throw new DataAccessException();
+        } else if (event.getCountry() == null || event.getCountry().equals("")) {
+            throw new DataAccessException();
+        } else if (event.getLatitude() > 360 || event.getLatitude() < 0) {
+            throw new DataAccessException();
+        }
+    }
+
+
 }
 
     /* /load

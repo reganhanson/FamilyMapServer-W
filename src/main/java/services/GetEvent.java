@@ -16,7 +16,9 @@ public class GetEvent {
      */
     public GetEventResult getEvent(String eventID, String authToken){
         Database database = new Database();
-        database.getConnection();
+        database.openConnection();
+        System.out.println("Database OPENED in EVENT");
+
 
         EventDAO eventAccess = new EventDAO(database.getConnection());
         AuthTokenDAO tokenAccess = new AuthTokenDAO(database.getConnection());
@@ -32,12 +34,14 @@ public class GetEvent {
                             foundEvent.getYear());
                 }
             } catch (DataAccessException e) {
+                System.out.println("Database CLOSED in EVENT");
                 database.closeConnection(false);
                 e.printStackTrace();
             }
         }
         database.closeConnection(false);
-        return new GetEventResult("error");
+        System.out.println("Database CLOSED in EVENT");
+        return new GetEventResult("Error: No such event exists");
     }
 }
 
