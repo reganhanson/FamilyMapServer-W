@@ -36,6 +36,5 @@ class GetTreeTest {
 
     @Test
     void getTreeFail() {
-
     }
 }

@@ -23,7 +23,7 @@ public class PersonHandler implements HttpHandler {
 
                     StringBuilder personID = new StringBuilder();
                     String path = httpExchange.getRequestURI().toString();
-                    for (int i = 1; i < path.length(); i++) {
+                    for (int i = 8; i < path.length(); i++) {
                         personID.append(path.charAt(i));
                     }
                     GetPerson servicePerson = new GetPerson();

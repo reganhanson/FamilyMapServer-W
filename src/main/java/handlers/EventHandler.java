@@ -1,12 +1,15 @@
 package handlers;
 
 import com.google.gson.Gson;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import results.GetEventResult;
 import services.GetEvent;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 
 public class EventHandler implements HttpHandler {
@@ -18,14 +21,34 @@ public class EventHandler implements HttpHandler {
  */
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
+        boolean success = false;
+
         try {
             if (httpExchange.getRequestMethod().equals("GET")) {
-                // Change the json to a request
-                Gson gson = new Gson();
-                // gson.fromJson()
+                Headers requestHeaders = httpExchange.getRequestHeaders();
 
-                GetEvent service = new GetEvent();
-                // GetEventResult result = service.getEvent();
+                if (requestHeaders.containsKey("Authorization")) {
+                    String authtoken = requestHeaders.getFirst("Authorization");
+
+                    StringBuilder eventID = new StringBuilder();
+                    String path = httpExchange.getRequestURI().toString();
+                    for (int i = 7; i < path.length(); i++) {
+                        eventID.append(path.charAt(i));
+                    }
+                    GetEvent service = new GetEvent();
+                    GetEventResult result = service.getEvent(eventID.toString(), authtoken);
+
+                    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    OutputStream responseBody = httpExchange.getResponseBody();
+
+                    Gson gson = new Gson();
+                    writeString(gson.toJson(result), responseBody);
+                    responseBody.close();
+                    success = true;
+
+                } else {
+                    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                }
             }
             else {
                 httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_METHOD, 0);
@@ -34,5 +57,11 @@ public class EventHandler implements HttpHandler {
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
             e.printStackTrace();
         }
+    }
+
+    private void writeString(String str, OutputStream os) throws IOException {
+        OutputStreamWriter sw = new OutputStreamWriter(os);
+        sw.write(str);
+        sw.flush();
     }
 }

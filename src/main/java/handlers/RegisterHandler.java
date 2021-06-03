@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import dataAccess.DataAccessException;
 import requests.UserRegisterRequest;
 import results.UserRegisterResult;
 import services.*;
@@ -14,8 +15,6 @@ import java.net.HttpURLConnection;
 public class RegisterHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        boolean success = false;
-
         try {
             if (httpExchange.getRequestMethod().equals("POST")) {
                 // Headers requestHeaders = httpExchange.getRequestHeaders();
@@ -35,15 +34,12 @@ public class RegisterHandler implements HttpHandler {
                 writeString(gson.toJson(result), responseBody);
 
                 responseBody.close();
-                success = true;
             }
             else {
                 httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_METHOD, 0);
-                success = true;
                 httpExchange.close();
             }
         } catch (IOException e) {
-            success = false;
             e.printStackTrace();
         }
 

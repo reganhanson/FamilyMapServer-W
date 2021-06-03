@@ -1,8 +1,8 @@
 package results;
 
 public class UserLoginResult {
-    private String authToken;
-    private String userName;
+    private String authtoken;
+    private String username;
     private String personID;
     private boolean success;
     private String errorMessage;
@@ -10,8 +10,8 @@ public class UserLoginResult {
     /*========================= Constructors =============================*/
     // Success response
     public UserLoginResult(String authToken, String userName, String personID) {
-        this.authToken = authToken;
-        this.userName = userName;
+        this.authtoken = authToken;
+        this.username = userName;
         this.personID = personID;
         this.success = true;
     }
@@ -24,20 +24,20 @@ public class UserLoginResult {
 
     /*====================== Getters and Setters =========================*/
 
-    public String getAuthToken() {
-        return authToken;
+    public String getAuthtoken() {
+        return authtoken;
     }
 
-    public void setAuthToken(String authToken) {
-        this.authToken = authToken;
+    public void setAuthtoken(String authtoken) {
+        this.authtoken = authtoken;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPersonID() {

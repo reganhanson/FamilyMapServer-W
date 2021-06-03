@@ -95,7 +95,7 @@ public class FillService {
 
     }
 
-    private void addListOfNames() {
+    public void addListOfNames() {
         File maleNamesFile = new File("json/mnames.json");
         File femaleNamesFile = new File("json/mnames.json");
         File surNamesFile = new File("json/mnames.json");
@@ -126,7 +126,7 @@ public class FillService {
 
     }
 
-    private void addListOfPlaces() {
+    public void addListOfPlaces() {
 
         try {
             File locationsFile = new File("json/locations.json");

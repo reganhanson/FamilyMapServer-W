@@ -10,6 +10,7 @@ class LoadTest {
 
     @BeforeEach
     void setUp() {
+
     }
 
     @AfterEach

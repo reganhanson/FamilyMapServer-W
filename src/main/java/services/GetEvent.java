@@ -16,22 +16,27 @@ public class GetEvent {
      */
     public GetEventResult getEvent(String eventID, String authToken){
         Database database = new Database();
+        database.getConnection();
+
         EventDAO eventAccess = new EventDAO(database.getConnection());
         AuthTokenDAO tokenAccess = new AuthTokenDAO(database.getConnection());
 
         Event foundEvent = eventAccess.findByID(eventID);
         if (foundEvent != null) {
             try {
-                if (Objects.equals(authToken, tokenAccess.find(foundEvent.getAssociatedUsername()).getAuthTokenID())) {
+                if (foundEvent.getAssociatedUsername().equals(tokenAccess.find(authToken).getUserName())) {
+                    database.closeConnection(false);
                     return new GetEventResult(foundEvent.getAssociatedUsername(), foundEvent.getEventID(),
                             foundEvent.getPersonID(), foundEvent.getLatitude(), foundEvent.getLongitude(),
                             foundEvent.getCountry(), foundEvent.getCity(), foundEvent.getEventType(),
                             foundEvent.getYear());
                 }
             } catch (DataAccessException e) {
+                database.closeConnection(false);
                 e.printStackTrace();
             }
         }
+        database.closeConnection(false);
         return new GetEventResult("Failed");
     }
 }

@@ -23,6 +23,7 @@ class GetPersonTest {
     void setUp() throws DataAccessException {
         database = new Database();
         database.getConnection();
+        database.clearAllTables();
         database.createTables();
 
         testUser = new User("password", "email@email.com", "Bob", "Builder", "m");

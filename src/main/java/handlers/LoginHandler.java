@@ -26,22 +26,25 @@ public class LoginHandler implements HttpHandler {
                 UserLogin service = new UserLogin();
                 UserLoginResult result = service.login(request);
 
-                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                 OutputStream responseBody = httpExchange.getResponseBody();
+                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 
                 gson = new Gson();
                 writeString(gson.toJson(result), responseBody);
 
-                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                responseBody.close();
+                httpExchange.close();
                 success = true;
             }
             else {
                 httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_METHOD, 0);
+                httpExchange.close();
             }
 
         } catch (IOException e) {
             e.printStackTrace();
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
+            httpExchange.close();
         }
     }
 

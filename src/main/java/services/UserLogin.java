@@ -21,12 +21,13 @@ public class UserLogin {
             AuthToken sessionToken = new AuthToken(foundUser.getUserName());
             AuthTokenDAO token = new AuthTokenDAO(database.getConnection());
             token.add(sessionToken);
+            database.closeConnection(true);
             return new UserLoginResult(sessionToken.getAuthTokenID(), foundUser.getUserName(), foundUser.getPersonID());
         }
         else {
-            return new UserLoginResult("");
+            database.closeConnection(false);
+            return new UserLoginResult("Wrong password: try again");
         }
-        // UserDAO
     }
 
 }
