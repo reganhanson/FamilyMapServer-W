@@ -30,8 +30,14 @@ public class PersonHandler implements HttpHandler {
                     GetPersonResult result;
                     result = servicePerson.getPerson(personID.toString(), authToken);
 
+                    if (!result.isSuccess()) {
+                        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                    }
+                    else {
+                        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    }
+
                     // parse resp data and put it into json
-                    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                     OutputStream responseBody = httpExchange.getResponseBody();
 
                     // write the String with the data we put into JSON

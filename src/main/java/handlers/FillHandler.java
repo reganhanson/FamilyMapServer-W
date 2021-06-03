@@ -19,8 +19,8 @@ public class FillHandler implements HttpHandler {
             if (httpExchange.getRequestMethod().equals("POST")) {
                 String path = httpExchange.getRequestURI().toString();
 
-                String userID = new String();
-                String gen = new String();
+                String userID = "";
+                String gen = "";
                 int generations = 0;
                 StringBuilder builder = new StringBuilder();
                 for (int i= 6; i < path.length(); i++) {
@@ -32,13 +32,25 @@ public class FillHandler implements HttpHandler {
                         builder.append(path.charAt(i));
                     }
                 }
-                gen = builder.toString();
+                if (userID.equals("")) {
+                    userID = builder.toString();
+                }
+                else {
+                    gen = builder.toString();
+                }
                 for (int i = 0; i < gen.length(); i++) {
                     if (!Character.isDigit(gen.charAt(i))) {
                         // ERROR
                         httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
                         return;
                     }
+                }
+
+                if (gen.equals("")) {
+                    generations = 4;
+                }
+                else {
+                    generations = Integer.parseInt(gen);
                 }
 
                 FillService service = new FillService();

@@ -25,7 +25,12 @@ public class LoadHandler implements HttpHandler {
                 Load service = new Load();
                 LoadResult result = service.load(request);
 
-                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                if (!result.isSuccess()) {
+                    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                }
+                else {
+                    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                }
                 OutputStream responseBody = httpExchange.getResponseBody();
 
                 gson = new Gson();

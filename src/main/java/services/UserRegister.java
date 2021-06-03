@@ -17,14 +17,33 @@ public class UserRegister {
      */
     public UserRegisterResult registerUser(UserRegisterRequest request) {
         Database database = new Database();
-        database.openConnection();
-        UserDAO accessUser = new UserDAO(database.getConnection());
-        User newUser = new User(request.getUsername(), request.getPassword(), request.getEmail(), request.getFirstName(), request.getLastName(), request.getGender());
 
         try {
+            database.openConnection();
+            UserDAO accessUser = new UserDAO(database.getConnection());
+
+            if (accessUser.find(request.getUsername()) != null) {
+                database.closeConnection(false);
+                return new UserRegisterResult("Username already registered");
+            }
+            if (request.getUsername().equals("") || request.getPassword().equals("") || request.getEmail().equals("") ||
+            request.getGender().equals("") || request.getFirstName().equals("") || request.getLastName().equals("")) {
+                database.closeConnection(false);
+                return new UserRegisterResult("Empty request values not allowed");
+            }
+
+            if (!(request.getGender().equals("f") || request.getGender().equals("m"))) {
+                database.closeConnection(false);
+                return new UserRegisterResult("Invalid gender values");
+            }
+
+            User newUser = new User(request.getUsername(), request.getPassword(), request.getEmail(), request.getFirstName(), request.getLastName(), request.getGender());
+
+
             FillService fillService = new FillService();
             accessUser.insert(newUser);
             database.closeConnection(true);
+
             FillResult result = fillService.fill(newUser.getUserName(), 4);
             if (!result.isSuccess()) {
                 return new UserRegisterResult("Problem with FillService: adding 4 generations of data");

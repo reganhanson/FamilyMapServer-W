@@ -34,8 +34,12 @@ public class AllEventsHandler implements HttpHandler {
 
                     GetAllEvents allEventsService = new GetAllEvents();
                     GetAllEventsResult result = allEventsService.getAllEvents(userToken);
-
-                    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    if (!result.isSuccess()) {
+                        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                    }
+                    else {
+                        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    }
                     OutputStream responseBody = httpExchange.getResponseBody();
 
                     Gson gson = new Gson();

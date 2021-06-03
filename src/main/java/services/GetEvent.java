@@ -37,7 +37,7 @@ public class GetEvent {
             }
         }
         database.closeConnection(false);
-        return new GetEventResult("Failed");
+        return new GetEventResult("error");
     }
 }
 

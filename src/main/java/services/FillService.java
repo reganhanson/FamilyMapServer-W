@@ -3,6 +3,7 @@ package services;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import dataAccess.*;
+import model.Event;
 import model.Person;
 import model.User;
 import results.FillResult;
@@ -10,7 +11,6 @@ import results.FillResult;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -31,37 +31,41 @@ public class FillService {
         EventDAO eventAccess = new EventDAO(db.getConnection());
         PersonDAO personAccess = new PersonDAO(db.getConnection());
 
+        try {
+            if (generations < 1) {
+                db.closeConnection(false);
+                return new FillResult("Invalid number of generations input", false);
+            }
+            User primeUser = userAccess.find(username);
+            if (primeUser == null) {
+                db.closeConnection(false);
+                return new FillResult("User not found in the database", false);
+            }
+            // delete everything associated with the user
+            eventAccess.deleteEventsByUserID(username);
+            personAccess.deleteTreeByUserID(username);
+            // db.closeConnection(true);
 
-        if (generations < 1) {
-            db.closeConnection(false);
-            return new FillResult("Invalid number of generations input", false);
+            // fill x generations of person and event data
+            addListOfPlaces();
+            addListOfNames();
+
+            Person originalPerson = new Person(primeUser.getPersonID(), primeUser.getUserName(), primeUser.getFirstName(), primeUser.getLastName(), primeUser.getGender());
+            Event birthEvent = new Event(username, originalPerson.getPersonID(), locations.getData()[0].latitude,
+                    locations.getData()[0].longitude, locations.getData()[0].getCountry(),
+                    locations.getData()[0].getCity(), "birth", getRandomNumber(1990, 2020));
+
+            eventAccess.insert(birthEvent);
+
+            createTree(originalPerson, generations, birthEvent.getYear());
+        } catch (DataAccessException e) {
+
         }
-        User primeUser = userAccess.find(username);
-        if (primeUser == null) {
-            db.closeConnection(false);
-            return new FillResult("User not found in the database", false);
-        }
-        // delete everything associated with the user
-        eventAccess.deleteEventsByUserID(username);
-        personAccess.deleteTreeByUserID(username);
-        // db.closeConnection(true);
-
-        // fill x generations of person and event data
-        addListOfPlaces();
-        addListOfNames();
-
-        Random randomNumber = new Random();
-
-
-        Person originalPerson = new Person(primeUser.getPersonID(), primeUser.getUserName(), primeUser.getFirstName(), primeUser.getLastName(), primeUser.getGender());
-
-        createTree(originalPerson, generations);
-
         db.closeConnection(true);
         return new FillResult("Successfully added X persons and Y events to the database.", true);
     }
 
-    private void createTree(Person person, int generations) {
+    private void createTree(Person person, int generations, int birthYear) {
         Random randomNumber = new Random();
 
         try {
@@ -76,23 +80,61 @@ public class FillService {
             father.setSpouseID(mother.getPersonID());
             mother.setSpouseID(father.getPersonID());
 
-            /*Put in event data*/
-            /*Birth wedding death*/
+            int randNum = getRandomNumber(0, locations.getData().length);
+            Event motherBirth = new Event(person.getUserName(), mother.getPersonID(),
+                    locations.getData()[randNum].latitude, locations.getData()[randNum].longitude,
+                    locations.getData()[randNum].country, locations.getData()[randNum].city,
+                    "birth", getRandomNumber(birthYear - 35, birthYear - 15));
+            Event fatherBirth = new Event(person.getUserName(), father.getPersonID(),
+                    locations.getData()[randNum].latitude, locations.getData()[randNum].longitude,
+                    locations.getData()[randNum].country, locations.getData()[randNum].city,
+                    "birth", getRandomNumber(birthYear - 40, birthYear - 25));
+            Event mDeath = new Event(person.getUserName(), mother.getPersonID(),
+                    locations.getData()[randNum].latitude, locations.getData()[randNum].longitude,
+                    locations.getData()[randNum].country, locations.getData()[randNum].city,
+                    "death", getRandomNumber(birthYear - 100, birthYear - 35));
+            Event fDeath = new Event(person.getUserName(), father.getPersonID(),
+                    locations.getData()[randNum].latitude, locations.getData()[randNum].longitude,
+                    locations.getData()[randNum].country, locations.getData()[randNum].city,
+                    "death", getRandomNumber(birthYear - 100, birthYear - 40));
+            randNum = randNum = getRandomNumber(0, locations.getData().length);
+            Event mWedding = new Event(person.getUserName(), mother.getPersonID(),
+                    locations.getData()[randNum].latitude, locations.getData()[randNum].longitude,
+                    locations.getData()[randNum].country, locations.getData()[randNum].city,
+                    "wedding", getRandomNumber(motherBirth.getYear() + 18, motherBirth.getYear() + 25));
+            Event fWedding = new Event(person.getUserName(), father.getPersonID(),
+                    locations.getData()[randNum].latitude, locations.getData()[randNum].longitude,
+                    locations.getData()[randNum].country, locations.getData()[randNum].city,
+                    "wedding", mWedding.getYear());
+
+            EventDAO eventAccess = new EventDAO(db.getConnection());
+            eventAccess.insert(motherBirth);
+            eventAccess.insert(fatherBirth);
+            eventAccess.insert(mDeath);
+            eventAccess.insert(fDeath);
+            eventAccess.insert(mWedding);
+            eventAccess.insert(fWedding);
 
             personAccess.add(person);
 
-
+            generations -= 1;
             if (generations == 0) {
+                personAccess.add(father);
+                personAccess.add(mother);
                 return;
             }
-            generations -= 1;
-            createTree(father, generations);
-            createTree(mother, generations);
+
+            createTree(father, generations, fatherBirth.getYear());
+            createTree(mother, generations, motherBirth.getYear());
 
         } catch (DataAccessException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private int getRandomNumber(int min, int max) {
+        return (int) (Math.random() * (max - min) + min);
     }
 
     public void addListOfNames() {
@@ -157,15 +199,15 @@ public class FillService {
     }
 
     private class Locations {
-        public ArrayList<Place> getData() {
+        public Place[] getData() {
             return data;
         }
 
-        public void setData(ArrayList<Place> data) {
+        public void setData(Place[] data) {
             this.data = data;
         }
 
-        ArrayList<Place> data;
+        Place[] data;
     }
 
     private class Place {

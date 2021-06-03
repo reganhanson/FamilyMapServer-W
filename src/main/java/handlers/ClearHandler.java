@@ -32,7 +32,12 @@ public class ClearHandler implements HttpHandler {
                 Gson gson = new Gson();
 
                 // Send proper response headers and write our result to the response body
-                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                if (!result.isSuccess()) {
+                    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                }
+                else {
+                    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                }
                 writeString(gson.toJson(result), responseBody);
 
                 // close response

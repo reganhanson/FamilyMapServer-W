@@ -32,6 +32,19 @@ public class Event {
         this.year = 0;
     }
 
+
+    public Event(String username, String personID, float lat, float longi, String country, String city, String eventType, int yr) {
+        this.eventID = UUID.randomUUID().toString();
+        this.associatedUsername = username;
+        this.personID = personID;
+        this.latitude = lat;
+        this.longitude = longi;
+        this.country = country;
+        this.city = city;
+        this.eventType = eventType;
+        this.year = yr;
+    }
+
     /**
      * Full constructor for this class
      * @param eventID

@@ -21,6 +21,8 @@ public class FileHandler implements HttpHandler{
             }
             else {
                 httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
+                httpExchange.getResponseBody().close();
+                return;
             }
             // read the file and write it to the HTTPExchange output stream
             OutputStream responseBody = httpExchange.getResponseBody();

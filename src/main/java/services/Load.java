@@ -32,7 +32,8 @@ public class Load {
 
         return new LoadResult("Successfully added X users, Y persons, and Z events to the database.", true);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            database.closeConnection(false);
+            // e.printStackTrace();
             return new LoadResult("Failure to insert", false);
         }
     }

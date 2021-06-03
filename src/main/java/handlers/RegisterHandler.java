@@ -27,7 +27,13 @@ public class RegisterHandler implements HttpHandler {
                 UserRegister registerService = new UserRegister();
                 UserRegisterResult result = registerService.registerUser(request);
 
-                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                if (!result.isSuccess()) {
+                    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                }
+                else {
+                    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                }
+
                 OutputStream responseBody = httpExchange.getResponseBody();
 
                 gson = new Gson();

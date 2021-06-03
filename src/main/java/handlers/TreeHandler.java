@@ -38,8 +38,12 @@ public class TreeHandler implements HttpHandler {
 
                     GetTree treeService = new GetTree();
                     GetTreeResult result = treeService.getTree(userInfo.getPersonID(), authTokenID);
-
-                    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    if (!result.isSuccess()) {
+                        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                    }
+                    else {
+                        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    }
                     OutputStream responseBody = httpExchange.getResponseBody();
 
                     Gson gson = new Gson();

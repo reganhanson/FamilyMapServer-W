@@ -1,9 +1,7 @@
 package services;
 
-import dataAccess.DataAccessException;
-import dataAccess.Database;
-import dataAccess.PersonDAO;
-import dataAccess.UserDAO;
+import dataAccess.*;
+import model.Event;
 import model.Person;
 import model.User;
 import org.junit.jupiter.api.AfterEach;
@@ -11,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import results.FillResult;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,7 +59,13 @@ class FillServiceTest {
         ArrayList<Person> tree = personAccess.findByUsername(sampleUser.getUserName());
         assertNotNull(tree);
         assertEquals(31, tree.size());
+
+        EventDAO eventAccess = new EventDAO(db.getConnection());
+        ArrayList<Event> eventTree = eventAccess.findByUsername(sampleUser.getUserName());
+        assertNotNull(eventTree);
+        assertEquals(91, eventTree.size());
         db.closeConnection(false);
+
         /*for (Person person : tree) {
             assertNotNull(person);
         }*/
