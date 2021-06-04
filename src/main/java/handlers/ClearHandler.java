@@ -21,6 +21,8 @@ public class ClearHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         try {
+            System.out.println("Entered CLEAR HANDLER");
+
             // we are only allowing the post method for this handler
             if (httpExchange.getRequestMethod().equals("POST")) {
                 // No request required: start clearService routine

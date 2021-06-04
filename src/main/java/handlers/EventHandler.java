@@ -21,9 +21,10 @@ public class EventHandler implements HttpHandler {
  */
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        boolean success = false;
 
         try {
+            System.out.println("Entered EVENT HANDLER");
+
             if (httpExchange.getRequestMethod().equals("GET")) {
                 Headers requestHeaders = httpExchange.getRequestHeaders();
 
@@ -49,7 +50,6 @@ public class EventHandler implements HttpHandler {
                     Gson gson = new Gson();
                     writeString(gson.toJson(result), responseBody);
                     responseBody.close();
-                    success = true;
 
                 } else {
                     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);

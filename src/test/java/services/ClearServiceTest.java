@@ -8,8 +8,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +29,7 @@ class ClearServiceTest {
         db.closeConnection(true);
 
         FillService fillService = new FillService();
-        fillService.fill(testUser.getUserName(), 4);
+        fillService.fill(testUser.getUsername(), 4);
     }
 
     @AfterEach
@@ -48,9 +46,9 @@ class ClearServiceTest {
         EventDAO eventAccess = new EventDAO(db.getConnection());
         UserDAO userAccess = new UserDAO(db.getConnection());
 
-        assertEquals(testUser, userAccess.find(testUser.getUserName()));
-        assertNotNull(personAccess.findByUsername(testUser.getUserName()));
-        assertNotNull(eventAccess.findByUsername(testUser.getUserName()));
+        assertEquals(testUser, userAccess.find(testUser.getUsername()));
+        assertNotNull(personAccess.findByUsername(testUser.getUsername()));
+        assertNotNull(eventAccess.findByUsername(testUser.getUsername()));
         db.closeConnection(false);
 
         ClearService clearService = new ClearService();
@@ -64,9 +62,9 @@ class ClearServiceTest {
         ArrayList<Person> testTree = new ArrayList<>();
         ArrayList<Event> testEvent = new ArrayList<>();
 
-        assertEquals(testEvent, eventAccess.findByUsername(testUser.getUserName()));
-        assertNotEquals(testUser, userAccess.find(testUser.getUserName()));
-        assertEquals(testTree, personAccess.findByUsername(testUser.getUserName()));
+        assertEquals(testEvent, eventAccess.findByUsername(testUser.getUsername()));
+        assertNotEquals(testUser, userAccess.find(testUser.getUsername()));
+        assertEquals(testTree, personAccess.findByUsername(testUser.getUsername()));
         db.closeConnection(false);
     }
 }

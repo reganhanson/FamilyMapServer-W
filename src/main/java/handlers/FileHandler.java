@@ -10,6 +10,8 @@ public class FileHandler implements HttpHandler{
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         try {
+            System.out.println("Entered FILE HANDLER");
+
             String urlPath = httpExchange.getRequestURI().toString();
             if (urlPath.equals("/") || urlPath == null) {
                 urlPath = "/index.html";

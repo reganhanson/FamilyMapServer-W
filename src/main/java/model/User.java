@@ -6,7 +6,7 @@ import java.util.UUID;
  * User class: model for the database table of the same name
  */
 public class User {
-    private String userName;
+    private String username;
     private String password;
     private String email;
     private String firstName;
@@ -25,7 +25,7 @@ public class User {
      * @param personID
      */
     public User(String userName, String password, String email, String firstName, String lastName, String gender, String personID) {
-        this.userName = userName;
+        this.username = userName;
         this.password = password;
         this.email = email;
         this.firstName = firstName;
@@ -43,7 +43,7 @@ public class User {
      * @param gender
      */
     public User(String userName, String password, String email, String firstName, String lastName, String gender) {
-        this.userName = userName;
+        this.username = userName;
         this.password = password;
         this.email = email;
         this.firstName = firstName;
@@ -61,7 +61,7 @@ public class User {
      * @param gender
      */
     public User(String password, String email, String firstName, String lastName, String gender) {
-        this.userName = UUID.randomUUID().toString();
+        this.username = UUID.randomUUID().toString();
         this.password = password;
         this.email = email;
         this.firstName = firstName;
@@ -76,15 +76,15 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userName.equals(user.userName) && password.equals(user.password) && email.equals(user.email) && firstName.equals(user.firstName) && lastName.equals(user.lastName) && gender.equals(user.gender) && personID.equals(user.personID);
+        return username.equals(user.username) && password.equals(user.password) && email.equals(user.email) && firstName.equals(user.firstName) && lastName.equals(user.lastName) && gender.equals(user.gender) && personID.equals(user.personID);
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

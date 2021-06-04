@@ -20,6 +20,8 @@ public class AllEventsHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         try {
+            System.out.println("Entered ALL EVENTS HANDLER");
+
             if (httpExchange.getRequestMethod().equals("GET")) {
                 Headers requestHeaders = httpExchange.getRequestHeaders();
 

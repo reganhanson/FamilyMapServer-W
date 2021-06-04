@@ -31,7 +31,7 @@ class UserLoginTest {
 
         testUser = new User("password", "email@email.com", "Bob", "Builder", "m");
 
-        UserRegisterRequest request = new UserRegisterRequest(testUser.getUserName(), testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
+        UserRegisterRequest request = new UserRegisterRequest(testUser.getUsername(), testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
         UserRegister registerService = new UserRegister();
         UserRegisterResult result = registerService.registerUser(request);
     }
@@ -46,12 +46,12 @@ class UserLoginTest {
 
     @Test
     void loginPass() {
-        UserLoginRequest request = new UserLoginRequest(testUser.getUserName(), testUser.getPassword());
+        UserLoginRequest request = new UserLoginRequest(testUser.getUsername(), testUser.getPassword());
         UserLogin loginService = new UserLogin();
         UserLoginResult loginResult = loginService.login(request);
         assertTrue(loginResult.isSuccess());
         assertNull(loginResult.getMessage());
-        assertEquals(testUser.getUserName(), loginResult.getUsername());
+        assertEquals(testUser.getUsername(), loginResult.getUsername());
         // assertEquals(testUser.getPersonID(), loginResult.getPersonID());
     }
 

@@ -16,6 +16,8 @@ public class RegisterHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         try {
+            System.out.println("Entered REGISTER HANDLER");
+
             if (httpExchange.getRequestMethod().equals("POST")) {
                 // Headers requestHeaders = httpExchange.getRequestHeaders();
                 InputStream requestBody = httpExchange.getRequestBody();

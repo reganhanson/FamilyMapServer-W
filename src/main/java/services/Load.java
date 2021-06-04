@@ -8,24 +8,22 @@ import requests.LoadRequest;
 import results.ClearResult;
 import results.LoadResult;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 public class Load {
     /**
      * Clears all data from the database and then loads the posted user, person, and event data into the database
      * @param request
      */
     public LoadResult load(LoadRequest request) {
-        Database database = new Database();;
+        Database database = new Database();
         try {
             ClearService clearService = new ClearService();
             ClearResult result = clearService.deleteAllData();
+
             if (!result.isSuccess()) {
                 return new LoadResult("Clear error", false);
             }
             database.openConnection();
-            System.out.println("Database OPENED in LOAD");
+            //System.out.println("Database OPENED in LOAD");
             UserDAO userAccess = new UserDAO(database.getConnection());
             PersonDAO personAccess = new PersonDAO(database.getConnection());
             EventDAO eventAccess = new EventDAO(database.getConnection());
@@ -37,32 +35,32 @@ public class Load {
             int numEvent = 0;
 
             for (User user : request.getUsers()) {
-                checkForInvalidUser(user);
+                //checkForInvalidUser(user);
                 userAccess.insert(user);
                 numUser++;
             }
-            for (Person person : request.getPeople()) {
-                checkForInvalidPerson(person);
+            for (Person person : request.getPersons()) {
+                //checkForInvalidPerson(person);
                 personAccess.add(person);
                 numPerson++;
             }
             for (Event event : request.getEvents()) {
-                checkForInvalidEvent(event);
+                // checkForInvalidEvent(event);
                 eventAccess.insert(event);
                 numEvent++;
             }
             database.closeConnection(true);
-            System.out.println("Database CLOSED in LOAD");
+            //System.out.println("Database CLOSED in LOAD");
             return new LoadResult("Successfully added " + numUser + " users, " + numPerson +" persons, and " + numEvent + " events to the database.", true);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
             database.closeConnection(false);
-            System.out.println("Database CLOSED in LOAD");
+            //System.out.println("Database CLOSED in LOAD");
             e.printStackTrace();
             return new LoadResult("Error: failure to insert", false);
         }
     }
 
-    public void checkForInvalidUser(User user) throws DataAccessException {
+    /*public void checkForInvalidUser(User user) throws DataAccessException {
         if (user.getUserName() == null || user.getUserName().equals("")) {
             throw new DataAccessException();
         } else if (user.getPersonID() == null || user.getPersonID().equals("")) {
@@ -119,7 +117,7 @@ public class Load {
             throw new DataAccessException();
         }
     }
-
+*/
 
 }
 

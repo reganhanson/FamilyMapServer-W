@@ -1,6 +1,7 @@
 package services;
 
 import dataAccess.*;
+import model.AuthToken;
 import model.Event;
 import model.Person;
 import results.GetEventResult;
@@ -17,15 +18,16 @@ public class GetEvent {
     public GetEventResult getEvent(String eventID, String authToken){
         Database database = new Database();
         database.openConnection();
-        System.out.println("Database OPENED in EVENT");
+        //System.out.println("Database OPENED in EVENT");
+        try {
 
+            EventDAO eventAccess = new EventDAO(database.getConnection());
+            AuthTokenDAO tokenAccess = new AuthTokenDAO(database.getConnection());
 
-        EventDAO eventAccess = new EventDAO(database.getConnection());
-        AuthTokenDAO tokenAccess = new AuthTokenDAO(database.getConnection());
+            Event foundEvent = eventAccess.findByID(eventID);
+            AuthToken foundToken = tokenAccess.find(authToken);
+            if (foundEvent != null && foundToken != null) {
 
-        Event foundEvent = eventAccess.findByID(eventID);
-        if (foundEvent != null) {
-            try {
                 if (foundEvent.getAssociatedUsername().equals(tokenAccess.find(authToken).getUserName())) {
                     database.closeConnection(false);
                     return new GetEventResult(foundEvent.getAssociatedUsername(), foundEvent.getEventID(),
@@ -33,15 +35,15 @@ public class GetEvent {
                             foundEvent.getCountry(), foundEvent.getCity(), foundEvent.getEventType(),
                             foundEvent.getYear());
                 }
-            } catch (DataAccessException e) {
-                System.out.println("Database CLOSED in EVENT");
-                database.closeConnection(false);
-                e.printStackTrace();
             }
+        }catch (DataAccessException e) {
+            //System.out.println("Database CLOSED in EVENT");
+            database.closeConnection(false);
+            e.printStackTrace();
         }
         database.closeConnection(false);
-        System.out.println("Database CLOSED in EVENT");
-        return new GetEventResult("Error: No such event exists");
+        //System.out.println("Database CLOSED in EVENT");
+        return new GetEventResult("Error: No such event exists or the authToken is bad");
     }
 }
 

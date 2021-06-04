@@ -9,8 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import results.GetPersonResult;
 
-import javax.xml.crypto.Data;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class GetPersonTest {
@@ -27,8 +25,8 @@ class GetPersonTest {
         database.createTables();
 
         testUser = new User("password", "email@email.com", "Bob", "Builder", "m");
-        testPerson = new Person(testUser.getPersonID(), testUser.getUserName(), testUser.getFirstName(), testUser.getLastName(),  testUser.getGender());
-        testToken = new AuthToken(testUser.getUserName());
+        testPerson = new Person(testUser.getPersonID(), testUser.getUsername(), testUser.getFirstName(), testUser.getLastName(),  testUser.getGender());
+        testToken = new AuthToken(testUser.getUsername());
 
         PersonDAO personAccess = new PersonDAO(database.getConnection());
         UserDAO userAccess = new UserDAO(database.getConnection());

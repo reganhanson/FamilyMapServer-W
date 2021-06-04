@@ -20,23 +20,23 @@ public class UserRegister {
 
         try {
             UserDAO accessUser = new UserDAO(database.getConnection());
-            System.out.println("Database OPENED in REGISTER");
+            // System.out.println("Database OPENED in REGISTER");
 
 
             if (accessUser.find(request.getUsername()) != null) {
                 database.closeConnection(false);
-                System.out.println("Database CLOSED in REGISTER");
+                // System.out.println("Database CLOSED in REGISTER");
                 return new UserRegisterResult("Error: Username already registered");
             }
             else if (request.getUsername().equals("") || request.getPassword().equals("") || request.getEmail().equals("") ||
             request.getGender().equals("") || request.getFirstName().equals("") || request.getLastName().equals("")) {
                 database.closeConnection(false);
-                System.out.println("Database CLOSED in REGISTER");
+                // System.out.println("Database CLOSED in REGISTER");
                 return new UserRegisterResult("Error: Empty request values not allowed");
             }
             else if (!(request.getGender().equals("f") || request.getGender().equals("m"))) {
                 database.closeConnection(false);
-                System.out.println("Database CLOSED in REGISTER");
+                // System.out.println("Database CLOSED in REGISTER");
 
                 return new UserRegisterResult("Error: Invalid gender values");
             }
@@ -46,25 +46,25 @@ public class UserRegister {
 
             accessUser.insert(newUser);
             database.closeConnection(true);
-            System.out.println("Database CLOSED in REGISTER");
+            // System.out.println("Database CLOSED in REGISTER");
 
             FillService fillService = new FillService();
-            FillResult result = fillService.fill(newUser.getUserName(), 4);
+            FillResult result = fillService.fill(newUser.getUsername(), 4);
             if (!result.isSuccess()) {
                 return new UserRegisterResult("Error: Problem with FillService: adding 4 generations of data");
             }
-            System.out.println("Database OPENED in REGISTER");
             database.getConnection();
+            // System.out.println("Database OPENED in REGISTER");
             AuthToken sessionToken = new AuthToken(request.getUsername());
             AuthTokenDAO accessToken = new AuthTokenDAO(database.getConnection());
             accessToken.add(sessionToken);
             database.closeConnection(true);
-            System.out.println("Database CLOSED in REGISTER");
+            // System.out.println("Database CLOSED in REGISTER");
 
             return new UserRegisterResult(sessionToken.getAuthTokenID(), request.getUsername(), newUser.getPersonID());
         } catch (DataAccessException e) {
             database.closeConnection(true);
-            System.out.println("Database CLOSED in REGISTER");
+            // System.out.println("Database CLOSED in REGISTER");
             e.printStackTrace();
             return new UserRegisterResult("Error: Internal Server error");
         }

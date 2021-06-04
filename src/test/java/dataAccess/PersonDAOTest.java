@@ -19,7 +19,7 @@ class PersonDAOTest {
         db = new Database();
         db.createTables();
         User testUser = new User("password", "email@gmail.com","Daisy", "Hitchcock", "f");
-        testPerson = new Person(testUser.getUserName(), "Regan", "Hanson", "m");
+        testPerson = new Person(testUser.getUsername(), "Regan", "Hanson", "m");
         daoPerson = new PersonDAO(db.getConnection());
     }
 

@@ -1,6 +1,5 @@
 package services;
 
-import dataAccess.DataAccessException;
 import dataAccess.Database;
 import dataAccess.UserDAO;
 import model.User;
@@ -31,7 +30,7 @@ class UserRegisterTest {
     @Test
     void registerUserPass() {
 
-        UserRegisterRequest request = new UserRegisterRequest(testUser.getUserName(), testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
+        UserRegisterRequest request = new UserRegisterRequest(testUser.getUsername(), testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
         UserRegister service = new UserRegister();
         UserRegisterResult result = service.registerUser(request);
 
@@ -41,7 +40,7 @@ class UserRegisterTest {
         UserDAO userAccess = new UserDAO(db.getConnection());
 
         // test to see that UserRegister added the user to the database
-        User compareUser = userAccess.find(testUser.getUserName());
+        User compareUser = userAccess.find(testUser.getUsername());
         testUser.setPersonID(result.getPersonID());
         assertEquals(compareUser, testUser);
 
@@ -59,11 +58,11 @@ class UserRegisterTest {
         assertNull(service.registerUser(request));
 
         // username taken already
-        request = new UserRegisterRequest(testUser.getUserName(), testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
+        request = new UserRegisterRequest(testUser.getUsername(), testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
         service = new UserRegister();
         UserRegisterResult result = service.registerUser(request);
 
-        UserRegisterRequest secondRequest = new UserRegisterRequest(testUser.getUserName(), testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
+        UserRegisterRequest secondRequest = new UserRegisterRequest(testUser.getUsername(), testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
         UserRegister secondService = new UserRegister();
         assertNull(service.registerUser(request));
 

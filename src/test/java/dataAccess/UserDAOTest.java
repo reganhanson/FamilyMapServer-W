@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import model.*;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,7 +37,7 @@ class UserDAOTest {
     @Test
     void testInsertSuccess() throws DataAccessException{
         daoUser.insert(testUser);
-        User compareTest = daoUser.find(testUser.getUserName());
+        User compareTest = daoUser.find(testUser.getUsername());
         assertNotNull(compareTest);
         assertEquals(testUser, compareTest);
     }
@@ -55,7 +53,7 @@ class UserDAOTest {
     @Test
     void testFindSuccess() throws DataAccessException{
         daoUser.insert(testUser);
-        assertNotNull(daoUser.find(testUser.getUserName()));
+        assertNotNull(daoUser.find(testUser.getUsername()));
     }
 
     @Test
@@ -66,7 +64,7 @@ class UserDAOTest {
 
     @Test
     void testDeleteAllUsers() {
-       daoUser.find(testUser.getUserName());
+       daoUser.find(testUser.getUsername());
     }
 
 }

@@ -29,7 +29,7 @@ public class UserDAO {
         String sql = "INSERT into user(UserName, Password, Email, FirstName, LastName, Gender, PersonID)" +
                 " Values(?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, user.getUserName());
+            stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPassword());
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getFirstName());

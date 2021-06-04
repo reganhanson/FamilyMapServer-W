@@ -16,6 +16,8 @@ public class LoginHandler implements HttpHandler {
         boolean success = false;
 
         try  {
+            System.out.println("Entered LOGIN HANDLER");
+
             if (httpExchange.getRequestMethod().equals("POST")) {
                 InputStream requestBody = httpExchange.getRequestBody();
                 Gson gson = new Gson();

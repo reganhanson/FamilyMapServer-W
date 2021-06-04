@@ -20,6 +20,7 @@ public class Database {
     public Connection openConnection() {
         // driver(jdbc):language(sqlite):path()
         final String URL = "jdbc:sqlite:FamilyMapServerStudent.sqlite";
+        System.out.println("Database opened");
 
         try {
             conn = DriverManager.getConnection(URL);
@@ -49,6 +50,7 @@ public class Database {
      */
     public void closeConnection(boolean commit) {
         try {
+            System.out.println("Database closed");
             if (commit) {
                 conn.commit();
             }
@@ -57,7 +59,6 @@ public class Database {
             }
             conn.close();
             conn = null;
-            return;
         } catch (SQLException e) {
             e.printStackTrace();
             try {

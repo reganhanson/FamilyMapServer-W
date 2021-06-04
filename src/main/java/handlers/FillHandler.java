@@ -16,6 +16,8 @@ public class FillHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         try {
+            System.out.println("Entered FILL HANDLER");
+
             if (httpExchange.getRequestMethod().equals("POST")) {
                 String path = httpExchange.getRequestURI().toString();
 

@@ -15,6 +15,8 @@ public class LoadHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         try {
+            System.out.println("Entered LOAD HANDLER");
+
             if (httpExchange.getRequestMethod().equals("POST")) {
                 // Headers requestHeaders = httpExchange.getRequestHeaders();
                 InputStream requestBody = httpExchange.getRequestBody();

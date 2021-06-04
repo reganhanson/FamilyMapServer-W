@@ -20,7 +20,7 @@ public class GetTree {
     public GetTreeResult getTree(String personID, String authToken) {
         Database db = new Database();
         AuthTokenDAO tokenAccess = new AuthTokenDAO(db.getConnection());
-        System.out.println("Database OPENED in TREE");
+        //System.out.println("Database OPENED in TREE");
 
         PersonDAO personAccess = new PersonDAO(db.getConnection());
 
@@ -32,25 +32,25 @@ public class GetTree {
                 if (person.getAssociatedUsername().equals(token.getUserName())) {
                     ArrayList<Person> returnArray = personAccess.findByUsername(token.getUserName());
                     db.closeConnection(false);
-                    System.out.println("Database CLOSED in TREE");
+                    //System.out.println("Database CLOSED in TREE");
                     return new GetTreeResult(returnArray);
                 }
                 else {
                     db.closeConnection(false);
-                    System.out.println("Database CLOSED in TREE");
+                    //System.out.println("Database CLOSED in TREE");
                     return new GetTreeResult("Error: invalid authToken");
                 }
             }
             else {
                 db.closeConnection(false);
-                System.out.println("Database CLOSED in TREE");
+                //System.out.println("Database CLOSED in TREE");
                 return new GetTreeResult("Couldn't find the requested user with the given token");
             }
 
         } catch (DataAccessException e) {
             e.printStackTrace();
             db.closeConnection(false);
-            System.out.println("Database CLOSED in TREE");
+            //System.out.println("Database CLOSED in TREE");
             return new GetTreeResult("Error: internal server error");
         }
     }

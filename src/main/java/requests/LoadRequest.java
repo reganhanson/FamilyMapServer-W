@@ -12,18 +12,18 @@ import model.*;
  */
 public class LoadRequest {
     private ArrayList<User> users;
-    private ArrayList<Person> people;
+    private ArrayList<Person> persons;
     private ArrayList<Event> events;
 
     public LoadRequest() {
         this.users = null;
-        this.people = null;
+        this.persons = null;
         this.events = null;
     }
 
     public LoadRequest(ArrayList<User> users, ArrayList<Person> people, ArrayList<Event> events) {
         this.users = users;
-        this.people = people;
+        this.persons = people;
         this.events = events;
     }
 
@@ -35,12 +35,12 @@ public class LoadRequest {
         this.users = users;
     }
 
-    public ArrayList<Person> getPeople() {
-        return people;
+    public ArrayList<Person> getPersons() {
+        return persons;
     }
 
-    public void setPeople(ArrayList<Person> people) {
-        this.people = people;
+    public void setPersons(ArrayList<Person> persons) {
+        this.persons = persons;
     }
 
     public ArrayList<Event> getEvents() {

@@ -18,7 +18,7 @@ class GetTreeTest {
     void setUp() {
         // Database db = new Database();
         testUser = new User("password", "email@email.com", "Pablo", "Picasso", "m");
-        UserRegisterRequest request = new UserRegisterRequest(testUser.getUserName(), testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
+        UserRegisterRequest request = new UserRegisterRequest(testUser.getUsername(), testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
         UserRegister service = new UserRegister();
         result = service.registerUser(request);
     }
@@ -31,7 +31,7 @@ class GetTreeTest {
     void getTreePass() {
         GetTree tree = new GetTree();
         GetTreeResult treeResult = tree.getTree(result.getPersonID(), result.getAuthtoken());
-        assertEquals(31, treeResult.getFamilyTree().size());
+        assertEquals(31, treeResult.getData().size());
     }
 
     @Test

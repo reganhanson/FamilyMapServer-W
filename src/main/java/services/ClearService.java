@@ -10,15 +10,15 @@ public class ClearService {
     public ClearResult deleteAllData() {
         Database db = new Database();       // connects to the database with new connection
         db.openConnection();
-        System.out.println("Database OPENED in CLEAR");
+        //System.out.println("Database OPENED in CLEAR");
 
         if (db.clearAllTables()) {
             db.closeConnection(true);
-            System.out.println("Database CLOSED in CLEAR");
+            //System.out.println("Database CLOSED in CLEAR");
             return new ClearResult("Clear succeeded", true);
         } else {
             db.closeConnection(false);
-            System.out.println("Database CLOSED in CLEAR");
+            //System.out.println("Database CLOSED in CLEAR");
             return new ClearResult("Internal service error", false);
         }
     }

@@ -24,8 +24,8 @@ class GetEventTest {
         db.createTables();
 
         User testUser = new User("password", "email@email.com", "Bob", "Builder", "m");
-        testEvent = new Event("300lol", testUser.getUserName(), testUser.getPersonID(), (float)93.1, (float) 161.2, "Namibia", "zimbeol", "wedding", 1935);
-        testToken = new AuthToken(testUser.getUserName());
+        testEvent = new Event("300lol", testUser.getUsername(), testUser.getPersonID(), (float)93.1, (float) 161.2, "Namibia", "zimbeol", "wedding", 1935);
+        testToken = new AuthToken(testUser.getUsername());
 
         UserDAO userAccess = new UserDAO(db.getConnection());
         AuthTokenDAO tokenAccess = new AuthTokenDAO(db.getConnection());

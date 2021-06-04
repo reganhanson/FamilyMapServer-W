@@ -15,6 +15,8 @@ public class PersonHandler implements HttpHandler {
         boolean success = false;
 
         try {
+            System.out.println("Entered PERSON HANDLER");
+
             if (httpExchange.getRequestMethod().toLowerCase().equals("get")) {
                 Headers requestHeaders = httpExchange.getRequestHeaders();
 

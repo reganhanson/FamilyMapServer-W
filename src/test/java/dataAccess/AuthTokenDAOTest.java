@@ -5,9 +5,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class AuthTokenDAOTest {
@@ -22,7 +19,7 @@ class AuthTokenDAOTest {
         db.openConnection();
         db.createTables();
         testUser = new User("password", "email@email.com", "Bob", "Builder", "m");
-        testToken = new AuthToken(testUser.getUserName());
+        testToken = new AuthToken(testUser.getUsername());
         testDAO = new AuthTokenDAO(db.getConnection());
     }
 
@@ -49,7 +46,7 @@ class AuthTokenDAOTest {
 
     @Test
     void testFindSuccess() throws DataAccessException {
-        AuthToken testToken = new AuthToken(testUser.getUserName());
+        AuthToken testToken = new AuthToken(testUser.getUsername());
         testDAO.add(testToken);
         assertNotNull(testDAO.find(testToken.getAuthTokenID()));
     }
@@ -60,10 +57,10 @@ class AuthTokenDAOTest {
 
     @Test
     void testDeleteAllAuthTokens() throws DataAccessException {
-        AuthToken testToken = new AuthToken(testUser.getUserName());
+        AuthToken testToken = new AuthToken(testUser.getUsername());
         testDAO.add(testToken);
         assertNotNull(testDAO.find(testToken.getAuthTokenID()));
         assertTrue(testDAO.deleteAllAuthTokens());
-        assertNull(testDAO.findByID(testUser.getUserName()));
+        assertNull(testDAO.findByID(testUser.getUsername()));
     }
 }

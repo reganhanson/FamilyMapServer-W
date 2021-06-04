@@ -32,7 +32,7 @@ public class FillService {
 
         db = new Database();
         db.openConnection();
-        System.out.println("Database OPENED in FILL");
+        //System.out.println("Database OPENED in FILL");
         UserDAO userAccess = new UserDAO(db.getConnection());
         EventDAO eventAccess = new EventDAO(db.getConnection());
         PersonDAO personAccess = new PersonDAO(db.getConnection());
@@ -40,18 +40,18 @@ public class FillService {
         try {
             if (generations < 1) {
                 db.closeConnection(false);
-                System.out.println("Database CLOSED in FILL");
+                //System.out.println("Database CLOSED in FILL");
                 return new FillResult("Error: Invalid number of generations input", false);
             }
             if (username.equals("")) {
                 db.closeConnection(false);
-                System.out.println("Database CLOSED in FILL");
+                //System.out.println("Database CLOSED in FILL");
                 return new FillResult("Error: empty username", false);
             }
             User primeUser = userAccess.find(username);
             if (primeUser == null) {
                 db.closeConnection(false);
-                System.out.println("Database CLOSED in FILL");
+                //System.out.println("Database CLOSED in FILL");
                 return new FillResult("Error: User not found in the database", false);
             }
             // delete everything associated with the user
@@ -63,7 +63,7 @@ public class FillService {
             addListOfPlaces();
             addListOfNames();
 
-            Person originalPerson = new Person(primeUser.getPersonID(), primeUser.getUserName(), primeUser.getFirstName(), primeUser.getLastName(), primeUser.getGender());
+            Person originalPerson = new Person(primeUser.getPersonID(), primeUser.getUsername(), primeUser.getFirstName(), primeUser.getLastName(), primeUser.getGender());
             Event birthEvent = new Event(username, originalPerson.getPersonID(), locations.getData()[0].latitude,
                     locations.getData()[0].longitude, locations.getData()[0].getCountry(),
                     locations.getData()[0].getCity(), "birth", getRandomNumber(1990, 2020));
@@ -75,13 +75,13 @@ public class FillService {
         } catch (DataAccessException e) {
             e.printStackTrace();
             db.closeConnection(false);
-            System.out.println("Database CLOSED in FILL");
+            //System.out.println("Database CLOSED in FILL");
             return new FillResult("ERROR: Internal Server Error", false);
 
         }
         db.closeConnection(true);
-        System.out.println("Database CLOSED in FILL");
-        return new FillResult("Successfully added X persons and Y events to the database.", true);
+        //System.out.println("Database CLOSED in FILL");
+        return new FillResult("Successfully added " + numPeople + " persons and " + numEvents + " events to the database.", true);
     }
 
     private void createTree(Person person, int generations, int birthYear) {
@@ -151,7 +151,7 @@ public class FillService {
 
         } catch (DataAccessException e) {
             db.closeConnection(false);
-            System.out.println("Database CLOSED in FILL");
+            //System.out.println("Database CLOSED in FILL");
             e.printStackTrace();
         }
 
@@ -188,7 +188,7 @@ public class FillService {
 
         } catch (FileNotFoundException e) {
             db.closeConnection(false);
-            System.out.println("Database CLOSED in FILL");
+            //System.out.println("Database CLOSED in FILL");
             e.printStackTrace();
         }
 
@@ -204,7 +204,7 @@ public class FillService {
 
         } catch (FileNotFoundException e) {
             db.closeConnection(false);
-            System.out.println("Database CLOSED in FILL");
+            //System.out.println("Database CLOSED in FILL");
             e.printStackTrace();
         }
 

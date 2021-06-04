@@ -34,21 +34,21 @@ public class GetPerson {
                 }
                 else {
                     db.closeConnection(false);
-                    System.out.println("Database CLOSED in PERSON");
+                    //System.out.println("Database CLOSED in PERSON");
                     return new GetPersonResult("Error: No such authToken exists");
                 }
             }
             else {
                 db.closeConnection(false);
-                System.out.println("Database CLOSED in PERSON");
+                //System.out.println("Database CLOSED in PERSON");
                 return new GetPersonResult("Error: No such person exists");
             }
             db.closeConnection(false);
-            System.out.println("Database CLOSED in PERSON");
+            //System.out.println("Database CLOSED in PERSON");
 
         } catch (DataAccessException | NullPointerException e) {
             db.closeConnection(false);
-            System.out.println("Database CLOSED in PERSON");
+            //System.out.println("Database CLOSED in PERSON");
             e.printStackTrace();
         }
 

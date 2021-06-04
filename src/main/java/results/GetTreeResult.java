@@ -12,14 +12,14 @@ import java.util.ArrayList;
  * success boolean
  */
 public class GetTreeResult {
-    private ArrayList<Person> familyTree;
+    private ArrayList<Person> data;
     private boolean success;
     private String message;
 
     /*========================= Constructors =============================*/
 
     public GetTreeResult(ArrayList<Person> familyTree) {
-        this.familyTree = familyTree;
+        this.data = familyTree;
         this.success = true;
         this.message = null;
     }
@@ -27,16 +27,16 @@ public class GetTreeResult {
     public GetTreeResult(String error) {
         this.message = error;
         this.success = false;
-        this.familyTree = null;
+        this.data = null;
     }
     /*====================== Getters and Setters =========================*/
 
-    public ArrayList<Person> getFamilyTree() {
-        return familyTree;
+    public ArrayList<Person> getData() {
+        return data;
     }
 
-    public void setFamilyTree(ArrayList<Person> familyTree) {
-        this.familyTree = familyTree;
+    public void setData(ArrayList<Person> data) {
+        this.data = data;
     }
 
     public boolean isSuccess() {

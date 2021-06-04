@@ -22,6 +22,8 @@ public class TreeHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         try {
+            System.out.println("Entered TREE HANDLER");
+
             if (httpExchange.getRequestMethod().equals("GET")) {
                 Headers requestHeaders = httpExchange.getRequestHeaders();
 
@@ -33,6 +35,12 @@ public class TreeHandler implements HttpHandler {
                     AuthTokenDAO tokenAccess = new AuthTokenDAO(db.getConnection());
                     UserDAO userAccess = new UserDAO(db.getConnection());
                     AuthToken userToken = tokenAccess.find(authTokenID);
+                    if (userToken == null) {
+                        db.closeConnection(false);
+                        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                        httpExchange.getResponseBody().close();
+                        return;
+                    }
                     User userInfo = userAccess.find(userToken.getUserName());
                     db.closeConnection(false);
 
