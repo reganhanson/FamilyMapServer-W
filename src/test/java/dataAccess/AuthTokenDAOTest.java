@@ -52,7 +52,9 @@ class AuthTokenDAOTest {
     }
 
     @Test
-    void testFindFail() {
+    void testFindFail() throws DataAccessException {
+        AuthToken testToken = new AuthToken(testUser.getUsername());
+        assertNull(testDAO.find(testToken.getAuthTokenID()));
     }
 
     @Test

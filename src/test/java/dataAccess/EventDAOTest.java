@@ -17,7 +17,7 @@ class EventDAOTest {
     @BeforeEach
     void setUp() {
         db = new Database();
-        // newConn = db.openConnection();
+        db.openConnection();
         db.clearAllTables();
         db.createTables();
         daoEvent = new EventDAO(db.getConnection());
@@ -89,23 +89,4 @@ class EventDAOTest {
 
     }
 
-    @Test
-    void insert() {
-    }
-
-    @Test
-    void findByID() {
-    }
-
-    @Test
-    void findByUsername() {
-    }
-
-    @Test
-    void deleteEventsByUserID() {
-    }
-
-    @Test
-    void deleteAllEvents() {
-    }
 }
