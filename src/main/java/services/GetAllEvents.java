@@ -27,30 +27,34 @@ public class GetAllEvents {
         AuthTokenDAO tokenAccess = new AuthTokenDAO(database.getConnection());
         try {
             AuthToken token = tokenAccess.find(userToken.getAuthTokenID());
-            if (token.getUserName().equals(userToken.getUserName())) {
-                ArrayList<Event> eventList = new ArrayList<>();
-                GetTree tree = new GetTree();
-                eventList = eventAccess.findByUsername(userToken.getUserName());
-                if (eventList == null) {
-                    //System.out.println("Database CLOSED in ALL EVENTS");
-                    database.closeConnection(false);
-                    return new GetAllEventsResult("Error: No events found");
+            if (token != null) {
+                if (token.getUserName().equals(userToken.getUserName())) {
+                    ArrayList<Event> eventList = new ArrayList<>();
+                    GetTree tree = new GetTree();
+                    eventList = eventAccess.findByUsername(userToken.getUserName());
+                    if (eventList == null) {
+                        //System.out.println("Database CLOSED in ALL EVENTS");
+                        database.closeConnection(false);
+                        return new GetAllEventsResult("Error: No events found");
+                    } else {
+                        database.closeConnection(true);
+                        //System.out.println("Database CLOSED in ALL EVENTS");
+                        return new GetAllEventsResult(eventList);
+                    }
                 } else {
-                    database.closeConnection(true);
+                    database.closeConnection(false);
                     //System.out.println("Database CLOSED in ALL EVENTS");
-                    return new GetAllEventsResult(eventList);
+                    return new GetAllEventsResult("Error: invalid token");
                 }
-            }
-            else {
-                database.closeConnection(false);
-                //System.out.println("Database CLOSED in ALL EVENTS");
-                return new GetAllEventsResult("Error: invalid token");
             }
         } catch (DataAccessException e) {
             database.closeConnection(false);
             //System.out.println("Database CLOSED in ALL EVENTS");
             return new GetAllEventsResult("Error: Internal Server Error");
         }
+        database.closeConnection(false);
+        //System.out.println("Database CLOSED in ALL EVENTS");
+        return new GetAllEventsResult("Error: Bad token");
     }
 }
 

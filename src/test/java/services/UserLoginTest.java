@@ -57,6 +57,16 @@ class UserLoginTest {
 
     @Test
     void loginFail() {
+        db.getConnection();
+        db.clearAllTables();
+        db.closeConnection(true);
+
+        UserLoginRequest request = new UserLoginRequest(testUser.getUsername(), testUser.getPassword());
+        UserLogin loginService = new UserLogin();
+        UserLoginResult loginResult = loginService.login(request);
+        assertFalse(loginResult.isSuccess());
+        assertTrue(loginResult.getMessage().contains("Error"));
+        assertEquals("Error: No user with that username exists", loginResult.getMessage());
 
     }
 }

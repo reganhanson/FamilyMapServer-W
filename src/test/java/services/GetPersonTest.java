@@ -48,17 +48,20 @@ class GetPersonTest {
 
     @Test
     void getPersonPass() {
-        //database.getConnection();
-        //database.closeConnection(false);
         GetPerson handledPerson = new GetPerson();
         GetPersonResult result = handledPerson.getPerson(testPerson.getPersonID(), testToken.getAuthTokenID());
         assertTrue(result.isSuccess());
+        assertEquals(result.getPersonID(), testPerson.getPersonID());
+        assertEquals(result.getFirstName(), testPerson.getFirstName());
     }
 
     @Test
     void getPersonFail() {
         // Errors: Invalid auth token, Invalid personID parameter, Requested person does not belong to this user, Internal server error
         GetPerson handledPerson = new GetPerson();
-        assertFalse(handledPerson.getPerson(testPerson.getPersonID(), "fake_auth_token").isSuccess());
+        GetPersonResult result = handledPerson.getPerson(testPerson.getPersonID(), "fake_auth_token");
+        assertFalse(result.isSuccess());
+        assertTrue(result.getMessage().contains("Error:"));
+        assertEquals("Error: No such authToken exists", result.getMessage());
     }
 }

@@ -1,5 +1,6 @@
 package services;
 
+import dataAccess.Database;
 import model.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +9,7 @@ import requests.UserRegisterRequest;
 import results.GetTreeResult;
 import results.UserRegisterResult;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GetTreeTest {
     User testUser;
@@ -25,6 +26,11 @@ class GetTreeTest {
 
     @AfterEach
     void tearDown() {
+        Database db = new Database();
+        db.getConnection();
+        db.clearAllTables();
+        db.createTables();
+        db.closeConnection(true);
     }
 
     @Test
@@ -36,5 +42,10 @@ class GetTreeTest {
 
     @Test
     void getTreeFail() {
+        GetTree tree = new GetTree();
+        GetTreeResult treeResult = tree.getTree("fake_auth_token");
+        assertFalse(treeResult.isSuccess());
+        assertTrue(treeResult.getMessage().contains("Error"));
+        assertEquals("Error: Couldn't find the requested user with the given token", treeResult.getMessage());
     }
 }

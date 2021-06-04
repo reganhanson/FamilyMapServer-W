@@ -57,7 +57,6 @@ public class FillService {
             // delete everything associated with the user
             eventAccess.deleteEventsByUserID(username);
             personAccess.deleteTreeByUserID(username);
-            // db.closeConnection(true);
 
             // fill x generations of person and event data
             addListOfPlaces();
@@ -94,11 +93,13 @@ public class FillService {
 
             PersonDAO personAccess = new PersonDAO(db.getConnection());
 
+            // set person's mother and father and set the father and mother's spouse ID
             person.setMotherID(mother.getPersonID());
             person.setFatherID(father.getPersonID());
             father.setSpouseID(mother.getPersonID());
             mother.setSpouseID(father.getPersonID());
 
+            // Event data (birth wedding and death for each person
             int randNum = getRandomNumber(0, locations.getData().length);
             Event motherBirth = new Event(person.getAssociatedUsername(), mother.getPersonID(),
                     locations.getData()[randNum].latitude, locations.getData()[randNum].longitude,

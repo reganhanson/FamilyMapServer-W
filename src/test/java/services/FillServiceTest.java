@@ -42,9 +42,8 @@ class FillServiceTest {
         FillService fillService = new FillService();
         FillResult result = fillService.fill(sampleUser.getUsername(), 0);
         assertFalse(result.isSuccess());
-        // result = fillService.fill(sampleUser.getUserName(), 3);
-        // assertFalse(result.isSuccess());
-
+        assertTrue(result.getMessage().contains("Error"));
+        assertEquals("Error: Invalid number of generations input", result.getMessage());
     }
 
     @Test
@@ -64,11 +63,5 @@ class FillServiceTest {
         assertNotNull(eventTree);
         assertEquals(91, eventTree.size());
         db.closeConnection(false);
-
-        /*for (Person person : tree) {
-            assertNotNull(person);
-        }*/
-
-        /*Check events*/
     }
 }

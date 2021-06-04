@@ -51,10 +51,21 @@ class GetEventTest {
         assertNotNull(result);
         assertTrue(result.isSuccess());
         assertNull(result.getMessage());
+        assertEquals(testEvent.getPersonID(), result.getPersonID());
     }
 
     @Test
     void getEventFail() {
+        GetEvent service = new GetEvent();
+        GetEventResult result = service.getEvent("fake_event_id", testToken.getAuthTokenID());
+        assertFalse(result.isSuccess());
+        assertTrue(result.getMessage().contains("Error"));
+        assertEquals("Error: No such event exists or the authToken is bad", result.getMessage());
 
+        service = new GetEvent();
+        result = service.getEvent(testEvent.getEventID(), "fake_authToken");
+        assertFalse(result.isSuccess());
+        assertTrue(result.getMessage().contains("Error"));
+        assertEquals("Error: No such event exists or the authToken is bad", result.getMessage());
     }
 }

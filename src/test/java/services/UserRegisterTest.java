@@ -53,18 +53,21 @@ class UserRegisterTest {
     @Test
     void registerUserFail() {
         // Request property missing or has invalid value
-        UserRegisterRequest request = new UserRegisterRequest(null, testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
+        UserRegisterRequest request = new UserRegisterRequest(testUser.getUsername(), testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
         UserRegister service = new UserRegister();
-        assertNull(service.registerUser(request));
-
+        UserRegisterResult result = service.registerUser(request);
+        assertTrue(result.isSuccess());
+        assertNull(result.getMessage());
         // username taken already
         request = new UserRegisterRequest(testUser.getUsername(), testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
         service = new UserRegister();
-        UserRegisterResult result = service.registerUser(request);
+        result = service.registerUser(request);
 
         UserRegisterRequest secondRequest = new UserRegisterRequest(testUser.getUsername(), testUser.getPassword(), testUser.getEmail(), testUser.getFirstName(), testUser.getLastName(), testUser.getGender());
         UserRegister secondService = new UserRegister();
-        assertNull(service.registerUser(request));
+        assertFalse(result.isSuccess());
+        assertTrue(result.getMessage().contains("Error"));
+        assertEquals("Error: Username already registered", result.getMessage());
 
     }
 }
