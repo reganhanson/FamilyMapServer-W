@@ -120,11 +120,11 @@ public class FillService {
             Event mWedding = new Event(person.getAssociatedUsername(), mother.getPersonID(),
                     locations.getData()[randNum].latitude, locations.getData()[randNum].longitude,
                     locations.getData()[randNum].country, locations.getData()[randNum].city,
-                    "wedding", getRandomNumber(motherBirth.getYear() + 18, motherBirth.getYear() + 25));
+                    "marriage", getRandomNumber(motherBirth.getYear() + 18, motherBirth.getYear() + 25));
             Event fWedding = new Event(person.getAssociatedUsername(), father.getPersonID(),
                     locations.getData()[randNum].latitude, locations.getData()[randNum].longitude,
                     locations.getData()[randNum].country, locations.getData()[randNum].city,
-                    "wedding", mWedding.getYear());
+                    "marriage", mWedding.getYear());
 
             EventDAO eventAccess = new EventDAO(db.getConnection());
             eventAccess.insert(motherBirth);

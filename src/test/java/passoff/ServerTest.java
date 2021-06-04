@@ -920,7 +920,7 @@ public class ServerTest {
      * All Event
      * All Person
      */
-    // @Test
+    @Test
     @DisplayName("Persistence Test")
     public void testPersistence(TestInfo testInfo) {
         printTestName(testInfo);
@@ -969,12 +969,12 @@ public class ServerTest {
      * Required API calls:
      * Load
      * Login
-     * ClearService
+     * Clear
      * (Partial) All Person
      * (Partial) All Event
      */
     @Test
-    @DisplayName("ClearService Test")
+    @DisplayName("Clear Test")
     public void testClear(TestInfo testInfo) {
         printTestName(testInfo);
         //We are calling the load api using the data in "/passoffFiles/LoadData.json" as the request
@@ -987,11 +987,11 @@ public class ServerTest {
             //This is a valid api call, so the headers sent should be HTTP_OK (200)
             assertHTTP_OK();
             //Checks to see if clearResult has a message String
-            assertNotNull(clearResult.getMessage(), "ClearService message was null OR its variable name did not match that of the expected JSon (see API)");
+            assertNotNull(clearResult.getMessage(), "Clear message was null OR its variable name did not match that of the expected JSon (see API)");
             //Checks to see if you filled clearResult with a message String
-            assertNotEquals(EMPTY_STRING, clearResult.getMessage(), "ClearService message was empty string");
+            assertNotEquals(EMPTY_STRING, clearResult.getMessage(), "Clear message was empty string");
             //Checks to be sure the clearResult message contains the words "clear succeeded"
-            assertTrue(clearResult.getMessage().toLowerCase().contains("clear succeeded"), "ClearService message did not contain the APIs success message");
+            assertTrue(clearResult.getMessage().toLowerCase().contains("clear succeeded"), "Clear message did not contain the APIs success message");
             //We are calling the login api for a user named sheila
             LoginResult loginResult = proxy.login(host, port, loginRequest);
             //The database is empty so trying to login at all is invalid, this checks to make sure loginResult2 reflects that
