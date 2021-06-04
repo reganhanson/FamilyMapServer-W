@@ -30,22 +30,9 @@ public class TreeHandler implements HttpHandler {
                 if (requestHeaders.containsKey("Authorization")) {
                     String authTokenID = requestHeaders.getFirst("Authorization");
 
-                    Database db = new Database();
-                    db.getConnection();
-                    AuthTokenDAO tokenAccess = new AuthTokenDAO(db.getConnection());
-                    UserDAO userAccess = new UserDAO(db.getConnection());
-                    AuthToken userToken = tokenAccess.find(authTokenID);
-                    if (userToken == null) {
-                        db.closeConnection(false);
-                        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
-                        httpExchange.getResponseBody().close();
-                        return;
-                    }
-                    User userInfo = userAccess.find(userToken.getUserName());
-                    db.closeConnection(false);
-
                     GetTree treeService = new GetTree();
-                    GetTreeResult result = treeService.getTree(userInfo.getPersonID(), authTokenID);
+                    GetTreeResult result = treeService.getTree(authTokenID);
+
                     if (!result.isSuccess()) {
                         httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
                     }
@@ -65,7 +52,7 @@ public class TreeHandler implements HttpHandler {
             else {
                 httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_METHOD, 0);
             }
-        } catch (IOException | DataAccessException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_SERVER_ERROR, 0);
         }

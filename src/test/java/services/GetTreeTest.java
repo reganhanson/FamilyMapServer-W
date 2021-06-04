@@ -30,7 +30,7 @@ class GetTreeTest {
     @Test
     void getTreePass() {
         GetTree tree = new GetTree();
-        GetTreeResult treeResult = tree.getTree(result.getPersonID(), result.getAuthtoken());
+        GetTreeResult treeResult = tree.getTree(result.getAuthtoken());
         assertEquals(31, treeResult.getData().size());
     }
 

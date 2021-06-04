@@ -12,39 +12,30 @@ import java.util.ArrayList;
 
 public class GetTree {
     /**
-     *
-     * @param personID
      * @param authToken
      * @return
      */
-    public GetTreeResult getTree(String personID, String authToken) {
+    public GetTreeResult getTree(String authToken) {
         Database db = new Database();
         AuthTokenDAO tokenAccess = new AuthTokenDAO(db.getConnection());
-        //System.out.println("Database OPENED in TREE");
-
-        PersonDAO personAccess = new PersonDAO(db.getConnection());
 
         try {
-            AuthToken token = tokenAccess.find(authToken);
-            Person person = personAccess.find(personID);
+            AuthToken userToken = tokenAccess.find(authToken);
+            //System.out.println("Database OPENED in TREE");
 
-            if (person != null && token != null) {
-                if (person.getAssociatedUsername().equals(token.getUserName())) {
-                    ArrayList<Person> returnArray = personAccess.findByUsername(token.getUserName());
-                    db.closeConnection(false);
-                    //System.out.println("Database CLOSED in TREE");
-                    return new GetTreeResult(returnArray);
-                }
-                else {
-                    db.closeConnection(false);
-                    //System.out.println("Database CLOSED in TREE");
-                    return new GetTreeResult("Error: invalid authToken");
-                }
-            }
-            else {
+            PersonDAO personAccess = new PersonDAO(db.getConnection());
+
+
+            if (userToken != null) {
+                ArrayList<Person> returnArray = personAccess.findByUsername(userToken.getUserName());
                 db.closeConnection(false);
                 //System.out.println("Database CLOSED in TREE");
-                return new GetTreeResult("Couldn't find the requested user with the given token");
+                return new GetTreeResult(returnArray);
+
+            } else {
+                db.closeConnection(false);
+                //System.out.println("Database CLOSED in TREE");
+                return new GetTreeResult("Error: Couldn't find the requested user with the given token");
             }
 
         } catch (DataAccessException e) {
